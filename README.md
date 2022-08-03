@@ -1,30 +1,30 @@
-# TMP108 - NMEA 2000 temperature sensor module
+# SIM108 - NMEA 2000 switch input module
 
-**TMP108** is an NMEA 2000 sensor module that supports the connection
-of up to eight
-[National Semiconductor LM335Z](https://datasheet.octopart.com/LM335Z-NOPB-Texas-Instruments-datasheet-7836729.pdf)
-temperature sensors.
+**SIM108** is an NMEA 2000 switch input module that supports eight
+SPST input channels.
 
-Readings from connected sensors are transmitted over NMEA 2000 using 
-[PGN 130316 Temperature, Extended Range](https://www.nmea.org/Assets/nmea%202000%20pgn%20130316%20corrigenda%20nmd%20version%202.100%20feb%202015.pdf).
+Channel state information is transmitted over NMEA 2000 using 
+[PGN ?????? Switch Input State](https://www.nmea.org/Assets/nmea%202000%20pgn%20130316%20corrigenda%20nmd%20version%202.100%20feb%202015.pdf).
 
-Multiple __TMP108__ modules can be installed on a single NMEA bus.
+Multiple __SIM108__ modules can be installed on a single NMEA bus.
 
 ## State of development
 
 A complete, functional, implementation is available as
-[TMP108.2]().
+[SIM108.1]().
 Key features of the design/implementation are: 
 
 1. Easy bus connection by a standard M12 5-pin plug.
 2. Installer selectable 120 Ohm termination resistor allows
    connection as either a bus drop or a bus termination node.
 3. Powered directly from the NMEA bus with an LEN of 1.
-4. Supports home-brew and commercially available LM335Z temperature
-   sensors.
-5. Operating status indicated by externally visible LED.
-6. Fully field configurable through a simple DIL-switch based
-   configuration protocol.
+4. Can be built to support connection of arbitrary SPST DC
+   inputs voltages by selection of appropriate voltage
+   divider resistors.
+5. NMEA connection and input channel status indicated by
+   externally visible LEDs.
+6. Field configurable through DIL-switch based instance number
+   selection.
 7. Easy assembly afforded by PCB with well marked component
    locations and 100% through-hole mounting.
 8. Support for remote configuration of the module is not currently
