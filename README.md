@@ -18,9 +18,8 @@ Key features of the design/implementation are:
 2. Installer selectable 120 Ohm termination resistor allows
    connection as either a bus drop or a bus termination node.
 3. Powered directly from the NMEA bus with an LEN of 1.
-4. Can be built to support connection of arbitrary SPST DC
-   inputs voltages by selection of appropriate voltage
-   divider resistors.
+4. Supports the of arbitrary SPST DC inputs with voltages in
+   the range 5-50VDC.
 5. NMEA connection and input channel status indicated by
    externally visible LEDs.
 6. Field configurable through DIL-switch based instance number
@@ -30,7 +29,13 @@ Key features of the design/implementation are:
 8. Support for remote configuration of the module is not currently
    available, but is a work in progress.
 
+
 ## Hardware
+
+Input channels are optically isolated and support signal voltages in
+the range 5VDC through 50VDC relative to a single common signal ground.
+
+
 
 ### PCB
 
