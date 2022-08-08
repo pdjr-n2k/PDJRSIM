@@ -35,13 +35,13 @@ Key features of the design/implementation are:
 Input channels are optically isolated and support signal voltages in
 the range 5VDC through 50VDC relative to a single common signal ground.
 
-
+Channel state output leds are driven by an eight channel shift register.
 
 ### PCB
 
 The module PCB is a 75mm x 75mm square. 
 
-![Fig 2: PCB layout](images/TMP108.2-brd.svg)
+![Fig 2: PCB layout](images/SIM108.brd.svg)
 
 ### Electronic components
 
@@ -78,19 +78,17 @@ The module PCB is a 75mm x 75mm square.
 All components need to be placed and soldered with care taken to
 ensure correct orientation and polarity.
 
-The host NMEA bus can be wired directly to J3 or (and preferably)
-ENCLOSURE can be drilled to accommodate J4 and J4's flying leads
-connected to J3.
-A good position for J4 is directly over the bottom right-hand PCB
-mounting screw.
+The host NMEA bus can be wired directly to J2 or (and preferably)
+ENCLOSURE can be drilled to accommodate J? and J?'s flying leads
+connected to J2.
 
-D5 can be soldered with long leads and a hole drilled in the
-ENCLOSURE to expose the LED or (and preferably) preferably, D5 can
-be mounted with CLIP to ENCLOSURE and trailing leads used to
-connect D5 back to the PCB mounting location.
-The latter approach means that exact positioning of the hole which
-exposes the PCB mounted LED is not required except, of course, that
-the LED must not foul a PCB component or cable path.
+D9 through D17 can be soldered with long leads and holes drilled in
+ENCLOSURE to expose the LED or (and preferably) preferably, they can
+each be mounted with CLIP to ENCLOSURE and trailing leads used to
+connect back to the PCB mounting location.
+The latter approach means exact positioning of the holes which
+expose the PCB mounted LEDs is not required except, of course, that
+chassis mounted LEDs must not foul a PCB component or cable path.
 
 ## Module configuration
 
@@ -103,161 +101,34 @@ Make sure that the module is properly terminated for its method of
 connection to the NMEA bus by performing any required hardware
 configuration (see below).
 
-Connect the module to the host NMEA bus: the module will boot and the
-PWR LED will flash once.
-
-You can now continue with firmware configuration.
+Connect the module to the host NMEA bus: the module will boot into normal
+service and the PWR LED will flash each time a message is transmitted to
+the NMEA bus. 
 
 ### Hardware configuration
 
-The BUS switch labelled 'T' allows a 120 Ohm terminating resistor to be
+The SW1 switch labelled 'T' allows a 120 Ohm terminating resistor to be
 connected across the NMEA data bus.
-Switch BUS.T OFF if you install the module via a T-connector and drop
+Switch SW1.T OFF if you install the module via a T-connector and drop
 cable or switch it ON if you install the module as a terminating device
 on your NMEA bus backbone.
 
-The BUS switch lagelled 'G' connects the NMEA bus shield to the module
+The SW1 switch lagelled 'G' connects the NMEA bus shield to the module
 GND when it is in the ON position.
-Usually it is appropriate to leave this OFF.
+Usually it is appropriate to leave SW1.G OFF.
 
-### Firmware configuration
+The module must be assigned a unique NMEA instance address (that is unique
+amongst all switch bank devices installed on your NMEA bus). Set this
+address by entering a binary representation on SW2.
 
-The module is configured by the application of one or more *protocol*s
-each of which defines a sequence of one or more *step*s that are
-required to perform a single configuration task.
-A step involves setting up a configuration parameter on the PRG-VALUE
-DIL switch and then entering it by briefly pressing the PRG button.
+### Connecting switch inputs
 
-In a multi-step protocol after pressing PRG, you have 20 seconds to
-complete the subsequent step, otherwise the protocol is abandoned and
-the module will revert to normal operation.
+Inputs connected to J1.2 through J1.9 must be DC voltages in the range
+5VDC through 50VDC relative to a single, common, ground connection
+which must be made to J1.1.
 
-The LEDs PWR, INST, SRCE, SETP and IVAL help guide you through each
-protocol.
+Each input must be able to source around 10mA necessary to drive the
+opto-isolation input circuitry.
 
-The PWR LED will flash one or more times after you press the PRG button.
-A single flash means that your entry has been successfuly validated or
-processed whilst more than one flash indicates that you entered an
-invalid value on PRG-VALUE.
-In the latter case you should correct the error by setting a new value
-on PRG-VALUE and pressing PRG again to re-validate your entry.
-
-The user-interaction LEDs flash to indicate whan a particular value should
-be entered and become steady when an entry has been accepted.
-When a protocol is successfully completed all four leds will flash
-together.
-
-#### PROTOCOL 128: Clear Module EEPROM
-
-This single step protocol deletes all existing module settings, essentially
-performing a 'factory reset'.
-
-| PRG-VALUE  | DIL switch |Description |
-|------------|------------|------------|
-| 128        | [10000000] | Clear module EEPROM (deleting all channel configuration) |
-
-#### PROTOCOL 64: Transmit Test Messages
-
-This is a single step protocol which transmits a single, dummy, PGN
-130316 message for each sensor channel.
-This is especially helpful when commissioning a new installation
-since it allows you to use an NMEA monitor application or instrument
-to confirm that the module and its NMEA bus connection are operating
-without having to perform any channel configuration.
-
-| PRG-VALUE  | DIL switch |Description |
-|------------|------------|------------|
-| 64         | [01000000] | Transmit a single, dummy, PGN 130316 for each channel |
-
-#### PROTOCOL 1..8: Delete Sensor Channel
-
-This two-step protocol deletes any existing configuration for a
-specified channel.
-
-| PRG-VALUE  | DIL switch |Description |
-|------------|------------|------------|
-| 1..8       | [0000XXXX] | Number of the sensor channel that should be deleted. |
-| 255        | [11111111] | Delete sensor channel configuration. |
-
-#### PROTOCOL 1..8: Configure Sensor Channel
-
-This five-step protocol configures a sensor channel and enables its
-transmission on the NMEA bus.
-
-Its a good idea to refer to
-[this NMEA document](https://www.nmea.org/Assets/nmea%202000%20pgn%20130316%20corrigenda%20nmd%20version%202.100%20feb%202015.pdf)
-which discusses the values you will need to enter.
-
-| PRG-VALUE       | DIL switch |Description |
-|-----------------|------------|------------|
-| 1..8            | [0000XXXX] | Number of the sensor channel to be configured. |
-| 0..252          | [XXXXXXXX] | NMEA temperature instance. |
-| 0..14, 129..252 | [XXXXXXXX] | NMEA temperature source. |
-| 1..255          | [XXXXXXXX] | NMEA temperature set point divided by 2. |
-| 2..255          | [XXXXXXXX] | Transmission interval in seconds. |
-
-Some things to consider:
-
-1. It is usually sensible to set the temperature instance value to the
-   sensor channel number, so STEP 2 simply becomes a press of PRG.
-
-2. The temperature set point is expressed in degrees Kelvin divided by
-   two, so to configure a set point for 100C you need to enter
-   (100 + 273) / 2 or 186 [10111010] (actually setting represents 99C).
-
-3. Consider reducing the transmission rate of a sensor as much as seems
-   reasonable and so avoid consuming bus bandwidth unnecessarily.
-   Usually, real world temperature values change slowly.
-
-   Compliance with the NMEA specification means that no more than three
-   sensor channels can be used at the minimum transmission interval of
-   2s without consequent data loss.
-
-## Temperature sensors
-
-The TMP108 module supports a maximum of eight
-[LM335Z](https://www.st.com/resource/en/datasheet/lm335.pdf)
-temperature sensor ICs.
-Other types of temperature sensor cannot be used and connecting them
-to a TMP108 module will almost certainly damage the module beyond
-repair.
-
-LM335Z-based temperature sensors packaged for marine use are
-commercially available, but you can easily (and inexpensively) make
-your own sensor and one method I have used is described below.
-
-### Making a bolt-on temperature sensor
-
-You will require an LM335Z IC in a TO-92 package, a length of two-core
-cable with 0.5mm2 colour-coded conductors (two-core telephone cable
-works well), a minimum 10mm2 ring terminal with a hole size that suits
-your mounting needs and some silicone sealer or other potting compound.
-
-Consult the data sheet referenced above to determine the pin layout of
-your sensor IC.
-
-1. Remove the calibrate pin from the LM335Z by cutting or breaking it
-   off as close to the IC body as possible.
-
-2. Solder an appropriate length of two-core cable to IC pins G and P.
-   Make sure you can identify which pin connects to which cable core!
-   Insulate the exposed connection is some way, perhaps using small
-   diameter heat-shrink sleeving around each connection.
-
-3. Fill the cable-entry port of the ring terminal with silicone-sealant
-   and coat the LM335Z with sealant as well.
-   Try to avoid air bubbles.
-
-4. Fully immerse the LM335Z in the ring-terminal cable-entry port so
-   that the electrical connections are completely embedded in the
-   sealant and making sure that they do not touch the ring-terminal
-   body.
-
-5. Allow the sealant to fully cure.
-
-Ordinary silicone-sealant and potting compounds are not wonderful
-conductors of heat so it is good to keep the volume of these low.
-Thermally conductive silicone-sealant and potting compounds perform
-better, but are expensive.
-
-
+Once a connection is made, the channel LED (D8 through D17) will indicate
+the connection state in real time.
