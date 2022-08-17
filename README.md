@@ -1,41 +1,31 @@
 # SIM108 - NMEA 2000 switch input module
 
-**SIM108** is an NMEA 2000 switch input module that supports eight
+__SIM108__ is an NMEA 2000 switch input module that supports eight
 SPST input channels.
 
 Channel state information is transmitted over NMEA 2000 using 
-[PGN ?????? Switch Input State](https://www.nmea.org/Assets/nmea%202000%20pgn%20130316%20corrigenda%20nmd%20version%202.100%20feb%202015.pdf).
+[PGN 127501 Binary Status Report]().
 
 Multiple __SIM108__ modules can be installed on a single NMEA bus.
 
-## State of development
-
-A complete, functional, implementation is available as
-[SIM108.1]().
-Key features of the design/implementation are: 
+## Design criteria
 
 1. Easy bus connection by a standard M12 5-pin plug.
-2. Installer selectable 120 Ohm termination resistor allows
-   connection as either a bus drop or a bus termination node.
-3. Powered directly from the NMEA bus with an LEN of 1.
-4. Supports the of arbitrary SPST DC inputs with voltages in
-   the range 5-50VDC.
-5. NMEA connection and input channel status indicated by
-   externally visible LEDs.
-6. Field configurable through DIL-switch based instance number
-   selection.
-7. Easy assembly afforded by PCB with well marked component
-   locations and 100% through-hole mounting.
-8. Support for remote configuration of the module is not currently
-   available, but is a work in progress.
+2. Will operate as either a bus drop or a bus termination node.
+3. Powered directly from the NMEA bus.
+4. Supports arbitrary SPST DC inputs with voltages in the range 5-50VDC.
+5. NMEA connection and input channel status indicated by LEDs.
+6. Module instance number is field configurable.
+7. Easy assembly afforded by PCB with well marked component locations and 100% through-hole mounting.
 
+## Implementation notes
 
-## Hardware
-
-Input channels are optically isolated and support signal voltages in
-the range 5VDC through 50VDC relative to a single common signal ground.
-
-Channel state output leds are driven by an eight channel shift register.
+1. Bus connection by screw termination block or optional M12 5-pin plug.
+2. DIL switch selectable 120 Ohm bus termination resistor.
+3. Module has a bus LEN of 0.5.
+4  Input channels are optically isolated and support signal voltages in the range 5VDC through 50VDC relative to a single common signal ground. Input channel current draw is 8mA at 12VDC, 10mA at 24VDC.
+5. Power LED flashes each time the module transmits onto the NMEA bus. Channel LEDs report transmitted status.
+6. Module instance number set by DIL switch.
 
 ### PCB
 
@@ -92,34 +82,22 @@ chassis mounted LEDs must not foul a PCB component or cable path.
 
 ## Module configuration
 
-It will almost always be simpler to configure the module on the bench
-and then install it in its normal operating location.
+1. It will almost always be simpler to configure the module on the bench
+   and then install it in its normal operating location.
 
-Begin configuration by exposing the module PCB.
+2. Begin configuration by exposing the module PCB.
 
-Make sure that the module is properly terminated for its method of
-connection to the NMEA bus by performing any required hardware
-configuration (see below).
+3. Set SW1 switch 'T' to position 'T' if the module is mounted at the end
+   of its host NMEA bus backbone, otherwise set SW1 switch 'T' to position
+   'D' and connect the module to an NMEA drop cable.
 
-Connect the module to the host NMEA bus: the module will boot into normal
-service and the PWR LED will flash each time a message is transmitted to
-the NMEA bus. 
+4. Set SW1 switch 'G' to ON to connect the NMEA bus shield to the module
+   GND.  Usually it is appropriate to leave SW1 switch 'G' in the OFF
+   position.
 
-### Hardware configuration
-
-The SW1 switch labelled 'T' allows a 120 Ohm terminating resistor to be
-connected across the NMEA data bus.
-Switch SW1.T OFF if you install the module via a T-connector and drop
-cable or switch it ON if you install the module as a terminating device
-on your NMEA bus backbone.
-
-The SW1 switch lagelled 'G' connects the NMEA bus shield to the module
-GND when it is in the ON position.
-Usually it is appropriate to leave SW1.G OFF.
-
-The module must be assigned a unique NMEA instance address (that is unique
-amongst all switch bank devices installed on your NMEA bus). Set this
-address by entering a binary representation on SW2.
+5. Set SW2 to your chosen, unique, NMEA instance address by entering a binary
+   representation of the address on SW2 switches 1 through 8. Switch 1 is
+   the binary HI bit (128 decimal); switch 8 is the binary LO bit.
 
 ### Connecting switch inputs
 
