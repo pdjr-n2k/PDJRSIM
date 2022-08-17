@@ -1,28 +1,12 @@
 /**********************************************************************
- * TMP108.cpp - 8-channel NMEA temperature sensor module firmware.
+ * SIM108.cpp - 8-channel NMEA switch input module firmware.
  * Copyright (c) 2021-22 Paul Reeve <preeve@pdjr.eu>
  *
  * Target platform: Teensy 3.2
- * Supported temperature sensors: LM335Z
  * 
- * This firmware implements an 8-channel temperature sensor interface
- * that reports sensor state over NMEA 2000 using PGN 130316
- * Temperature, Extended Range.
- * 
- * The firmware is designed as a simple state machine. At any one time
- * the device is in either its production state (in which it is reading
- * sensor data and transmitting it over NMEA), or in one of a handful
- * of configuration states associated with user-mediated configuration
- * of the module.
- * 
- * Transition from production state into a configuration state and
- * transitions between configuration states are triggered by a
- * debounced signal on an MCU input pin which will typically be
- * connected to a momentary push button.
- * 
- * Transition back to the production state derives from the user
- * advancing through configuration states to protocol completion or by
- * a configuration protocol timing out.
+ * This firmware implements an 8-channel switch input interface
+ * that reports SPST sensor state over NMEA 2000 using PGN 127501
+ * Binary Status Report. 
  */
 
 #include <Arduino.h>
@@ -34,7 +18,6 @@
 #include <Debouncer.h>
 #include <LedManager.h>
 #include <DilSwitch.h>
-#include <Sensor.h>
 #include <arraymacros.h>
 
 /**********************************************************************
@@ -64,7 +47,6 @@
  * address remains as the last item in storage.
  */
 #define SOURCE_ADDRESS_EEPROM_ADDRESS 0
-#define SENSORS_EEPROM_ADDRESS 1
 
 /**********************************************************************
  * MCU PIN DEFINITIONS
@@ -72,9 +54,7 @@
  * GPIO pin definitions for the Teensy 3.2 MCU and some collections
  * that can be used as array initialisers
  */
-#define GPIO_SETPOINT_LED 0
-#define GPIO_SOURCE_LED 1
-#define GPIO_INSTANCE_LED 2
+#define GPIO_MPX_LATCH 1
 #define GPIO_ENCODER_BIT7 5
 #define GPIO_ENCODER_BIT6 6
 #define GPIO_ENCODER_BIT5 7
@@ -83,22 +63,21 @@
 #define GPIO_ENCODER_BIT2 10
 #define GPIO_ENCODER_BIT1 11
 #define GPIO_ENCODER_BIT0 12
-#define GPIO_INTERVAL_LED 13
-#define GPIO_SENSOR0 A0
-#define GPIO_SENSOR1 A1
-#define GPIO_SENSOR2 A2
-#define GPIO_SENSOR3 A3
-#define GPIO_SENSOR4 A4
-#define GPIO_SENSOR5 A5
-#define GPIO_SENSOR6 A6
-#define GPIO_SENSOR7 A7
-#define GPIO_PROGRAMME_SWITCH 22
-#define GPIO_POWER_LED 23
-#define GPIO_SENSOR_PINS { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 } 
+#define GPIO_POWER_LED 13
+#define GPIO_SENSOR0 14
+#define GPIO_SENSOR7 15
+#define GPIO_SENSOR6 16
+#define GPIO_SENSOR5 17
+#define GPIO_SENSOR4 18
+#define GPIO_SENSOR3 19
+#define GPIO_SENSOR2 20
+#define GPIO_SENSOR1 21
+#define GPIO_MPX_DATA 22
+#define GPIO_MPX_CLOCK 23
+#define GPIO_S_PINS { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 } 
 #define GPIO_ENCODER_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7 }
-#define GPIO_INPUT_PINS { GPIO_PROGRAMME_SWITCH, GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7 }
-#define GPIO_OUTPUT_PINS { GPIO_INTERVAL_LED, GPIO_POWER_LED, GPIO_INSTANCE_LED, GPIO_SOURCE_LED, GPIO_SETPOINT_LED }
-#define SENSOR_TRANSMIT_DEADLINE_INITIALISER { 0UL, 0UL, 0UL, 0UL, 0UL, 0UL, 0UL, 0UL }
+#define GPIO_INPUT_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7, GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7, GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH }
+#define GPIO_OUTPUT_PINS { GPIO_POWER_LED }
 
 /**********************************************************************
  * DEVICE INFORMATION
@@ -138,8 +117,8 @@
 #define PRODUCT_LEN 1
 #define PRODUCT_N2K_VERSION 2101
 #define PRODUCT_SERIAL_CODE "002-849" // PRODUCT_CODE + DEVICE_UNIQUE_NUMBER
-#define PRODUCT_TYPE "TSENSE"
-#define PRODUCT_VERSION "1.0 (Mar 2021)"
+#define PRODUCT_TYPE "SIM108"
+#define PRODUCT_VERSION "1.0 (Mar 2022)"
 
 /**********************************************************************
  * Include the build.h header file which can be used to override any or
@@ -155,40 +134,13 @@
 #define SWITCH_PROCESS_INTERVAL 250       // Process switch inputs every n ms
 #define LED_MANAGER_HEARTBEAT 200         // Number of ms on / off
 #define LED_MANAGER_INTERVAL 10           // Number of heartbeats between repeats
-#define CONFIG_TIMEOUT_INTERVAL 20000     // Allow 20s to complete each programme step
-#define SENSOR_VOLTS_TO_KELVIN 3.3        // Conversion factor for LM335 temperature sensors
-#define ANALOG_READ_AVAERAGE 10           // Number of ADC samples that average to make a read value
-#define ANALOG_RESOLUTION 1024            // ADC maximum return value
-#define TRANSMIT_QUEUE_LENGTH 20          // Max number of entries in the transmit queue
 
 /**********************************************************************
- * NMEA transmit configuration. Modules that transmit PGN 130316 are
- * required to honour a 0.5s cycle limit - this means that the max rate
- * at which the module can transmit PGN 130316 is once every 500ms. At
- * the same time, the maximum transmit rate for a single sensor
- * instance is once every 2 seconds. These values are defined below as
- * defaults.
- * 
- * However, this module has 8 sensors. If every sensor attempts to
- * transmit at this maximum rate, then the 8 messages will hit the
- * output buffer every two seconds whilst only four messages can
- * actually be transmitted.
- * 
- * Make sure that when you configure sensor channels you choose an
- * appropriate transmit interval so that buffer overrun does not
- * become an issue.
+ * NMEA transmit configuration. Modules that transmit PGN 127501 are
+ * required to report switch bank state every four seconds, or
+ * immediately on a detected state change.
  */
-#define MINIMUM_TRANSMIT_INTERVAL 2000UL    // N2K defined fastest allowed transmit rate for a PGN instance
-#define MINIMUM_TRANSMIT_CYCLE 500UL        // N2K defined fastest allowed transmit cycle rate
-
-/**********************************************************************
- * This firmware operates as a state machine. At any moment in time the
- * system is either operating normally (i.e. processing/transmitting
- * temperature readings) or it is stepping through a user-mediated,
- * multi-state, configuration process. This enumerates all possible
- * machine states.
- */
-enum MACHINE_STATES { NORMAL, CHANGE_CHANNEL_INSTANCE, CHANGE_CHANNEL_SOURCE, CHANGE_CHANNEL_SETPOINT, CHANGE_CHANNEL_INTERVAL, CANCEL_CONFIGURATION };
+#define TRANSMIT_INTERVAL 4000UL    // N2K defined fastest allowed transmit rate for a PGN instance
 
 /**********************************************************************
  * Declarations of local functions.
@@ -199,22 +151,16 @@ void dumpSensorConfiguration();
 void messageHandler(const tN2kMsg&);
 
 void processSensorsMaybe();
-void processProgrammeSwitchMaybe();
-void processTransmitQueueMaybe();
-void performConfigurationTimeoutMaybe();
 bool instanceInUse(unsigned int ignoreIndex, unsigned char instance);
 
-enum MACHINE_STATES performMachineStateTransition(enum MACHINE_STATES state);
-void confirmDialogCompletion(int flashes);
 void transmitPgn130316(Sensor sensor, bool flash = true);
 
 /**********************************************************************
  * PGNs of messages transmitted by this program.
  * 
- * PGN 130316 Temperature, Extended Range is used to broadcast sensed
- * temperatures.
+ * PGN 127501 Binary Status Report.
  */
-const unsigned long TransmitMessages[] PROGMEM={ 130316L, 0 };
+const unsigned long TransmitMessages[] PROGMEM={ 127501L, 0 };
 
 /**********************************************************************
  * PGNs of messages handled by this program.
@@ -231,9 +177,9 @@ int ENCODER_PINS[] = GPIO_ENCODER_PINS;
 DilSwitch DIL_SWITCH (ENCODER_PINS, ELEMENTCOUNT(ENCODER_PINS));
 
 /**********************************************************************
- * DEBOUNCER for the programme switch.
+ * DEBOUNCER for the switch inputs.
  */
-int SWITCHES[DEBOUNCER_SIZE] = { GPIO_PROGRAMME_SWITCH, -1, -1, -1, -1, -1, -1, -1 };
+int SWITCHES[DEBOUNCER_SIZE] = { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 };
 Debouncer DEBOUNCER (SWITCHES);
 
 /**********************************************************************
@@ -242,24 +188,9 @@ Debouncer DEBOUNCER (SWITCHES);
 LedManager LED_MANAGER (LED_MANAGER_HEARTBEAT, LED_MANAGER_INTERVAL);
 
 /**********************************************************************
- * SENSORS array of Sensor objects.
- */
-unsigned char SENSOR_PINS[] = GPIO_SENSOR_PINS;
-Sensor SENSORS[ELEMENTCOUNT(SENSOR_PINS)];
-
-static MACHINE_STATES MACHINE_STATE = NORMAL;
-unsigned long CONFIGURATION_TIMEOUT_COUNTER = 0UL;
-
-/**********************************************************************
  * SID for clustering N2K messages by sensor process cycle.
  */
 unsigned char SID = 0;
-
-/**********************************************************************
- * The index number of sensor data that should be transmitted is placed
- * in a queue for subsequent transmission.
- */
-ArduinoQueue<int> TRANSMIT_QUEUE(TRANSMIT_QUEUE_LENGTH);
 
 /**********************************************************************
  * MAIN PROGRAM - setup()
@@ -275,13 +206,6 @@ void setup() {
   int opins[] = GPIO_OUTPUT_PINS;
   for (unsigned int i = 0 ; i < ELEMENTCOUNT(ipins); i++) pinMode(ipins[i], INPUT_PULLUP);
   for (unsigned int i = 0 ; i < ELEMENTCOUNT(opins); i++) pinMode(opins[i], OUTPUT);
-  for (unsigned int i = 0 ; i < ELEMENTCOUNT(SENSOR_PINS); i++) pinMode(SENSOR_PINS[i], INPUT);
-
-  // Configure the ADC.
-  analogReadAveraging(ANALOG_READ_AVAERAGE);
-
-  // Initialise SENSORS array, assigning GPIO numbers.
-  for (unsigned int i = 0; i < ELEMENTCOUNT(SENSORS); i++) SENSORS[i].invalidate(SENSOR_PINS[i]); 
   
   // We assume that a new host system has its EEPROM initialised to all
   // 0xFF. We test by reading a byte that in a configured system should
@@ -296,16 +220,7 @@ void setup() {
   //EEPROM.write(SOURCE_ADDRESS_EEPROM_ADDRESS, 0xff);
   if (EEPROM.read(SOURCE_ADDRESS_EEPROM_ADDRESS) == 0xff) {
     EEPROM.write(SOURCE_ADDRESS_EEPROM_ADDRESS, DEFAULT_SOURCE_ADDRESS);
-    for (unsigned int i = 0; i < ELEMENTCOUNT(SENSORS); i++) SENSORS[i].save(SENSORS_EEPROM_ADDRESS + (i * SENSORS[i].getConfigSize()));
   }
-
-  // Load sensor configurations from EEPROM  
-  for (unsigned int i = 0; i < ELEMENTCOUNT(SENSORS); i++) SENSORS[i].load(SENSORS_EEPROM_ADDRESS + (i * SENSORS[i].getConfigSize()));
-
-  // Flash the board LED n times (where n = number of configured sensors)
-  int n = 0;
-  for (unsigned int i = 0; i < ELEMENTCOUNT(SENSORS); i++) if (SENSORS[i].getInstance() != 0xff) n++;
-  LED_MANAGER.operate(GPIO_INTERVAL_LED, 0, n);
 
   // Initialise and start N2K services.
   NMEA2000.SetProductInformation(PRODUCT_SERIAL_CODE, PRODUCT_CODE, PRODUCT_TYPE, PRODUCT_FIRMWARE_VERSION, PRODUCT_VERSION);
@@ -336,7 +251,6 @@ void loop() {
     #ifdef DEBUG_SERIAL
     Serial.println();
     Serial.print("Starting. N2K Source address is "); Serial.print(NMEA2000.GetN2kSource()); Serial.println();
-    dumpSensorConfiguration();
     #endif
     JUST_STARTED = false;
   }
@@ -344,19 +258,10 @@ void loop() {
   // Debounce all switch inputs.
   DEBOUNCER.debounce();
 
-  // If the system has settled (had time to debounce) then handle any
-  // changes to MACHINE_STATE by reading the current value of DIL_SWITCH
-  // and calling performMachineStateTransition(). Changes to MACHINE_STATE are
-  // only made by processSwitches() and performConfigurationTimeoutMaybe(), both
-  // of which return true if they make a change.
-  if (!JUST_STARTED) {
-    performConfigurationTimeoutMaybe();
-    processProgrammeSwitchMaybe();
-  }
-
   // Before we transmit anything, let's do the NMEA housekeeping and
   // process any received messages.
   NMEA2000.ParseMessages();
+
   // The above call may have resulted in acquisition of a new source
   // address, so we check if there has been a change and if so save the
   // new address to EEPROM for future re-use.
@@ -364,10 +269,7 @@ void loop() {
 
   // If the device isn't currently being programmed, then process
   // temperature sensors and transmit readings on N2K. 
-  if ((!JUST_STARTED) && (MACHINE_STATE == NORMAL)) {
-    processSensorsMaybe();
-    processTransmitQueueMaybe();
-  }
+  if (!JUST_STARTED) processSwitchInputsMaybe();
 
   // Update the states of connected LEDs
   LED_MANAGER.loop();

@@ -261,10 +261,10 @@ Text Notes 7500 3400 2    50   ~ 10
 12/5 V DC-DC CONVERTER
 Text Notes 7500 4750 2    50   ~ 10
 CAN INTERFACE
-Text Label 1000 5500 2    50   ~ 0
+Text Label 1550 5500 2    50   ~ 0
 LED_PWR
 Wire Wire Line
-	1000 5500 2650 5500
+	1550 5500 2650 5500
 Text Label 5750 900  2    50   ~ 0
 LED_PWR
 Text Label 7500 5900 0    50   ~ 0
@@ -529,12 +529,12 @@ $EndComp
 $Comp
 L power:GND #PWR03
 U 1 1 62E4B10C
-P 1000 7450
-F 0 "#PWR03" H 1000 7200 50  0001 C CNN
-F 1 "GND" H 1000 7300 50  0000 C CNN
-F 2 "" H 1000 7450 50  0001 C CNN
-F 3 "" H 1000 7450 50  0001 C CNN
-	1    1000 7450
+P 3450 7450
+F 0 "#PWR03" H 3450 7200 50  0001 C CNN
+F 1 "GND" H 3450 7300 50  0000 C CNN
+F 2 "" H 3450 7450 50  0001 C CNN
+F 3 "" H 3450 7450 50  0001 C CNN
+	1    3450 7450
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -551,12 +551,12 @@ $EndComp
 $Comp
 L power:+5V #PWR01
 U 1 1 62EC5C8C
-P 1000 5700
-F 0 "#PWR01" H 1000 5550 50  0001 C CNN
-F 1 "+5V" H 800 5750 50  0000 L BNN
-F 2 "" H 1000 5700 50  0001 C CNN
-F 3 "" H 1000 5700 50  0001 C CNN
-	1    1000 5700
+P 2050 5400
+F 0 "#PWR01" H 2050 5250 50  0001 C CNN
+F 1 "+5V" H 1850 5450 50  0000 L BNN
+F 2 "" H 2050 5400 50  0001 C CNN
+F 3 "" H 2050 5400 50  0001 C CNN
+	1    2050 5400
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -573,9 +573,9 @@ $EndComp
 Wire Wire Line
 	2050 5950 2050 5800
 Connection ~ 2050 5800
-Text Label 1000 6150 2    50   ~ 0
+Text Label 1550 6150 2    50   ~ 0
 DATA
-Text Label 1000 6350 2    50   ~ 0
+Text Label 1550 6350 2    50   ~ 0
 CLOCK
 Text Label 5750 1800 2    50   ~ 0
 DATA
@@ -606,14 +606,19 @@ Wire Wire Line
 Wire Wire Line
 	3250 5500 3450 5500
 Wire Wire Line
+	3450 7350 3450 7450
+Connection ~ 3450 7350
+Wire Wire Line
 	2050 7350 3450 7350
 Wire Wire Line
 	2450 5800 3450 5800
 Connection ~ 3450 5800
 Wire Wire Line
-	1000 6150 1650 6150
+	2050 5800 2050 5400
 Wire Wire Line
-	1000 6350 1650 6350
+	1550 6150 1650 6150
+Wire Wire Line
+	1550 6350 1650 6350
 Wire Notes Line
 	3650 7700 600  7700
 Wire Notes Line
@@ -910,10 +915,10 @@ Wire Wire Line
 Connection ~ 2050 7350
 NoConn ~ 6850 2100
 NoConn ~ 6850 1900
-Text Label 1000 6650 2    50   ~ 0
+Text Label 1200 6650 2    50   ~ 0
 LATCH
 Wire Wire Line
-	1000 6650 1650 6650
+	1200 6650 1650 6650
 $Sheet
 S 9750 700  1100 300 
 U 62FB7846
@@ -1210,14 +1215,4 @@ Text Label 9650 5450 2    50   ~ 0
 SPST_GND
 Text Label 10950 5350 0    50   ~ 0
 CH7
-Wire Wire Line
-	1200 5800 1000 5800
-Connection ~ 1200 5800
-Wire Wire Line
-	1000 5700 1000 5800
-Wire Wire Line
-	1550 7350 1000 7350
-Wire Wire Line
-	1000 7350 1000 7450
-Connection ~ 1550 7350
 $EndSCHEMATC
