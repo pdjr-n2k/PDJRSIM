@@ -187,6 +187,8 @@ Debouncer DEBOUNCER (SWITCHES);
  */
 LedManager LED_MANAGER (LED_MANAGER_HEARTBEAT, LED_MANAGER_INTERVAL);
 
+unsigned char INSTANCE = INSTANCE_UNDEFINED;
+
 /**********************************************************************
  * SID for clustering N2K messages by sensor process cycle.
  */
@@ -221,6 +223,14 @@ void setup() {
   if (EEPROM.read(SOURCE_ADDRESS_EEPROM_ADDRESS) == 0xff) {
     EEPROM.write(SOURCE_ADDRESS_EEPROM_ADDRESS, DEFAULT_SOURCE_ADDRESS);
   }
+
+  // Recover module instance number.
+  DIL_SWITCH.sample();
+  INSTANCE = DIL_SWITCH.value();
+
+  tN2kBinaryStatus BANK_STATUS;
+  N2kResetBinaryStatus(BANK_STATUS);
+
 
   // Initialise and start N2K services.
   NMEA2000.SetProductInformation(PRODUCT_SERIAL_CODE, PRODUCT_CODE, PRODUCT_TYPE, PRODUCT_FIRMWARE_VERSION, PRODUCT_VERSION);
@@ -267,8 +277,6 @@ void loop() {
   // new address to EEPROM for future re-use.
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
-  // If the device isn't currently being programmed, then process
-  // temperature sensors and transmit readings on N2K. 
   if (!JUST_STARTED) processSwitchInputsMaybe();
 
   // Update the states of connected LEDs
@@ -276,14 +284,38 @@ void loop() {
 }
 
 /**********************************************************************
- * processSensorsMaybe() should be called directly from loop(). The
+ * processSwitchInputsMaybe() should be called directly from loop().
+ * The function recovers the current physical sensor states and
+ * compares this with the previously read value.
  * function iterates through all sensors looking for any that have an
  * expired transmission. Sunch sensors have their temperature value
  * updated bt a read from the ADC and their index queued for subsequent
  * transmission on the N2K bus.
  */
 void processSensorsMaybe() {
+  static unsigned long deadline = 0L;
   unsigned long now = millis();
+  static unsigned char savedStates = 0x00;
+  unsigned char states = 0x00;
+
+  states = DEBOUNCER.getStates();
+  if ((savedStates != states) || (now > deadline)) {
+    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR0), 1);
+    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR1), 2);
+    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR2), 3);
+    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR3), 4);
+    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR4), 5);
+    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR5), 6);
+    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR6), 7);
+    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR7), 8);
+
+
+    deadline = (now + TRANSMIT_INTERVAL);
+  }
+}
+
+
+
 
   for (unsigned int sensor = 0; sensor < ELEMENTCOUNT(SENSORS); sensor++) {
     if (SENSORS[sensor].getInstance() != 0xff) {
@@ -591,11 +623,11 @@ void confirmDialogCompletion(int flashes) {
 
 /**********************************************************************
  * Transmit the temperature data in <sensor> over the host NMEA bus and
- * flash the power LED to indicate it has been done. 
+ * update the power and status LEDs. 
  */
-void transmitPgn130316(Sensor sensor, bool flash) {
+void transmitPgn127501(unsigned char instance, tN2kBinaryStatus status, bool flash) {
   tN2kMsg N2kMsg;
-  SetN2kPGN130316(N2kMsg, SID, sensor.getInstance(), sensor.getSource(), sensor.getTemperature(), sensor.getSetPoint());
+  SetN2kPGN127501(N2kMsg, instance, status);
   NMEA2000.SendMsg(N2kMsg);
   if (flash) LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
 }  
