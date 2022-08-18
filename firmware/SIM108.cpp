@@ -284,15 +284,13 @@ void loop() {
 }
 
 /**********************************************************************
- * processSwitchInputsMaybe() should be called directly from loop().
- * The function recovers the current physical sensor states and
- * compares this with the previously read value.
- * function iterates through all sensors looking for any that have an
- * expired transmission. Sunch sensors have their temperature value
- * updated bt a read from the ADC and their index queued for subsequent
- * transmission on the N2K bus.
+ * transmitSwitchbankStatusMaybe() should be called directly from
+ * loop(). The function proceeds to transmit a switchbank binary status
+ * message if either (1) the current hardware channel status differs
+ * from the previously reported status, or (2) the mandatory transmit
+ * interval has elapsed.
  */
-void processSensorsMaybe() {
+void transmitSwitchbankStatusMaybe() {
   static unsigned long deadline = 0L;
   unsigned long now = millis();
   static unsigned char savedStates = 0x00;
@@ -300,6 +298,7 @@ void processSensorsMaybe() {
 
   states = DEBOUNCER.getStates();
   if ((savedStates != states) || (now > deadline)) {
+    savedStates = states;
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR0), 1);
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR1), 2);
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR2), 3);
@@ -308,7 +307,8 @@ void processSensorsMaybe() {
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR5), 6);
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR6), 7);
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR7), 8);
-
+    transmitPGN127501(INSTANCE, BANK_STATUS);
+    
 
     deadline = (now + TRANSMIT_INTERVAL);
   }
@@ -343,8 +343,8 @@ void processSensorsMaybe() {
 }
 
 /**********************************************************************
- * processProgrammeSwitchMaybe() should be called directly from loop().
- * The function uses an elapse timer to ensure that processing is only
+ * transmitSwitchbankStatusMaybe() should be called directly from
+ * loop(). The function checks the current switchbank stateuses an elapse timer to ensure that processing is only
  * invoked once every SWITCH_PROCESS_INTERVAL milliseconds.
  * 
  * The function will then checkpoint the debounced state of the switch
@@ -622,14 +622,14 @@ void confirmDialogCompletion(int flashes) {
 }
 
 /**********************************************************************
- * Transmit the temperature data in <sensor> over the host NMEA bus and
- * update the power and status LEDs. 
+ * Transmit the switchbank status over the host NMEA bus. <instance>
+ * specifies the switchbank instance number and <status> the switchbank
+ * channel states. 
  */
-void transmitPgn127501(unsigned char instance, tN2kBinaryStatus status, bool flash) {
+void transmitPgn127501(unsigned char instance, tN2kBinaryStatus status) {
   tN2kMsg N2kMsg;
   SetN2kPGN127501(N2kMsg, instance, status);
   NMEA2000.SendMsg(N2kMsg);
-  if (flash) LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
 }  
 
 /**********************************************************************
