@@ -10,13 +10,15 @@ Multiple __SIM108__ modules can be installed on a single NMEA bus.
 
 ## Design criteria
 
-1. Easy bus connection by a standard M12 5-pin plug.
-2. Will operate as either a bus drop or a bus termination node.
-3. Powered directly from the NMEA bus.
-4. Supports arbitrary SPST DC inputs with voltages in the range 5-50VDC.
-5. NMEA connection and input channel status indicated by LEDs.
-6. Module instance number is field configurable.
-7. Easy assembly afforded by PCB with well marked component locations and 100% through-hole mounting.
+The module must:
+
+1. conform as far as possible to relevant NMEA standards;
+2. support standard NMEA bus connection via an M12 5-pin plug;
+3. operate as either a bus drop or a bus termination node;
+4. be powered directly from the NMEA bus;
+5. support DC SPST inputs with voltages in the range 5-24VDC;
+6. indicate operating and channel status by LED;
+7. allow field configuration of module instance number.
 
 ## Implementation notes
 
