@@ -134,6 +134,7 @@
 #define SWITCH_PROCESS_INTERVAL 250       // Process switch inputs every n ms
 #define LED_MANAGER_HEARTBEAT 200         // Number of ms on / off
 #define LED_MANAGER_INTERVAL 10           // Number of heartbeats between repeats
+#define DEBOUNCER_SIZE 8                  // Number of IO channels to debounce
 
 /**********************************************************************
  * NMEA transmit configuration. Modules that transmit PGN 127501 are
@@ -190,11 +191,6 @@ LedManager LED_MANAGER (LED_MANAGER_HEARTBEAT, LED_MANAGER_INTERVAL);
 unsigned char INSTANCE = INSTANCE_UNDEFINED;
 
 /**********************************************************************
- * SID for clustering N2K messages by sensor process cycle.
- */
-unsigned char SID = 0;
-
-/**********************************************************************
  * MAIN PROGRAM - setup()
  */
 void setup() {
@@ -217,7 +213,6 @@ void setup() {
   // Address | Value                                    | Size in bytes
   // --------+------------------------------------------+--------------
   // 0x00    | N2K source address                       | 1
-  // 0x10    | Sensor configuration (the SENSORS array) | Lots
   //
   //EEPROM.write(SOURCE_ADDRESS_EEPROM_ADDRESS, 0xff);
   if (EEPROM.read(SOURCE_ADDRESS_EEPROM_ADDRESS) == 0xff) {
@@ -277,7 +272,7 @@ void loop() {
   // new address to EEPROM for future re-use.
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
-  if (!JUST_STARTED) processSwitchInputsMaybe();
+  if (!JUST_STARTED) transmitSwitchbankStatusMaybe();
 
   // Update the states of connected LEDs
   LED_MANAGER.loop();
@@ -293,7 +288,7 @@ void loop() {
 void transmitSwitchbankStatusMaybe() {
   static unsigned long deadline = 0L;
   unsigned long now = millis();
-  static unsigned char savedStates = 0x00;
+  static unsigned char savedStates = 0xFF;
   unsigned char states = 0x00;
 
   states = DEBOUNCER.getStates();
@@ -308,317 +303,22 @@ void transmitSwitchbankStatusMaybe() {
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR6), 7);
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR7), 8);
     transmitPGN127501(INSTANCE, BANK_STATUS);
-    
-
+    updateLeds(states);
     deadline = (now + TRANSMIT_INTERVAL);
   }
 }
 
-
-
-
-  for (unsigned int sensor = 0; sensor < ELEMENTCOUNT(SENSORS); sensor++) {
-    if (SENSORS[sensor].getInstance() != 0xff) {
-      if (now > SENSORS[sensor].getTransmissionDeadline()) {
-        if (!TRANSMIT_QUEUE.isFull()) {
-          int value = analogRead(SENSORS[sensor].getGpio());
-          double kelvin = ((value * SENSOR_VOLTS_TO_KELVIN) / ANALOG_RESOLUTION) * 100;
-          SENSORS[sensor].setTemperature(kelvin);
-          #ifdef DEBUG_SERIAL
-          Serial.println();
-          Serial.print("Queueing reading for sensor "); Serial.print(sensor + 1); Serial.print(": ");
-          Serial.print(kelvin - 273.0); Serial.print("C ");
-          #endif
-          TRANSMIT_QUEUE.enqueue(sensor);
-        } else {
-          #ifdef DEBUG_SERIAL
-          Serial.println("ERROR: cannot queue sensor reading; transmit queue is full");
-          #endif
-        } 
-        SENSORS[sensor].setTransmissionDeadline(now + SENSORS[sensor].getTransmissionInterval());
-      }
-    }
-  }
-  SID++;
-}
-
 /**********************************************************************
- * transmitSwitchbankStatusMaybe() should be called directly from
- * loop(). The function checks the current switchbank stateuses an elapse timer to ensure that processing is only
- * invoked once every SWITCH_PROCESS_INTERVAL milliseconds.
- * 
- * The function will then checkpoint the debounced state of the switch
- * on the GPIO_PROGRAMME_SWITCH pin and, if it is active, will call
- * performMachineStateTransition() to modify the device's
- * MACHINE_STATE.
- */
-void processProgrammeSwitchMaybe() {
-  static unsigned long deadline = 0UL;
-  unsigned long now = millis();
-  if (now > deadline) {
-    if (DEBOUNCER.channelState(GPIO_PROGRAMME_SWITCH) == 0) {
-      DIL_SWITCH.sample();
-      MACHINE_STATE = performMachineStateTransition(MACHINE_STATE);
-    }
-    deadline = (now + SWITCH_PROCESS_INTERVAL);
-  }
-}
-
-/**********************************************************************
- * processTransmitQueue() should be called directly from loop. The
- * function uses an elapse timer to ensure that processing is only
- * invoked once every MINIMUM_TRANSMIT_CYCLE milliseconds. This value
- * should be set to the maximum transmit frequencyy for PGN130316.
- * 
- * Each time around the function removes a sensor index (if one is
- * available) from TRANSMIT_QUEUE and transmits the referenced sensor
- * data over the NMEA bus.
+ * Flashes the power LED once to indicate that a data packet has been
+ * transmitted and the updates the multiplexor so that the channel
+ * indicator LEDs reflect <states>.
  */ 
-void processTransmitQueueMaybe() {
-  static unsigned long deadline = 0UL;
-  unsigned long now = millis();
+void updateLeds(unsigned char states) {
+  LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
+  digitalWrite(GPIO_MPX_LATCH, LOW);
+  shiftOut(GPIO_MPX_DATA, GPIO_MPX_CLOCK, MSBFIRST, states);
+  digitalWrite(GPIO_MPX_LATCH, HIGH)
 
-  if (now > deadline) {
-    if (!TRANSMIT_QUEUE.isEmpty()) {
-      int sensor = TRANSMIT_QUEUE.dequeue();
-      #ifdef DEBUG_SERIAL
-      Serial.println(); Serial.print("Dequeueing and transmitting sensor "); Serial.print(sensor + 1);
-      #endif
-      transmitPgn130316(SENSORS[sensor]);
-    }
-    deadline = (now + MINIMUM_TRANSMIT_CYCLE);
-  }
-}
-
-/**********************************************************************
- * performConfigurationTimeoutMaybe() should be called directly from
- * loop(). The function uses an elapse timer to detect whether or not
- * module configuration should be cancelled because of an absence of
- * user input and the module returned to normal operation.
- */
-void performConfigurationTimeoutMaybe() {
-  if ((CONFIGURATION_TIMEOUT_COUNTER != 0UL) && (millis() > CONFIGURATION_TIMEOUT_COUNTER)) {
-    MACHINE_STATE = performMachineStateTransition(CANCEL_CONFIGURATION);
-  }
-}
-
-/**********************************************************************
- * cancelConfigurationTimeout() is a utility function that simply
- * zeroes CONFIGURATION_TIMEOUT_COUNTER so that a configuration
- * timeout processing is disabled. The function always returns a NORMAL
- * machine state value. 
- */
-MACHINE_STATES cancelConfigurationTimeout() {
-  CONFIGURATION_TIMEOUT_COUNTER = 0UL;
-  return(NORMAL);
-}
-
-/**********************************************************************
- * extendConfigurationTimeout(state) is a utility function that simply
- * sets CONFIGURATION_TIMEOUT_COUNTER to its operational value. The
- * function always returns <state>.
- */
-MACHINE_STATES extendConfigurationTimeout(MACHINE_STATES state) {
-  CONFIGURATION_TIMEOUT_COUNTER = (millis() + CONFIG_TIMEOUT_INTERVAL);
-  return(state);
-}
-
-/**********************************************************************
- * performMachineStateTransition(state) performs all of the processing
- * required to transition from <state> to some new machine state which
- * it returns as its result.
- * 
- * As a side effect, this function implements all of the UI associated
- * with configuration change and any consequent actions.
- */
-MACHINE_STATES performMachineStateTransition(MACHINE_STATES state) {
-  static int selectedSensorIndex = 0;
-  unsigned char selectedValue = DIL_SWITCH.value();
-  Sensor scratch;
-
-  switch (state) {
-    case NORMAL: // Start configuration process
-      switch (selectedValue) {
-        case 1 : case 2: case 3: case 4: case 5: case 6: case 7: case 8:
-          LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
-          selectedSensorIndex = selectedValue;
-          state = extendConfigurationTimeout(CHANGE_CHANNEL_INSTANCE);
-          LED_MANAGER.operate(GPIO_INSTANCE_LED, 0, -1);
-          #ifdef DEBUG_SERIAL
-          Serial.print("Starting configuration dialoge for channel "); Serial.println(selectedSensorIndex + 1);
-          #endif
-          break;
-        case 32:
-          // Dump configuration
-          LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
-          dumpSensorConfiguration();
-          confirmDialogCompletion(1);
-          break;
-        case 64:
-          // Transmit test outout on all channels
-          LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
-          for (unsigned int i = 0; i < ELEMENTCOUNT(SENSORS); i++) {
-            scratch.setInstance(i); scratch.setSource(i); scratch.setSetPoint(i); scratch.setTemperature(i);
-            transmitPgn130316(scratch, false);
-            delay(MINIMUM_TRANSMIT_CYCLE);
-            #ifdef DEBUG_SERIAL
-            Serial.print("Transmitting test PGN130316 with instance "); Serial.println(i);
-            #endif
-          }
-          break;
-        case 128: 
-          // Foctory reset - delete all channel configurations
-          LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
-          for (unsigned int i = 0; i < ELEMENTCOUNT(SENSORS); i++) {
-            SENSORS[i].setInstance(255);
-            SENSORS[i].save(SENSORS_EEPROM_ADDRESS + (i * SENSORS[i].getConfigSize()));
-          }
-          state = cancelConfigurationTimeout();
-          #ifdef DEBUG_SERIAL
-          Serial.println("Deleting all channel configurations");
-          #endif
-          break;
-        default:
-          // Unrecognised entry
-          LED_MANAGER.operate(GPIO_POWER_LED, 0, 2);
-          #ifdef DEBUG_SERIAL
-          Serial.println("Ignoring invalid entry");
-          #endif
-          break;
-      }
-      break;
-    case CHANGE_CHANNEL_INSTANCE:
-      switch (selectedValue) {
-        case 255:
-          // Disable channel configuration
-          LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
-          SENSORS[selectedSensorIndex].setInstance(selectedValue);
-          SENSORS[selectedSensorIndex].save(SENSORS_EEPROM_ADDRESS + (selectedSensorIndex * SENSORS[selectedSensorIndex].getConfigSize()));
-          state = cancelConfigurationTimeout();
-          #ifdef DEBUG_SERIAL
-          Serial.print("Channel "); Serial.print(selectedSensorIndex + 1); Serial.print(": deleting configuration");
-          dumpSensorConfiguration();
-          #endif
-          break;
-        case 254: case 253:
-          // Invalid entry
-          LED_MANAGER.operate(GPIO_POWER_LED, 0, 2);
-          state = extendConfigurationTimeout(CHANGE_CHANNEL_INSTANCE);
-          #ifdef DEBUG_SERIAL
-          Serial.print("Rejecting invalid temperature instance");
-          #endif
-          break;
-        default:
-          // Accept valid instance value
-          if (!instanceInUse(selectedSensorIndex, selectedValue)) { 
-            LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
-            SENSORS[selectedSensorIndex].setInstance(selectedValue);
-            state = extendConfigurationTimeout(CHANGE_CHANNEL_SOURCE);
-            LED_MANAGER.operate(GPIO_INSTANCE_LED, 1);
-            LED_MANAGER.operate(GPIO_SOURCE_LED, 0, -1);
-            #ifdef DEBUG_SERIAL
-            Serial.print("Channel "); Serial.print(selectedSensorIndex + 1); Serial.print(": temperature instance set to ");
-            Serial.println(SENSORS[selectedSensorIndex].getInstance());
-            #endif
-          } else {
-            LED_MANAGER.operate(GPIO_POWER_LED, 0, 3);
-            state = extendConfigurationTimeout(CHANGE_CHANNEL_INSTANCE);
-            #ifdef DEBUG_SERIAL
-            Serial.print("Rejecting duplicate temperature instance");
-            #endif
-          }
-          break;
-      }
-      break;
-    case CHANGE_CHANNEL_SOURCE:
-      if ((selectedValue <= 14) || ((selectedValue >= 129) && (selectedValue <= 252))) {
-        LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
-        SENSORS[selectedSensorIndex].setSource(selectedValue);
-        state = extendConfigurationTimeout(CHANGE_CHANNEL_SETPOINT);
-        LED_MANAGER.operate(GPIO_SOURCE_LED, 1);
-        LED_MANAGER.operate(GPIO_SETPOINT_LED, 0, -1);
-        #ifdef DEBUG_SERIAL
-        Serial.print("Channel "); Serial.print(selectedSensorIndex + 1); Serial.print(": temperature source set to ");
-        Serial.println(SENSORS[selectedSensorIndex].getSource());
-        #endif
-      } else {
-        LED_MANAGER.operate(GPIO_POWER_LED, 0, 2);
-        state = extendConfigurationTimeout(CHANGE_CHANNEL_SOURCE);
-        #ifdef DEBUG_SERIAL
-        Serial.print("Rejecting invalid temperature source");
-        #endif
-      }
-      break;
-    case CHANGE_CHANNEL_SETPOINT:
-      LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
-      SENSORS[selectedSensorIndex].setSetPoint((double) (selectedValue * 2));
-      state = extendConfigurationTimeout(CHANGE_CHANNEL_INTERVAL);
-      LED_MANAGER.operate(GPIO_SETPOINT_LED, 1);
-      LED_MANAGER.operate(GPIO_INTERVAL_LED, 0, -1);
-      #ifdef DEBUG_SERIAL
-      Serial.print("Channel "); Serial.print(selectedSensorIndex + 1); Serial.print(": temperature set point set to ");
-      Serial.println(SENSORS[selectedSensorIndex].getSetPoint());
-      #endif
-      break;
-    case CHANGE_CHANNEL_INTERVAL:
-      if (((unsigned long) 1000UL * selectedValue) >= MINIMUM_TRANSMIT_INTERVAL) {
-        LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
-        SENSORS[selectedSensorIndex].setTransmissionInterval((unsigned long) (selectedValue * 1000UL));
-        SENSORS[selectedSensorIndex].save(SENSORS_EEPROM_ADDRESS + (selectedSensorIndex * SENSORS[selectedSensorIndex].getConfigSize()));
-        state = cancelConfigurationTimeout();
-        confirmDialogCompletion(1);
-        #ifdef DEBUG_SERIAL
-        Serial.print("Channel "); Serial.print(selectedSensorIndex + 1); Serial.print(": transmission interval set to ");
-        Serial.println(SENSORS[selectedSensorIndex].getTransmissionInterval());
-        Serial.print("Channel "); Serial.print(selectedSensorIndex + 1); Serial.println(": saving configuration");
-        dumpSensorConfiguration();
-        #endif
-      } else {
-        LED_MANAGER.operate(GPIO_POWER_LED, 0, 2);
-        state = extendConfigurationTimeout(CHANGE_CHANNEL_INTERVAL);
-        #ifdef DEBUG_SERIAL
-        Serial.print("Rejecting invalid transmission interval");
-        #endif
-      }
-      break;
-    case CANCEL_CONFIGURATION:
-      // Restore in-memory configuration from EEPROM and return to
-      // normal operation.
-      #ifdef DEBUG_SERIAL
-      Serial.println("Discarding configuration changes, restoring previous configuration");
-      dumpSensorConfiguration();
-      #endif
-      SENSORS[selectedSensorIndex].load(SENSORS_EEPROM_ADDRESS + (selectedSensorIndex * SENSORS[selectedSensorIndex].getConfigSize()));
-      state = cancelConfigurationTimeout();
-      confirmDialogCompletion(0);
-      break;
-    default:
-      break;
-  }
-  return(state);
-}
-
-/**********************************************************************
- * instanceInUse() scans the SENSORS array, excluding the sensor
- * defined by <ignoreIndex>, looking for any sensor using <instance> as
- * its instance address. Returns true if a sensor is found, otherwise
- * false.
- */
-bool instanceInUse(unsigned int ignoreIndex, unsigned char instance) {
-  bool retval = false;
-  for (unsigned int i = 0; i < ELEMENTCOUNT(SENSORS); i++) {
-    if ((ignoreIndex != 255) && (i != ignoreIndex))
-      if (SENSORS[i].getInstance() == instance)
-        retval = true;
-  }
-  return(retval);
-}
-
-void confirmDialogCompletion(int flashes) {
-      LED_MANAGER.operate(GPIO_INSTANCE_LED, 0, flashes);
-      LED_MANAGER.operate(GPIO_SOURCE_LED, 0, flashes);
-      LED_MANAGER.operate(GPIO_SETPOINT_LED, 0, flashes);
-      LED_MANAGER.operate(GPIO_INTERVAL_LED, 0, flashes);
 }
 
 /**********************************************************************
