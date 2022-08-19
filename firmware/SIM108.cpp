@@ -255,7 +255,9 @@ void loop() {
   if (JUST_STARTED && (millis() > STARTUP_SETTLE_PERIOD)) {
     #ifdef DEBUG_SERIAL
     Serial.println();
-    Serial.print("Starting. N2K Source address is "); Serial.print(NMEA2000.GetN2kSource()); Serial.println();
+    Serial.println("Starting:");
+    Serial.print("  N2K Source address is "); Serial.println(NMEA2000.GetN2kSource());
+    Serial.print("  Module instance number is "); Serial.println(INSTANCE);
     #endif
     JUST_STARTED = false;
   }
@@ -264,14 +266,13 @@ void loop() {
   DEBOUNCER.debounce();
 
   // Before we transmit anything, let's do the NMEA housekeeping and
-  // process any received messages.
+  // process any received messages. This call may result in acquisition
+  // of a new CAN source address, so we check if there has been any
+  // change and if so save the new address to EEPROM for future re-use.
   NMEA2000.ParseMessages();
-
-  // The above call may have resulted in acquisition of a new source
-  // address, so we check if there has been a change and if so save the
-  // new address to EEPROM for future re-use.
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
+  // Once the start-up settle period is over we can enter production. 
   if (!JUST_STARTED) transmitSwitchbankStatusMaybe();
 
   // Update the states of connected LEDs
@@ -294,6 +295,7 @@ void transmitSwitchbankStatusMaybe() {
   states = DEBOUNCER.getStates();
   if ((savedStates != states) || (now > deadline)) {
     savedStates = states;
+    N2kResetBinaryStatus(BANK_STATUS);
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR0), 1);
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR1), 2);
     N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR2), 3);
@@ -343,15 +345,3 @@ void messageHandler(const tN2kMsg &N2kMsg) {
     NMEA2000Handlers[iHandler].Handler(N2kMsg); 
   }
 }
-
-#ifdef DEBUG_SERIAL
-
-void dumpSensorConfiguration() {
-  for (unsigned int i = 0; i < ELEMENTCOUNT(SENSORS); i++) {
-    Serial.println();
-    Serial.print("Sensor "); Serial.print(i + 1); Serial.print(": ");
-    SENSORS[i].dump(Serial);
-  }
-}
-
-#endif
