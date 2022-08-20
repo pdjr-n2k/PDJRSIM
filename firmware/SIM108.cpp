@@ -330,9 +330,14 @@ void transmitPGN127501(unsigned char instance, tN2kBinaryStatus status) {
   NMEA2000.SendMsg(N2kMsg);
 }  
 
+/**********************************************************************
+ * Helper function to convert bool <state> into tN2kOnOff value for
+ * use with NMEA2000 library.
+ */
 tN2kOnOff bool2tN2kOnOff(bool state) {
   return((state)?N2kOnOff_On:N2kOnOff_Off);
 }
+
 /**********************************************************************
  * Field an incoming NMEA message to our defined handler (there aren't
  * any!).
