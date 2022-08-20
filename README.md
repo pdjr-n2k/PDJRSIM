@@ -8,11 +8,11 @@ Channel state information is transmitted over NMEA 2000 using
 
 Multiple __SIM108__ modules can be installed on a single NMEA bus.
 
-## Design criteria
+## Functional overview
 
-The module must:
-
-1. conform as far as possible to relevant NMEA standards;
+* The module connects to the host NMEA bus by either a simple screw
+  termination block or an NMEA standard M12 5-pin connector.
+* The conform as far as possible to relevant NMEA standards;
 2. support standard NMEA bus connection via an M12 5-pin plug;
 3. operate as either a bus drop or a bus termination node;
 4. be powered directly from the NMEA bus;
