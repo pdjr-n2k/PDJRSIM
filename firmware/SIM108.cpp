@@ -146,15 +146,11 @@
 /**********************************************************************
  * Declarations of local functions.
  */
-#ifdef DEBUG_SERIAL
-void dumpSensorConfiguration();
-#endif
+void transmitSwitchbankStatusMaybe();
+void updateLeds(unsigned char status);
+void transmitPGN127501(unsigned char instance, tN2kBinaryStatus status);
+tN2kOnOff bool2tN2kOnOff(bool state);
 void messageHandler(const tN2kMsg&);
-
-void processSensorsMaybe();
-bool instanceInUse(unsigned int ignoreIndex, unsigned char instance);
-
-void transmitPgn130316(Sensor sensor, bool flash = true);
 
 /**********************************************************************
  * PGNs of messages transmitted by this program.
@@ -188,7 +184,8 @@ Debouncer DEBOUNCER (SWITCHES);
  */
 LedManager LED_MANAGER (LED_MANAGER_HEARTBEAT, LED_MANAGER_INTERVAL);
 
-unsigned char INSTANCE = INSTANCE_UNDEFINED;
+unsigned char SWITCHBANK_INSTANCE = INSTANCE_UNDEFINED;
+tN2kBinaryStatus SWITCHBANK_STATUS;
 
 /**********************************************************************
  * MAIN PROGRAM - setup()
@@ -221,10 +218,10 @@ void setup() {
 
   // Recover module instance number.
   DIL_SWITCH.sample();
-  INSTANCE = DIL_SWITCH.value();
+  SWITCHBANK_INSTANCE = DIL_SWITCH.value();
 
-  tN2kBinaryStatus BANK_STATUS;
-  N2kResetBinaryStatus(BANK_STATUS);
+  
+  N2kResetBinaryStatus(SWITCHBANK_STATUS);
 
 
   // Initialise and start N2K services.
@@ -257,7 +254,7 @@ void loop() {
     Serial.println();
     Serial.println("Starting:");
     Serial.print("  N2K Source address is "); Serial.println(NMEA2000.GetN2kSource());
-    Serial.print("  Module instance number is "); Serial.println(INSTANCE);
+    Serial.print("  Module instance number is "); Serial.println(SWITCHBANK_INSTANCE);
     #endif
     JUST_STARTED = false;
   }
@@ -295,16 +292,16 @@ void transmitSwitchbankStatusMaybe() {
   states = DEBOUNCER.getStates();
   if ((savedStates != states) || (now > deadline)) {
     savedStates = states;
-    N2kResetBinaryStatus(BANK_STATUS);
-    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR0), 1);
-    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR1), 2);
-    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR2), 3);
-    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR3), 4);
-    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR4), 5);
-    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR5), 6);
-    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR6), 7);
-    N2kSetStatusBinaryOnStatus(BANK_STATUS, DEBOUNCER.getState(GPIO_SENSOR7), 8);
-    transmitPGN127501(INSTANCE, BANK_STATUS);
+    //N2kResetBinaryStatus(SWITCHBANK_STATUS);
+    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR0)), 1);
+    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR1)), 2);
+    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR2)), 3);
+    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR3)), 4);
+    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR4)), 5);
+    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR5)), 6);
+    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR6)), 7);
+    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR7)), 8);
+    transmitPGN127501(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS);
     updateLeds(states);
     deadline = (now + TRANSMIT_INTERVAL);
   }
@@ -319,8 +316,7 @@ void updateLeds(unsigned char states) {
   LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
   digitalWrite(GPIO_MPX_LATCH, LOW);
   shiftOut(GPIO_MPX_DATA, GPIO_MPX_CLOCK, MSBFIRST, states);
-  digitalWrite(GPIO_MPX_LATCH, HIGH)
-
+  digitalWrite(GPIO_MPX_LATCH, HIGH);
 }
 
 /**********************************************************************
@@ -328,12 +324,15 @@ void updateLeds(unsigned char states) {
  * specifies the switchbank instance number and <status> the switchbank
  * channel states. 
  */
-void transmitPgn127501(unsigned char instance, tN2kBinaryStatus status) {
+void transmitPGN127501(unsigned char instance, tN2kBinaryStatus status) {
   tN2kMsg N2kMsg;
   SetN2kPGN127501(N2kMsg, instance, status);
   NMEA2000.SendMsg(N2kMsg);
 }  
 
+tN2kOnOff bool2tN2kOnOff(bool state) {
+  return((state)?N2kOnOff_On:N2kOnOff_Off);
+}
 /**********************************************************************
  * Field an incoming NMEA message to our defined handler (there aren't
  * any!).
