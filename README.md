@@ -1,28 +1,53 @@
 # SIM108 - NMEA 2000 switch input module
 
-__SIM108__ is an NMEA 2000 switch input module that supports eight
-DC input channels.
+__SIM108__ is an NMEA 2000 switch input module or switchbank with
+support for eight input channels.
 
-Channel state information is transmitted over NMEA 2000 using 
+Each input channel is optically isolated and reverse polarity
+protected with referenced to a shared common ground.
+An input voltage of between 5VDC and 50VDC is interpreted as an ON
+condition and nominal current draw per input channel is 8mA at 12VDC,
+10mA at 24VDC.
+
+The module connects to the host NMEA bus by either a screw terminal
+block or M12 5-pin circular connector.
+An internal DIL switch allows the installer to optionally select an
+120 Ohm resistor permitting the module to be installed as either a
+drop node or a bus termination node.
+The module is powered from the NMEA bus and has an LEN of 0.5.
+
+Switchbank state information is transmitted over NMEA 2000 using 
 [PGN 127501 Binary Status Report]().
+Switchbank status is normally transmitted once every four seconds or
+immediately a state change is detected on an input channel. 
 
-Multiple __SIM108__ modules can be installed on a single NMEA bus.
+The switchbank's instance number is configured during installation
+using an 8-position DIL switch.
+This allows multiple switchbank modules to be addressed on a single
+NMEA bus.
 
-## Functional overview
+## Circuit design
 
-* The module connects to the host NMEA bus by either a screw terminal
-  block or an NMEA standard M12 5-pin connector.
-* A DIL switch enables/disables a 120 Ohm CAN bus termination resistor
-  allowing the module to be installed as a bus termination device.
-* The module is powered directly from the NMEA bus with an LEN of 1.
-* Input channels are optically isolated and reverse polarity protected
-  and support signal voltages in the range 5VDC through 50VDC relative
-  to a single common signal ground.
-* Current draw per input channel is 8mA at 12VDC, 10mA at 24VDC.
-* Data transmission and input channel status are indicated by LED.
-* Module instance number is configured by DIL switch.
+A DC-DC power supply connects to CAN power bus and provides 5VDC output
+for all electronic components.
 
-### PCB
+A
+[Teensy 3.2 microcontroller](https://www.pjrc.com/store/teensy32.html)
+runs firmware which implement all required logic.
+
+NMEA/CAN interfacing is provided by the industry standard
+[MCP2551 High-speed CAN Transceiver](http://ww1.microchip.com/downloads/en/devicedoc/20001667g.pdf).
+
+Each switch input drives a simple constant current source that operates
+the LED side of an opto-isolator whose output connects directly to a GPIO
+input on the microcontroller.
+
+The state of switchbank channels is reported visually by eight LEDs
+which are driven by a
+[74HC595 shift register](https://www.ti.com/lit/ds/symlink/sn74hc595.pdf?ts=1661075134940&ref_url=https%253A%252F%252Fwww.google.com%252F)
+that is provisioned by the microcontroller.
+
+## PCB
 
 The module PCB is a 75mm x 75mm square. 
 
