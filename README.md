@@ -26,14 +26,15 @@ using an 8-position DIL switch.
 This allows multiple switchbank modules to be addressed on a single
 NMEA bus.
 
-## Circuit design
+## Hardware design
 
-A DC-DC power supply connects to CAN power bus and provides 5VDC output
-for all electronic components.
-
-A
+__SIM108__ is a microcontroller based design implemented around a
 [Teensy 3.2 microcontroller](https://www.pjrc.com/store/teensy32.html)
-runs firmware which implement all required logic.
+which supports CAN and provides sufficient GPIO connections that port
+expansion is not required.
+
+A 1A DC-DC power supply connects to the CAN power bus and provides 5VDC
+output for all electronic components.
 
 NMEA/CAN interfacing is provided by the industry standard
 [MCP2551 High-speed CAN Transceiver](http://ww1.microchip.com/downloads/en/devicedoc/20001667g.pdf).
