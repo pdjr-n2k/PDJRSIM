@@ -1,7 +1,7 @@
 # SIM108 - NMEA 2000 switch input module
 
 __SIM108__ is an NMEA 2000 switch input module that supports eight
-SPST input channels.
+DC input channels.
 
 Channel state information is transmitted over NMEA 2000 using 
 [PGN 127501 Binary Status Report]().
@@ -10,24 +10,17 @@ Multiple __SIM108__ modules can be installed on a single NMEA bus.
 
 ## Functional overview
 
-* The module connects to the host NMEA bus by either a simple screw
-  termination block or an NMEA standard M12 5-pin connector.
-* The conform as far as possible to relevant NMEA standards;
-2. support standard NMEA bus connection via an M12 5-pin plug;
-3. operate as either a bus drop or a bus termination node;
-4. be powered directly from the NMEA bus;
-5. support DC SPST inputs with voltages in the range 5-24VDC;
-6. indicate operating and channel status by LED;
-7. allow field configuration of module instance number.
-
-## Implementation notes
-
-1. Bus connection by screw termination block or optional M12 5-pin plug.
-2. DIL switch selectable 120 Ohm bus termination resistor.
-3. Module has a bus LEN of 0.5.
-4  Input channels are optically isolated and support signal voltages in the range 5VDC through 50VDC relative to a single common signal ground. Input channel current draw is 8mA at 12VDC, 10mA at 24VDC.
-5. Power LED flashes each time the module transmits onto the NMEA bus. Channel LEDs report transmitted status.
-6. Module instance number set by DIL switch.
+* The module connects to the host NMEA bus by either a screw terminal
+  block or an NMEA standard M12 5-pin connector.
+* A DIL switch enables/disables a 120 Ohm CAN bus termination resistor
+  allowing the module to be installed as a bus termination device.
+* The module is powered directly from the NMEA bus with an LEN of 1.
+* Input channels are optically isolated and reverse polarity protected
+  and support signal voltages in the range 5VDC through 50VDC relative
+  to a single common signal ground.
+* Current draw per input channel is 8mA at 12VDC, 10mA at 24VDC.
+* Data transmission and input channel status are indicated by LED.
+* Module instance number is configured by DIL switch.
 
 ### PCB
 
