@@ -74,7 +74,7 @@
 #define GPIO_SENSOR1 21
 #define GPIO_MPX_DATA 22
 #define GPIO_MPX_CLOCK 23
-#define GPIO_S_PINS { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 } 
+#define GPIO_SENSOR_PINS { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 } 
 #define GPIO_ENCODER_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7 }
 #define GPIO_INPUT_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7, GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7, GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH }
 #define GPIO_OUTPUT_PINS { GPIO_POWER_LED }
@@ -184,7 +184,18 @@ Debouncer DEBOUNCER (SWITCHES);
  */
 LedManager LED_MANAGER (LED_MANAGER_HEARTBEAT, LED_MANAGER_INTERVAL);
 
+/**********************************************************************
+ * SWITCHBANK_INSTANCE - working storage for the switchbank module
+ * instance number. The user selected value is recovered from hardware
+ * and assigned during module initialisation,
+ */
 unsigned char SWITCHBANK_INSTANCE = INSTANCE_UNDEFINED;
+
+/**********************************************************************
+ * SWITCHBANK_STATUS - buffer holding the N2K representation of the
+ * current switchbank state. This value is updated in real time to
+ * reflect changes in switch input channel states.
+ */
 tN2kBinaryStatus SWITCHBANK_STATUS;
 
 /**********************************************************************
@@ -219,8 +230,8 @@ void setup() {
   // Recover module instance number.
   DIL_SWITCH.sample();
   SWITCHBANK_INSTANCE = DIL_SWITCH.value();
-
   
+  // Initialise switchbank status (set all channels to unknown/not available).
   N2kResetBinaryStatus(SWITCHBANK_STATUS);
 
 
@@ -269,7 +280,8 @@ void loop() {
   NMEA2000.ParseMessages();
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
-  // Once the start-up settle period is over we can enter production. 
+  // Once the start-up settle period is over we can enter production by
+  // executing our only substantive function. 
   if (!JUST_STARTED) transmitSwitchbankStatusMaybe();
 
   // Update the states of connected LEDs
@@ -286,13 +298,12 @@ void loop() {
 void transmitSwitchbankStatusMaybe() {
   static unsigned long deadline = 0L;
   unsigned long now = millis();
-  static unsigned char savedStates = 0xFF;
+  static unsigned char savedStates = 0x00;
   unsigned char states = 0x00;
 
   states = DEBOUNCER.getStates();
   if ((savedStates != states) || (now > deadline)) {
     savedStates = states;
-    //N2kResetBinaryStatus(SWITCHBANK_STATUS);
     N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR0)), 1);
     N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR1)), 2);
     N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR2)), 3);
@@ -308,9 +319,9 @@ void transmitSwitchbankStatusMaybe() {
 }
 
 /**********************************************************************
- * Flashes the power LED once to indicate that a data packet has been
- * transmitted and the updates the multiplexor so that the channel
- * indicator LEDs reflect <states>.
+ * Flash the power LED once to indicate that a data packet has been
+ * transmitted and update the multiplexor so that the channel indicator
+ * LEDs reflect the value of <states>.
  */ 
 void updateLeds(unsigned char states) {
   LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
@@ -320,9 +331,10 @@ void updateLeds(unsigned char states) {
 }
 
 /**********************************************************************
- * Transmit the switchbank status over the host NMEA bus. <instance>
- * specifies the switchbank instance number and <status> the switchbank
- * channel states. 
+ * Helper function that assembles and transmits a PGN 127501 Binary
+ * Status Update message over the host NMEA bus. <instance> specifies
+ * the switchbank instance number and <status> the switchbank channel
+ * states. 
  */
 void transmitPGN127501(unsigned char instance, tN2kBinaryStatus status) {
   tN2kMsg N2kMsg;
@@ -331,16 +343,15 @@ void transmitPGN127501(unsigned char instance, tN2kBinaryStatus status) {
 }  
 
 /**********************************************************************
- * Helper function to convert bool <state> into tN2kOnOff value for
- * use with NMEA2000 library.
+ * Helper function to convert a boolean <state> into a tN2kOnOff value
+ * suitable for updating a tN2kBinaryStatus buffer.
  */
 tN2kOnOff bool2tN2kOnOff(bool state) {
   return((state)?N2kOnOff_On:N2kOnOff_Off);
 }
 
 /**********************************************************************
- * Field an incoming NMEA message to our defined handler (there aren't
- * any!).
+ * Field an incoming NMEA message to a defined handler.
  */
 void messageHandler(const tN2kMsg &N2kMsg) {
   int iHandler;
