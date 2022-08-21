@@ -1,6 +1,6 @@
 # SIM108 - NMEA 2000 switch input module
 
-__SIM108__ is an NMEA 2000 switch input module or switchbank with
+__SIM108__ is an NMEA 2000 switch input module (switchbank) with
 support for eight input channels.
 
 Each input channel is optically isolated and reverse polarity
