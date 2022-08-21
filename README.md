@@ -118,7 +118,7 @@ chassis mounted LEDs must not foul a PCB component or cable path.
 
 5. Set SW2 to your chosen, unique, NMEA instance address by entering a binary
    representation of the address on SW2 switches 1 through 8. Switch 1 is
-   the binary HI bit (128 decimal); switch 8 is the binary LO bit.
+   the binary HI bit (128 decimal); switch 8 is the binary LO bit (1 decimal).
 
 ### Connecting switch inputs
 
@@ -129,5 +129,5 @@ which must be made to J1.1.
 Each input must be able to source around 10mA necessary to drive the
 opto-isolation input circuitry.
 
-Once a connection is made, the channel LED (D8 through D17) will indicate
+Once the module is running, the channel LED (D8 through D17) will indicate
 the connection state in real time.
