@@ -109,21 +109,21 @@ chassis mounted LEDs must not foul a PCB component or cable path.
 2. Begin configuration by exposing the module PCB.
 
 3. Configure bus termination.
-   Set SW1[T] to ON(1) if the module will be connected as a terminating node
+   Set SW2[T] to ON(1) if the module will be connected as a terminating node
    at the end of its host NMEA bus backbone; or
-   set SW1[T] to OFF(0) if the module will be connected to its host NMEA bus
+   set SW2[T] to OFF(0) if the module will be connected to its host NMEA bus
    via a T-connector and drop cable.
 
 4. Configure bus ground.
-   Set SW1[G] to ON(1) to connect the NMEA bus shield to the module GND.
-   Set SW1[G] to OFF(0) to isolate the NMEA bus shield from the module GND.
-   Usually it is appropriate to set SW1[G] to OFF(0).
+   Set SW2[G] to ON(1) to connect the NMEA bus shield to the module GND.
+   Set SW2[G] to OFF(0) to isolate the NMEA bus shield from the module GND.
+   Usually it is appropriate to set SW2[G] to OFF(0).
 
 5. Configure switchbank instance address.
-   Set SW2[1..8] to a binary representation of your chosen, unique, instance
+   Set SW1[1..8] to a binary representation of your chosen, unique, instance
    address in the range 0 through 252.
    Setting an address outside this range will disable the module.
-   SW2[1] sets address bit 0; SW2[8] sets address bit 7.
+   SW1[1] sets address bit 0; SW1[8] sets address bit 7.
    
 ### Connecting switch inputs
 
