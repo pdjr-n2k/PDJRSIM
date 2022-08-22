@@ -108,26 +108,29 @@ chassis mounted LEDs must not foul a PCB component or cable path.
 
 2. Begin configuration by exposing the module PCB.
 
-3. Set SW1 switch 'T' to position 'T' if the module is mounted at the end
-   of its host NMEA bus backbone, otherwise set SW1 switch 'T' to position
-   'D' and connect the module to an NMEA drop cable.
+3. Configure bus termination.
+   Set SW1[T] to ON(1) if the module will be connected as a terminating node
+   at the end of its host NMEA bus backbone; or
+   set SW1[T] to OFF(0) if the module will be connected to its host NMEA bus
+   via a T-connector and drop cable.
 
-4. Set SW1 switch 'G' to ON to connect the NMEA bus shield to the module
-   GND.  Usually it is appropriate to leave SW1 switch 'G' in the OFF
-   position.
+4. Configure bus ground.
+   Set SW1[G] to ON(1) to connect the NMEA bus shield to the module GND.
+   Set SW1[G] to OFF(0) to isolate the NMEA bus shield from the module GND.
+   Usually it is appropriate to set SW1[G] to OFF(0).
 
-5. Set SW2 to your chosen, unique, NMEA instance address by entering a binary
-   representation of the address on SW2 switches 1 through 8. Switch 1 is
-   the binary HI bit (128 decimal); switch 8 is the binary LO bit (1 decimal).
-
+5. Configure switchbank instance address.
+   Set SW2[1..8] to a binary representation of your chosen, unique, instance
+   address in the range 0 through 252.
+   Setting an address outside this range will disable the module.
+   SW2[1] sets address bit 0; SW2[8] sets address bit 7.
+   
 ### Connecting switch inputs
 
-Inputs connected to J1.2 through J1.9 must be DC voltages in the range
-5VDC through 50VDC relative to a single, common, ground connection
-which must be made to J1.1.
+1. Connect a reference switch input ground to J2[9].
 
-Each input must be able to source around 10mA necessary to drive the
-opto-isolation input circuitry.
-
-Once the module is running, the channel LED (D8 through D17) will indicate
-the connection state in real time.
+2. Connect up to a maximum of eight switch inputs to J2[1..8].
+   Each input must supply an ON voltage in the range 5VDC through 50VDC
+   relative to J2[9].
+   Each input must be able to source around 10mA necessary to drive the
+   opto-isolation input circuitry.
