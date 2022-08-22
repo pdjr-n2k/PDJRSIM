@@ -50,11 +50,9 @@ that is provisioned by the microcontroller.
 
 ## PCB
 
-The module
-[PCB](./SIM108.brd.pdf)
+The
+[module PCB](./SIM108.brd.pdf)
 is a 75mm x 75mm square. 
-
-![Fig 2: PCB layout](images/SIM108.brd.svg)
 
 ### Electronic components
 
