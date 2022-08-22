@@ -28,10 +28,10 @@ NMEA bus.
 
 ## Hardware design
 
-__SIM108__ is a microcontroller based design implemented around a
-[Teensy 3.2 microcontroller](https://www.pjrc.com/store/teensy32.html)
-which supports CAN and provides sufficient GPIO connections that port
-expansion is not required.
+[__SIM108__](./SIM108.sch.pdf) is designed around a
+[Teensy 3.2 microcontroller](https://www.pjrc.com/store/teensy32.html).
+The Teensy 3.2 supports CAN and provides sufficient GPIO connections
+that port expansion is not required.
 
 A 1A DC-DC power supply connects to the CAN power bus and provides 5VDC
 output for all electronic components.
@@ -50,7 +50,9 @@ that is provisioned by the microcontroller.
 
 ## PCB
 
-The module PCB is a 75mm x 75mm square. 
+The module
+[PCB](./SIM108.brd.pdf)
+is a 75mm x 75mm square. 
 
 ![Fig 2: PCB layout](images/SIM108.brd.svg)
 
