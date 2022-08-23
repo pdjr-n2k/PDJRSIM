@@ -86,12 +86,12 @@ is a 75mm x 75mm square.
 
 ### Assembly
 
-All components need to be placed and soldered with care taken to
-ensure correct orientation and polarity.
+Components must be placed and soldered with care taken to ensure
+correct orientation and polarity.
 
-The host NMEA bus can be wired directly to J2 or (and preferably)
-ENCLOSURE can be drilled to accommodate J? and J?'s flying leads
-connected to J2.
+The host NMEA bus can be wired directly to J1 or (and preferably)
+ENCLOSURE can be drilled to accommodate J3 and J3's flying leads
+connected to J1.
 
 D9 through D17 can be soldered with long leads and holes drilled in
 ENCLOSURE to expose the LED or (and preferably) preferably, they can
