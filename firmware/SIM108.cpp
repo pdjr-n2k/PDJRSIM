@@ -282,7 +282,7 @@ void loop() {
 
   // Once the start-up settle period is over we can enter production by
   // executing our only substantive function. 
-  if (!JUST_STARTED) transmitSwitchbankStatusMaybe();
+  if ((!JUST_STARTED) && (SWITCHBANK_INSTANCE < 253)) transmitSwitchbankStatusMaybe();
 
   // Update the states of connected LEDs
   LED_MANAGER.loop();
