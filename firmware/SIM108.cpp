@@ -301,20 +301,22 @@ void transmitSwitchbankStatusMaybe() {
   static unsigned char savedStates = 0x00;
   unsigned char states = 0x00;
 
-  states = DEBOUNCER.getStates();
-  if ((savedStates != states) || (now > deadline)) {
-    savedStates = states;
-    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR0)), 1);
-    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR1)), 2);
-    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR2)), 3);
-    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR3)), 4);
-    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR4)), 5);
-    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR5)), 6);
-    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR6)), 7);
-    N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR7)), 8);
-    transmitPGN127501(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS);
-    updateLeds(states);
-    deadline = (now + TRANSMIT_INTERVAL);
+  if (SWITCHBANK_INSTANCE > 252) {
+    states = DEBOUNCER.getStates();
+    if ((savedStates != states) || (now > deadline)) {
+      savedStates = states;
+      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR0)), 1);
+      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR1)), 2);
+      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR2)), 3);
+      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR3)), 4);
+      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR4)), 5);
+      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR5)), 6);
+      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR6)), 7);
+      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR7)), 8);
+      transmitPGN127501(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS);
+      updateLeds(states);
+      deadline = (now + TRANSMIT_INTERVAL);
+    }
   }
 }
 
