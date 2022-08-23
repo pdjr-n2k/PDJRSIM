@@ -281,7 +281,8 @@ void loop() {
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
   // Once the start-up settle period is over we can enter production by
-  // executing our only substantive function. 
+  // executing our only substantive function ... but only if we have a
+  // valid switchbank instance number.
   if ((!JUST_STARTED) && (SWITCHBANK_INSTANCE < 253)) transmitSwitchbankStatusMaybe();
 
   // Update the states of connected LEDs
@@ -322,8 +323,8 @@ void transmitSwitchbankStatusMaybe() {
 
 /**********************************************************************
  * Flash the power LED once to indicate that a data packet has been
- * transmitted and update the multiplexor so that the channel indicator
- * LEDs reflect the value of <states>.
+ * transmitted and update the shift register so that the channel
+ * indicator LEDs reflect the value of <states>.
  */ 
 void updateLeds(unsigned char states) {
   LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
