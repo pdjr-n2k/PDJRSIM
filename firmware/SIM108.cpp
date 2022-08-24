@@ -10,7 +10,6 @@
  */
 
 #include <Arduino.h>
-#include <ArduinoQueue.h>
 #include <EEPROM.h>
 #include <NMEA2000_CAN.h>
 #include <N2kTypes.h>
