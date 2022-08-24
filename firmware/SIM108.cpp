@@ -146,9 +146,9 @@
 /**********************************************************************
  * Declarations of local functions.
  */
-void transmitSwitchbankStatusMaybe();
+void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status);
 void updateLeds(unsigned char status);
-void transmitPGN127501(unsigned char instance, tN2kBinaryStatus status);
+void transmitPGN127501(unsigned char instance, unsigned char status);
 tN2kOnOff bool2tN2kOnOff(bool state);
 void messageHandler(const tN2kMsg&);
 
@@ -192,13 +192,6 @@ LedManager LED_MANAGER (LED_MANAGER_HEARTBEAT, LED_MANAGER_INTERVAL);
 unsigned char SWITCHBANK_INSTANCE = INSTANCE_UNDEFINED;
 
 /**********************************************************************
- * SWITCHBANK_STATUS - buffer holding the N2K representation of the
- * current switchbank state. This value is updated in real time to
- * reflect changes in switch input channel states.
- */
-tN2kBinaryStatus SWITCHBANK_STATUS;
-
-/**********************************************************************
  * MAIN PROGRAM - setup()
  */
 void setup() {
@@ -230,10 +223,6 @@ void setup() {
   // Recover module instance number.
   DIL_SWITCH.sample();
   SWITCHBANK_INSTANCE = DIL_SWITCH.value();
-  
-  // Initialise switchbank status (set all channels to unknown/not available).
-  N2kResetBinaryStatus(SWITCHBANK_STATUS);
-
 
   // Initialise and start N2K services.
   NMEA2000.SetProductInformation(PRODUCT_SERIAL_CODE, PRODUCT_CODE, PRODUCT_TYPE, PRODUCT_FIRMWARE_VERSION, PRODUCT_VERSION);
@@ -283,7 +272,7 @@ void loop() {
   // Once the start-up settle period is over we can enter production by
   // executing our only substantive function ... but only if we have a
   // valid switchbank instance number.
-  if ((!JUST_STARTED) && (SWITCHBANK_INSTANCE < 253)) transmitSwitchbankStatusMaybe();
+  if ((!JUST_STARTED) && (SWITCHBANK_INSTANCE < 253)) transmitSwitchbankStatusMaybe(SWITCHBANK_INSTANCE, DEBOUNCER.getStates());
 
   // Update the states of connected LEDs
   LED_MANAGER.loop();
@@ -293,43 +282,31 @@ void loop() {
  * transmitSwitchbankStatusMaybe() should be called directly from
  * loop(). The function proceeds to transmit a switchbank binary status
  * message if either (1) the current hardware channel status differs
- * from the previously reported status, or (2) the mandatory transmit
- * interval has elapsed.
+ * from the last known status, or (2) the mandatory transmit interval
+ * has elapsed.
  */
-void transmitSwitchbankStatusMaybe() {
+void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status) {
   static unsigned long deadline = 0L;
   unsigned long now = millis();
-  static unsigned char savedStates = 0x00;
-  unsigned char states = 0x00;
+  static unsigned char lastKnownStatus = 0x00;
 
-  if (SWITCHBANK_INSTANCE > 252) {
-    states = DEBOUNCER.getStates();
-    if ((savedStates != states) || (now > deadline)) {
-      savedStates = states;
-      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR0)), 1);
-      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR1)), 2);
-      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR2)), 3);
-      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR3)), 4);
-      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR4)), 5);
-      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR5)), 6);
-      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR6)), 7);
-      N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, bool2tN2kOnOff(DEBOUNCER.channelState(GPIO_SENSOR7)), 8);
-      transmitPGN127501(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS);
-      updateLeds(states);
+  if ((lastKnownStatus != status) || (now > deadline)) {
+      lastKnownStatus = status;
+      transmitPGN127501(instance, status);
+      updateLeds(status);
       deadline = (now + TRANSMIT_INTERVAL);
     }
-  }
 }
 
 /**********************************************************************
  * Flash the power LED once to indicate that a data packet has been
  * transmitted and update the shift register so that the channel
- * indicator LEDs reflect the value of <states>.
+ * indicator LEDs reflect the value of <status>.
  */ 
-void updateLeds(unsigned char states) {
+void updateLeds(unsigned char status) {
   LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
   digitalWrite(GPIO_MPX_LATCH, LOW);
-  shiftOut(GPIO_MPX_DATA, GPIO_MPX_CLOCK, MSBFIRST, states);
+  shiftOut(GPIO_MPX_DATA, GPIO_MPX_CLOCK, MSBFIRST, status);
   digitalWrite(GPIO_MPX_LATCH, HIGH);
 }
 
@@ -339,9 +316,21 @@ void updateLeds(unsigned char states) {
  * the switchbank instance number and <status> the switchbank channel
  * states. 
  */
-void transmitPGN127501(unsigned char instance, tN2kBinaryStatus status) {
+void transmitPGN127501(unsigned char instance, unsigned char status) {
+  tN2kBinaryStatus N2kBinaryStatus;
   tN2kMsg N2kMsg;
-  SetN2kPGN127501(N2kMsg, instance, status);
+
+  N2kResetBinaryStatus(N2kBinaryStatus);
+  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x01) != 0), 1);
+  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x02) != 0), 2);
+  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x04) != 0), 3);
+  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x08) != 0), 4);
+  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x10) != 0), 5);
+  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x20) != 0), 6);
+  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x40) != 0), 7);
+  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x80) != 0), 8);
+
+  SetN2kPGN127501(N2kMsg, instance, N2kBinaryStatus);
   NMEA2000.SendMsg(N2kMsg);
 }  
 
@@ -354,7 +343,11 @@ tN2kOnOff bool2tN2kOnOff(bool state) {
 }
 
 /**********************************************************************
- * Field an incoming NMEA message to a defined handler.
+ * This function is called by the NMEA2000 library function
+ * parseMessages() (which itself must be called from loop()) in order
+ * to pass incoming messages to any user-defined handler. The mapping
+ * between message PGN and handler function should be defined in the
+ * global vector NMEA2000Handlers.
  */
 void messageHandler(const tN2kMsg &N2kMsg) {
   int iHandler;
