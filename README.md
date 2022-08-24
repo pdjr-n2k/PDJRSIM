@@ -11,9 +11,9 @@ condition and nominal current draw per input channel is 8mA at 12VDC,
 
 The module connects to the host NMEA bus by either a screw terminal
 block or M12 5-pin circular connector.
-An internal DIL switch allows the installer to optionally select an
-120 Ohm resistor permitting the module to be installed as either a
-drop node or a bus termination node.
+An internal DIL switch allows the installer to connect a 120 Ohm
+resistor across the host data bus permitting the module to be installed
+as either a drop node or a bus termination node.
 The module is powered from the NMEA bus and has an LEN of 0.5.
 
 Switchbank state information is transmitted over NMEA 2000 using 
@@ -22,9 +22,8 @@ Switchbank status is normally transmitted once every four seconds or
 immediately a state change is detected on an input channel. 
 
 The switchbank's instance number is configured during installation
-using an 8-position DIL switch.
-This allows multiple switchbank modules to be addressed on a single
-NMEA bus.
+using an 8-position DIL switch allowing multiple switchbank modules to
+be addressed on a single NMEA bus.
 
 ## Hardware design
 
