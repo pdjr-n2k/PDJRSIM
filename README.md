@@ -4,7 +4,7 @@ __SIM108__ is an NMEA 2000 switch input module (switchbank) with
 support for eight input channels.
 
 Each input channel is optically isolated and reverse polarity
-protected with referenced to a shared common ground.
+protected with reference to a shared common ground.
 An input voltage of between 5VDC and 50VDC is interpreted as an ON
 condition and nominal current draw per input channel is 8mA at 12VDC,
 10mA at 24VDC.
