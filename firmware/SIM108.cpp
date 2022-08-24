@@ -311,14 +311,13 @@ void updateLeds(unsigned char status) {
 }
 
 /**********************************************************************
- * Helper function that assembles and transmits a PGN 127501 Binary
- * Status Update message over the host NMEA bus. <instance> specifies
- * the switchbank instance number and <status> the switchbank channel
- * states. 
+ * Assemble and transmit a PGN 127501 Binary Status Update message over
+ * the host NMEA bus. <instance> specifies the switchbank instance
+ * number and <status> the switchbank channel states. 
  */
 void transmitPGN127501(unsigned char instance, unsigned char status) {
-  tN2kBinaryStatus N2kBinaryStatus;
-  tN2kMsg N2kMsg;
+  static tN2kBinaryStatus N2kBinaryStatus;
+  static tN2kMsg N2kMsg;
 
   N2kResetBinaryStatus(N2kBinaryStatus);
   N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x01) != 0), 1);
@@ -343,7 +342,7 @@ tN2kOnOff bool2tN2kOnOff(bool state) {
 }
 
 /**********************************************************************
- * This function is called by the NMEA2000 library function
+ * Helper function called by the NMEA2000 library function
  * parseMessages() (which itself must be called from loop()) in order
  * to pass incoming messages to any user-defined handler. The mapping
  * between message PGN and handler function should be defined in the
