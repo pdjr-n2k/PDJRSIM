@@ -29,8 +29,6 @@ be addressed on a single NMEA bus.
 
 [__SIM108__](./SIM108.sch.pdf) is designed around a
 [Teensy 3.2 microcontroller](https://www.pjrc.com/store/teensy32.html).
-The Teensy 3.2 supports CAN and provides sufficient GPIO connections
-that port expansion is not required.
 
 A 1A DC-DC power supply connects to the CAN power bus and provides 5VDC
 output for all electronic components.
@@ -42,10 +40,9 @@ Each switch input drives a simple constant current source that operates
 the LED side of an opto-isolator whose output connects directly to a GPIO
 input on the microcontroller.
 
-The state of switchbank channels is reported visually by eight LEDs
-which are driven by a
-[74HC595 shift register](https://www.ti.com/lit/ds/symlink/sn74hc595.pdf?ts=1661075134940&ref_url=https%253A%252F%252Fwww.google.com%252F)
-that is provisioned by the microcontroller.
+The state of switchbank channels (as detected by the microcontroller)
+is reported visually by eight LEDs driven by a
+[74HC595 shift register](https://www.ti.com/lit/ds/symlink/sn74hc595.pdf?ts=1661075134940&ref_url=https%253A%252F%252Fwww.google.com%252F).
 
 ## PCB
 
