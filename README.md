@@ -29,8 +29,6 @@ be addressed on a single NMEA bus.
 
 [__SIM108__](./SIM108.sch.pdf) is designed around a
 [Teensy 3.2 microcontroller](https://www.pjrc.com/store/teensy32.html).
-The Teensy 3.2 supports CAN and provides sufficient GPIO connections
-that port expansion is not required.
 
 A 1A DC-DC power supply connects to the CAN power bus and provides 5VDC
 output for all electronic components.
