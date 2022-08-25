@@ -6,8 +6,8 @@ support for eight input channels.
 Each input channel is optically isolated and reverse polarity
 protected with reference to a shared common ground.
 An input voltage of between 5VDC and 50VDC is interpreted as an ON
-condition and nominal current draw per input channel is 8mA at 12VDC,
-10mA at 24VDC.
+condition and when ON the nominal current draw per input channel is
+8mA at 12VDC, 10mA at 24VDC.
 
 The module connects to the host NMEA bus by either a screw terminal
 block or M12 5-pin circular connector.
@@ -18,12 +18,11 @@ The module is powered from the NMEA bus and has an LEN of 0.5.
 
 Switchbank state information is transmitted over NMEA 2000 using 
 [PGN 127501 Binary Status Report]().
-Switchbank status is normally transmitted once every four seconds or
+Switchbank status messages are transmitted once every four seconds or
 immediately a state change is detected on an input channel. 
 
 The switchbank's instance number is configured during installation
-using an 8-position DIL switch allowing multiple switchbank modules to
-be addressed on a single NMEA bus.
+using an 8-position DIL switch.
 
 ## Hardware design
 
@@ -33,7 +32,7 @@ be addressed on a single NMEA bus.
 A 1A DC-DC power supply connects to the CAN power bus and provides 5VDC
 output for all electronic components.
 
-NMEA/CAN interfacing is provided by the industry standard
+NMEA/CAN interfacing is provided by an
 [MCP2551 High-speed CAN Transceiver](http://ww1.microchip.com/downloads/en/devicedoc/20001667g.pdf).
 
 Each switch input drives a simple constant current source that operates
@@ -90,12 +89,11 @@ ENCLOSURE can be drilled to accommodate J3 and J3's flying leads
 connected to J1.
 
 D9 through D17 can be soldered with long leads and holes drilled in
-ENCLOSURE to expose the LED or (and preferably) preferably, they can
-each be mounted with CLIP to ENCLOSURE and trailing leads used to
-connect back to the PCB mounting location.
+ENCLOSURE to expose the LED or (and preferably), they can each be
+mounted with CLIP to ENCLOSURE and trailing leads used to connect
+back to the PCB mounting location.
 The latter approach means exact positioning of the holes which
-expose the PCB mounted LEDs is not required except, of course, that
-chassis mounted LEDs must not foul a PCB component or cable path.
+expose the PCB mounted LEDs is not required.
 
 ## Module configuration
 
