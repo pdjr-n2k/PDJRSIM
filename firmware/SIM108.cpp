@@ -290,11 +290,23 @@ void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status)
   static unsigned char lastKnownStatus = 0x00;
 
   if ((lastKnownStatus != status) || (now > deadline)) {
-      lastKnownStatus = status;
-      transmitPGN127501(instance, status);
-      updateLeds(status);
-      deadline = (now + TRANSMIT_INTERVAL);
-    }
+    #ifdef DEBUG_SERIAL
+    Serial.print("Transmitting status:");
+    Serial.print(" "); Serial.print(status & 0x01); 
+    Serial.print(" "); Serial.print((status & 0x02) >> 1); 
+    Serial.print(" "); Serial.print((status & 0x04) >> 2); 
+    Serial.print(" "); Serial.print((status & 0x08) >> 3); 
+    Serial.print(" "); Serial.print((status & 0x10) >> 4); 
+    Serial.print(" "); Serial.print((status & 0x20) >> 5); 
+    Serial.print(" "); Serial.print((status & 0x40) >> 6); 
+    Serial.print(" "); Serial.println((status & 0x80) >> 7); 
+    #endif
+
+    lastKnownStatus = status;
+    transmitPGN127501(instance, status);
+    updateLeds(status);
+    deadline = (now + TRANSMIT_INTERVAL);
+  }
 }
 
 /**********************************************************************
