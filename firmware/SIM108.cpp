@@ -76,7 +76,7 @@
 #define GPIO_SENSOR_PINS { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 } 
 #define GPIO_ENCODER_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7 }
 #define GPIO_INPUT_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7, GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7, GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH }
-#define GPIO_OUTPUT_PINS { GPIO_POWER_LED }
+#define GPIO_OUTPUT_PINS { GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH, GPIO_POWER_LED }
 
 /**********************************************************************
  * DEVICE INFORMATION
@@ -125,12 +125,10 @@
  */
 #include "build.h"
 
-
-
 #define DEFAULT_SOURCE_ADDRESS 22         // Seed value for source address claim
 #define INSTANCE_UNDEFINED 255            // Flag value
 #define STARTUP_SETTLE_PERIOD 5000        // Wait this many ms after boot before entering production
-#define SWITCH_PROCESS_INTERVAL 250       // Process switch inputs every n ms
+#define SWITCH_PROCESS_INTERVAL 100       // Process switch inputs every n ms
 #define LED_MANAGER_HEARTBEAT 200         // Number of ms on / off
 #define LED_MANAGER_INTERVAL 10           // Number of heartbeats between repeats
 #define DEBOUNCER_SIZE 8                  // Number of IO channels to debounce
@@ -189,6 +187,7 @@ LedManager LED_MANAGER (LED_MANAGER_HEARTBEAT, LED_MANAGER_INTERVAL);
  * and assigned during module initialisation,
  */
 unsigned char SWITCHBANK_INSTANCE = INSTANCE_UNDEFINED;
+unsigned char SWITCHBANK_STATUS = 0x00;
 
 /**********************************************************************
  * MAIN PROGRAM - setup()
@@ -247,6 +246,7 @@ void setup() {
  */ 
 void loop() {
   static bool JUST_STARTED = true;
+  bool switchChange;
 
   if (JUST_STARTED && (millis() > STARTUP_SETTLE_PERIOD)) {
     #ifdef DEBUG_SERIAL
@@ -271,25 +271,44 @@ void loop() {
   // Once the start-up settle period is over we can enter production by
   // executing our only substantive function ... but only if we have a
   // valid switchbank instance number.
-  if ((!JUST_STARTED) && (SWITCHBANK_INSTANCE < 253)) transmitSwitchbankStatusMaybe(SWITCHBANK_INSTANCE, DEBOUNCER.getStates());
-
+  if ((!JUST_STARTED) && (SWITCHBANK_INSTANCE < 253)) {
+    switchChange = checkSwitchStates();
+    transmitSwitchbankStatusMaybe(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS, switchChange());
+  
   // Update the states of connected LEDs
   LED_MANAGER.loop();
 }
 
 /**********************************************************************
+ * checkSwitchStates() should be called directly from loop(). The
+ * function checks switch states every SWITCH_PROCESS_INTERVAL and
+ * returns true iff a switch state change is detected.
+ */
+bool checkSwitchStates() {
+  static unsigned long deadline = 0UL;
+  static unsigned char lastKnownStatus = 0x00;
+  unsigned long now = millis();
+  bool retval = false;
+
+  if (now > deadline) {
+    SWITCHBANK_STATUS = DEBOUNCER.getStates();
+    retval = (SWITCHBANK_STATUS != lastKnownStatus);
+    lastKnownStatus = status;
+    deadline = (now + SWITCH_PROCESS_INTERVAL);
+  }
+  return(retval);
+}
+  
+/**********************************************************************
  * transmitSwitchbankStatusMaybe() should be called directly from
  * loop(). The function proceeds to transmit a switchbank binary status
- * message if either (1) the current hardware channel status differs
- * from the last known status, or (2) the mandatory transmit interval
- * has elapsed.
+ * message if TRANSMIT_INTERVAL has elapsed or <force> is true.
  */
-void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status) {
-  static unsigned long deadline = 0L;
+void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status, bool force) {
+  static unsigned long deadline = 0UL;
   unsigned long now = millis();
-  static unsigned char lastKnownStatus = 0x00;
 
-  if ((lastKnownStatus != status) || (now > deadline)) {
+  if ((now > deadline) || force) {
     #ifdef DEBUG_SERIAL
     Serial.print("Transmitting status:");
     Serial.print(" "); Serial.print(status & 0x01); 
@@ -302,7 +321,6 @@ void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status)
     Serial.print(" "); Serial.println((status & 0x80) >> 7); 
     #endif
 
-    lastKnownStatus = status;
     transmitPGN127501(instance, status);
     updateLeds(status);
     deadline = (now + TRANSMIT_INTERVAL);
