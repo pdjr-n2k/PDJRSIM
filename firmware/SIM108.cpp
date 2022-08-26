@@ -5,8 +5,9 @@
  * Target platform: Teensy 3.2
  * 
  * This firmware implements an 8-channel switch input interface
- * that reports SPST sensor state over NMEA 2000 using PGN 127501
- * Binary Status Report. 
+ * (sometimes these devices are called a 'switchbank') that reports
+ * SPST sensor state over NMEA 2000 using PGN 127501 Binary Status
+ * Report. 
  */
 
 #include <Arduino.h>
