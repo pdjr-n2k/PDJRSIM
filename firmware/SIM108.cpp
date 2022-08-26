@@ -144,7 +144,8 @@
 /**********************************************************************
  * Declarations of local functions.
  */
-void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status);
+bool checkSwitchStates();
+void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status, bool force);
 void updateLeds(unsigned char status);
 void transmitPGN127501(unsigned char instance, unsigned char status);
 tN2kOnOff bool2tN2kOnOff(bool state);
@@ -274,7 +275,8 @@ void loop() {
   // valid switchbank instance number.
   if ((!JUST_STARTED) && (SWITCHBANK_INSTANCE < 253)) {
     switchChange = checkSwitchStates();
-    transmitSwitchbankStatusMaybe(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS, switchChange());
+    transmitSwitchbankStatusMaybe(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS, switchChange);
+  }
   
   // Update the states of connected LEDs
   LED_MANAGER.loop();
@@ -292,9 +294,8 @@ bool checkSwitchStates() {
   bool retval = false;
 
   if (now > deadline) {
-    SWITCHBANK_STATUS = DEBOUNCER.getStates();
-    retval = (SWITCHBANK_STATUS != lastKnownStatus);
-    lastKnownStatus = status;
+    retval = ((SWITCHBANK_STATUS = DEBOUNCER.getStates()) != lastKnownStatus);
+    lastKnownStatus = SWITCHBANK_STATUS;
     deadline = (now + SWITCH_PROCESS_INTERVAL);
   }
   return(retval);
