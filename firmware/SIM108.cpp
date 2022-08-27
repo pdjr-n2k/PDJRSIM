@@ -73,8 +73,8 @@
 #define GPIO_SENSOR1 21
 #define GPIO_MPX_DATA 22
 #define GPIO_MPX_CLOCK 23
-#define GPIO_SENSOR_PINS { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 } 
 #define GPIO_ENCODER_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7 }
+#define GPIO_SENSOR_PINS { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 } 
 #define GPIO_INPUT_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7, GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7, GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH }
 #define GPIO_OUTPUT_PINS { GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH, GPIO_POWER_LED }
 
@@ -143,7 +143,8 @@
 /**********************************************************************
  * Declarations of local functions.
  */
-void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status);
+bool checkSwitchStates();
+void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status, bool force);
 void updateLeds(unsigned char status);
 void transmitPGN127501(unsigned char instance, unsigned char status);
 tN2kOnOff bool2tN2kOnOff(bool state);
@@ -273,7 +274,7 @@ void loop() {
   // valid switchbank instance number.
   if ((!JUST_STARTED) && (SWITCHBANK_INSTANCE < 253)) {
     switchChange = checkSwitchStates();
-    transmitSwitchbankStatusMaybe(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS, switchChange());
+    transmitSwitchbankStatusMaybe(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS, switchChange);
   
   // Update the states of connected LEDs
   LED_MANAGER.loop();
@@ -291,9 +292,8 @@ bool checkSwitchStates() {
   bool retval = false;
 
   if (now > deadline) {
-    SWITCHBANK_STATUS = DEBOUNCER.getStates();
-    retval = (SWITCHBANK_STATUS != lastKnownStatus);
-    lastKnownStatus = status;
+    retval = ((SWITCHBANK_STATUS = DEBOUNCER.getStates()) != lastKnownStatus);
+    lastKnownStatus = SWITCHBANK_STATUS;
     deadline = (now + SWITCH_PROCESS_INTERVAL);
   }
   return(retval);
