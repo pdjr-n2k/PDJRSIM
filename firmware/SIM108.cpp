@@ -5,8 +5,9 @@
  * Target platform: Teensy 3.2
  * 
  * This firmware implements an 8-channel switch input interface
- * that reports SPST sensor state over NMEA 2000 using PGN 127501
- * Binary Status Report. 
+ * (sometimes these devices are called a 'switchbank') that reports
+ * SPST sensor state over NMEA 2000 using PGN 127501 Binary Status
+ * Report. 
  */
 
 #include <Arduino.h>
@@ -73,8 +74,8 @@
 #define GPIO_SENSOR1 21
 #define GPIO_MPX_DATA 22
 #define GPIO_MPX_CLOCK 23
-#define GPIO_ENCODER_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7 }
 #define GPIO_SENSOR_PINS { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 } 
+#define GPIO_ENCODER_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7 }
 #define GPIO_INPUT_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7, GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7, GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH }
 #define GPIO_OUTPUT_PINS { GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH, GPIO_POWER_LED }
 
@@ -144,11 +145,11 @@
  * Declarations of local functions.
  */
 bool checkSwitchStates();
+void messageHandler(const tN2kMsg&);
+void transmitPGN127501(unsigned char instance, unsigned char status);
 void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status, bool force);
 void updateLeds(unsigned char status);
-void transmitPGN127501(unsigned char instance, unsigned char status);
 tN2kOnOff bool2tN2kOnOff(bool state);
-void messageHandler(const tN2kMsg&);
 
 /**********************************************************************
  * PGNs of messages transmitted by this program.
@@ -275,6 +276,7 @@ void loop() {
   if ((!JUST_STARTED) && (SWITCHBANK_INSTANCE < 253)) {
     switchChange = checkSwitchStates();
     transmitSwitchbankStatusMaybe(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS, switchChange);
+  }
   
   // Update the states of connected LEDs
   LED_MANAGER.loop();
