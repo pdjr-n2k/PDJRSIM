@@ -145,11 +145,11 @@
  * Declarations of local functions.
  */
 bool checkSwitchStates();
+void messageHandler(const tN2kMsg&);
+void transmitPGN127501(unsigned char instance, unsigned char status);
 void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status, bool force);
 void updateLeds(unsigned char status);
-void transmitPGN127501(unsigned char instance, unsigned char status);
 tN2kOnOff bool2tN2kOnOff(bool state);
-void messageHandler(const tN2kMsg&);
 
 /**********************************************************************
  * PGNs of messages transmitted by this program.
