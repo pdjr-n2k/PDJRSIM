@@ -1,13 +1,16 @@
 /**********************************************************************
- * SIM108.cpp - 8-channel NMEA switch input module firmware.
+ * SIM108.cpp - firmware for the SIM108 switch input module.
  * Copyright (c) 2021-22 Paul Reeve <preeve@pdjr.eu>
  *
  * Target platform: Teensy 3.2
  * 
- * This firmware implements an 8-channel switch input interface
- * (sometimes these devices are called a 'switchbank') that reports
- * SPST sensor state over NMEA 2000 using PGN 127501 Binary Status
- * Report. 
+ * SIM108 is an 8-channel NMEA switch input module built around a
+ * Teensy 3.2 microcontroller.
+ * 
+ * This firmware recovers the state of sensor channel inputs, assembles
+ * a switchbank Binary Status Report and transmits this over NMEA using 
+ * PGN127501. Feedback on switchbank status is presented by modulating
+ * some indicator LEDs. 
  */
 
 #include <Arduino.h>
@@ -34,17 +37,12 @@
 #define DEBUG_SERIAL_START_DELAY 4000
 
 /**********************************************************************
- * MCU EEPROM (PERSISTENT) STORAGE
+ * MCU EEPROM (PERSISTENT) STORAGE 
  * 
  * Module configuration is persisted to Teensy EEPROM storage.
  * 
  * SOURCE_ADDRESS_EEPROM_ADDRESS is the storage address for the
  * module's 1-byte N2K/CAN source address.
- * 
- * SENSORS_EEPROM_ADDRESS is the start address of storage used to hold
- * SENSOR congigurations. The length of this area will vary if the
- * Sensor ADT is redefined, so it is simplest to make sure the start
- * address remains as the last item in storage.
  */
 #define SOURCE_ADDRESS_EEPROM_ADDRESS 0
 
