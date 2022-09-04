@@ -9,8 +9,8 @@
  * 
  * This firmware recovers the state of sensor channel inputs, assembles
  * a switchbank Binary Status Report and transmits this over NMEA using 
- * PGN127501. Feedback on switchbank status is presented by modulating
- * some indicator LEDs. 
+ * PGN127501. Local feedback on detected switch channel states is
+ * presented by modulating some indicator LEDs. 
  */
 
 #include <Arduino.h>
@@ -137,7 +137,7 @@
  * required to report switch bank state every four seconds, or
  * immediately on a detected state change.
  */
-#define TRANSMIT_INTERVAL 4000UL    // N2K defined fastest allowed transmit rate for a PGN instance
+#define TRANSMIT_INTERVAL 4000UL
 
 /**********************************************************************
  * Declarations of local functions.
@@ -177,7 +177,7 @@ int SWITCHES[DEBOUNCER_SIZE] = { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_
 Debouncer DEBOUNCER (SWITCHES);
 
 /**********************************************************************
- * LED_MANAGER for all system LEDs.
+ * LED_MANAGER for LEDs directly connected to Teensy.
  */
 LedManager LED_MANAGER (LED_MANAGER_HEARTBEAT, LED_MANAGER_INTERVAL);
 
@@ -187,6 +187,11 @@ LedManager LED_MANAGER (LED_MANAGER_HEARTBEAT, LED_MANAGER_INTERVAL);
  * and assigned during module initialisation,
  */
 unsigned char SWITCHBANK_INSTANCE = INSTANCE_UNDEFINED;
+
+/**********************************************************************
+ * SWITCHBANK_STATUS - working storage for holding the most recently
+ * read state of the Teensy switch inputs.
+ */
 unsigned char SWITCHBANK_STATUS = 0x00;
 
 /**********************************************************************
