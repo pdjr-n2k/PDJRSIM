@@ -1,47 +1,56 @@
 # SIM108 - NMEA 2000 switch input module
 
-__SIM108__ is an NMEA 2000 switch input module (switchbank) with
-support for eight input channels.
+This project implements an NMEA 2000 switch input module with
+support for eight switch input channels.
+
+A complementary project,
+[ROM104](https://github.com/preeve9534/ROM104/),
+implements a four-channel NMEA 2000 relay output module.
+
+The project consists of a microcontroller-based hardware design
+and associated firmware.
+The stock firmware realizes an NMEA 2000 compliant switchbank
+interface that transmits
+[PGN 127501 Binary Switch Status]() messages.
+
+The module is powered from the NMEA bus and has an LEN of 0.5.
+
+## Hardware design
 
 Each input channel is optically isolated and reverse polarity
 protected with reference to a shared common ground.
-An input voltage of between 5VDC and 50VDC is interpreted as an ON
-condition and when ON the nominal current draw per input channel is
-8mA at 12VDC, 10mA at 24VDC.
+An input voltage of between 5VDC and 50VDC is interpreted as
+an ON condition and when ON the nominal current draw per input
+channel is 8mA at 12VDC, 10mA at 24VDC.
 
-The module connects to the host NMEA bus by either a screw terminal
-block or M12 5-pin circular connector.
-An internal DIL switch allows the installer to connect a 120 Ohm
-resistor across the host data bus permitting the module to be installed
-as either a drop node or a bus termination node.
-The module is powered from the NMEA bus and has an LEN of 0.5.
+The module's CAN/NMEA bus connection is designed to support an
+NMEA 2000 compatible M12 5-pin male circular connector, but
+other connector types can be substituted.
+
+A DIL switch allows a 120 Ohm resistor to be connected across
+the host data bus permitting the module to be installed as
+either a drop node or a bus termination node.
+
+The module's switchbank instance number is configured using an
+8-position DIL switch.
+
+Critical hardware functions rely upon the following active
+components.
+
+| Component | Description |
+| :--- | :--- |
+| [Teensy 3.2 microcontroller](https://www.pjrc.com/store/teensy32.html) | |
+| [TMR-1-1211 DC-DC converter]() | 12VDC to 5VDC 1A power supply. |
+| [MCP2551-I/P CAN transceiver](http://ww1.microchip.com/downloads/en/devicedoc/20001667g.pdf) | |
+| [74HC595 shift register](https://www.ti.com/lit/ds/symlink/sn74hc595.pdf?ts=1661075134940&ref_url=https%253A%252F%252Fwww.google.com%252F) | Shift driver for LED output. |
+
+## Firmware
 
 Switchbank state information is transmitted over NMEA 2000 using 
 [PGN 127501 Binary Status Report]().
 Switchbank status messages are transmitted once every four seconds or
 immediately a state change is detected on an input channel. 
 
-The switchbank's instance number is configured during installation
-using an 8-position DIL switch.
-
-## Hardware design
-
-[__SIM108__](./SIM108.sch.pdf) is designed around a
-[Teensy 3.2 microcontroller](https://www.pjrc.com/store/teensy32.html).
-
-A 1A DC-DC power supply connects to the CAN power bus and provides 5VDC
-output for all electronic components.
-
-NMEA/CAN interfacing is provided by an
-[MCP2551 High-speed CAN Transceiver](http://ww1.microchip.com/downloads/en/devicedoc/20001667g.pdf).
-
-Each switch input drives a simple constant current source that operates
-the LED side of an opto-isolator whose output connects directly to a GPIO
-input on the microcontroller.
-
-The state of switchbank channels (as detected by the microcontroller)
-is reported visually by eight LEDs driven by a
-[74HC595 shift register](https://www.ti.com/lit/ds/symlink/sn74hc595.pdf?ts=1661075134940&ref_url=https%253A%252F%252Fwww.google.com%252F).
 
 ## PCB
 
