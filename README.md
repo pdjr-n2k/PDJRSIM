@@ -11,7 +11,7 @@ The project consists of a microcontroller-based hardware design
 and associated firmware.
 The stock firmware realizes an NMEA 2000 compliant switchbank
 interface that transmits
-[PGN 127501 Binary Switch Status]() messages.
+[PGN 127501 Binary Status Report]() messages.
 
 The module is powered from the NMEA bus and has an LEN of 0.5.
 
@@ -39,10 +39,10 @@ components.
 
 | Component | Description |
 | :--- | :--- |
-| [Teensy 3.2 microcontroller](https://www.pjrc.com/store/teensy32.html) | |
-| [TMR-1-1211 DC-DC converter]() | 12VDC to 5VDC 1A power supply. |
-| [MCP2551-I/P CAN transceiver](http://ww1.microchip.com/downloads/en/devicedoc/20001667g.pdf) | |
-| [74HC595 shift register](https://www.ti.com/lit/ds/symlink/sn74hc595.pdf?ts=1661075134940&ref_url=https%253A%252F%252Fwww.google.com%252F) | Shift driver for LED output. |
+| [Teensy 3.2 microcontroller](https://www.pjrc.com/store/teensy32.html) | Microcontroller. |
+| [TMR-1-1211]() | 12VDC to 5VDC 1A power supply (DC-DC converter). |
+| [MCP2551-I/P](http://ww1.microchip.com/downloads/en/devicedoc/20001667g.pdf) | CAN transceiver. |
+| [74HC595](https://www.ti.com/lit/ds/symlink/sn74hc595.pdf?ts=1661075134940&ref_url=https%253A%252F%252Fwww.google.com%252F) | Shift register driving LED outputs. |
 
 ## Firmware
 
