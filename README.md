@@ -95,7 +95,7 @@ correct orientation and polarity.
 
 The host NMEA bus can be wired directly to J1 or (and preferably)
 ENCLOSURE can be drilled to accommodate J3 and J3's flying leads
-connected to J1.
+connected to J1 or soldered directly to the PCB.
 
 D9 through D17 can be soldered with long leads and holes drilled in
 ENCLOSURE to expose the LED or (and preferably), they can each be
