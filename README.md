@@ -2,15 +2,15 @@
 
 This project implements an NMEA 2000 switch input module with
 support for eight switch input channels.
-
-A complementary project,
+See
 [ROM104](https://github.com/preeve9534/ROM104/),
-implements a four-channel NMEA 2000 relay output module.
+a complementary project that implements a four-channel NMEA
+2000 relay output module.
 
 The project consists of a microcontroller-based hardware design
 and associated firmware.
 The stock firmware realizes an NMEA 2000 compliant switchbank
-interface that transmits
+interface that accepts SPST switch inputs and transmits
 [PGN 127501 Binary Status Report]() messages.
 
 The module is powered from the NMEA bus and has an LEN of 0.5.
