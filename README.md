@@ -2,20 +2,20 @@
 
 This project implements an NMEA 2000 switch input module with
 support for eight switch input channels.
-See
-[ROM104](https://github.com/preeve9534/ROM104/),
-a complementary project that implements a four-channel NMEA
-2000 relay output module.
 
-The project consists of a microcontroller-based hardware design
-and associated firmware.
-The stock firmware realizes an NMEA 2000 compliant switchbank
-interface that accepts SPST switch inputs and transmits
-[PGN 127501 Binary Status Report]() messages.
+__SIM108__ consists of a microcontroller-based hardware design
+and an associated firmware.
+
+The stock firmware realises an NMEA 2000 switchbank interface
+that accepts SPST switch inputs and transmits
+[PGN 127501 Binary Status Report]()
+messages.
 
 The module is powered from the NMEA bus and has an LEN of 0.5.
 
-## Hardware design
+## Design overview
+
+__SIM108__ uses a Teensy 3.2 microcontroller supported by
 
 Each input channel is optically isolated and reverse polarity
 protected with reference to a shared common ground.
