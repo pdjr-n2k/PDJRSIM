@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name pdjr)(type Legacy)(uri /home/preeve/Projects/git/n2k-modules/pdjr-libraries/pdjr.lib)(options "")(descr ""))
+  (lib (name SIM108-rescue)(type Legacy)(uri ${KIPRJMOD}/SIM108-rescue.lib)(options "")(descr ""))
 )
