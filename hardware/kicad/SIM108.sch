@@ -85,7 +85,7 @@ Connection ~ 10350 3250
 Wire Wire Line
 	9050 2900 9050 3250
 $Comp
-L pdjr:Teensy_3.2 U5
+L SIM108-rescue:Teensy_3.2-pdjr U5
 U 1 1 60F2AB82
 P 10250 2900
 F 0 "U5" H 10400 1350 50  0000 C CNN
@@ -713,7 +713,7 @@ F 3 "~" H 10100 5450 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L pdjr:TMR_2411 U2
+L SIM108-rescue:TMR_2411-pdjr U2
 U 1 1 6327DB22
 P 2900 5150
 F 0 "U2" H 2900 5500 50  0000 C CNN
