@@ -15,27 +15,49 @@ The module is powered from the NMEA bus and has an LEN of 0.5.
 
 ## Design overview
 
-__SIM108__ uses a Teensy 3.2 microcontroller supported by
+__SIM108__ uses a Teensy 3.2 microcontroller supported by power
+supply, CAN unterface, configuration, display and switch input
+sub-systems.
 
-Each input channel is optically isolated and reverse polarity
-protected with reference to a shared common ground.
+The power supply sub-system consists of a solid-state DC-DC
+converter which adapts the voltage of the NMEA host NMEA bus to
+the 5VDC required by the module's electronics.
+The power supply is rated at 2W and its bus connection is fused
+and reverse polarity protected.
+
+The CAN interface sub-system manages all NMEA data bus I/O.
+The data bus connection can be switched by the installer to
+include a 120 Ohm bus termination resistor allowing the module
+to be installed as either a bus termination node or a drop node.
+
+The configuration sub-system consists of an 8-position DIL switch
+and push-button which allow installer configuration of the module's
+NMEA instance number.
+
+The display sub-system provides a collection of LEDs which are used
+to give configuration feedback and indicate the module operating
+status.
+
+The switch input sub-system consists of eight input channels each of
+which is optically isolated and reverse polarity protected with
+reference to a shared common ground.
 An input voltage of between 5VDC and 50VDC is interpreted as
 an ON condition and when ON the nominal current draw per input
 channel is 8mA at 12VDC, 10mA at 24VDC.
 
-The module's CAN/NMEA bus connection is designed to support an
-NMEA 2000 compatible M12 5-pin male circular connector, but
-other connector types can be substituted.
+__SIM108__'s stock firmware monitors input channel state changes
+and queues switchbank status updates for transmition over NMEA 2000.
+Switchbank status messages are transmitted once every four seconds or
+immediately a state change is detected on an input channel.
 
-A DIL switch allows a 120 Ohm resistor to be connected across
-the host data bus permitting the module to be installed as
-either a drop node or a bus termination node.
+The firmware transmits the following NMEA 2000 message types.
 
-The module's switchbank instance number is configured using an
-8-position DIL switch.
+| PGN  | Description |
+| :--- | :--- |
+|127501 (Binary Status Report) | Issued every four seconds or immediately on the state change of any input channel. |
 
-Critical hardware functions rely upon the following active
-components.
+
+
 
 | Component | Description |
 | :--- | :--- |
@@ -46,10 +68,6 @@ components.
 
 ## Firmware
 
-Switchbank state information is transmitted over NMEA 2000 using 
-[PGN 127501 Binary Status Report]().
-Switchbank status messages are transmitted once every four seconds or
-immediately a state change is detected on an input channel. 
 
 
 ## PCB
