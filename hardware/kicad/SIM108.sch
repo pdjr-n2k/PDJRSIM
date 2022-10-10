@@ -98,21 +98,21 @@ $EndComp
 NoConn ~ 9700 1400
 NoConn ~ 9600 1400
 NoConn ~ 9500 1400
-Text Label 9150 1900 2    50   ~ 0
-CH0
-Text Label 9150 2000 2    50   ~ 0
-CH1
-Text Label 9150 2100 2    50   ~ 0
-CH2
-Text Label 9150 2200 2    50   ~ 0
-CH3
-Text Label 9150 2300 2    50   ~ 0
-CH4
-Text Label 9150 2400 2    50   ~ 0
-CH5
 Text Label 9150 2600 2    50   ~ 0
-CH6
+CH0
 Text Label 9150 2500 2    50   ~ 0
+CH1
+Text Label 9150 2400 2    50   ~ 0
+CH2
+Text Label 9150 2300 2    50   ~ 0
+CH3
+Text Label 9150 2200 2    50   ~ 0
+CH4
+Text Label 9150 2100 2    50   ~ 0
+CH5
+Text Label 9150 2000 2    50   ~ 0
+CH6
+Text Label 9150 1900 2    50   ~ 0
 CH7
 $Comp
 L Connector:Screw_Terminal_01x09 J1

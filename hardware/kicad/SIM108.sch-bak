@@ -108,11 +108,11 @@ Text Label 9150 2200 2    50   ~ 0
 CH3
 Text Label 9150 2300 2    50   ~ 0
 CH4
-Text Label 9150 2600 2    50   ~ 0
-CH5
-Text Label 9150 2500 2    50   ~ 0
-CH6
 Text Label 9150 2400 2    50   ~ 0
+CH5
+Text Label 9150 2600 2    50   ~ 0
+CH6
+Text Label 9150 2500 2    50   ~ 0
 CH7
 $Comp
 L Connector:Screw_Terminal_01x09 J1
