@@ -38,9 +38,9 @@ The display sub-system provides a collection of LEDs which are used
 to give configuration feedback and indicate the module operating
 status.
 
-The switch input sub-system consists of eight input channels each of
-which is optically isolated and reverse polarity protected with
-reference to a shared common ground.
+The switch input sub-system consists of eight hardware debounced
+input channels each of which is optically isolated and reverse
+polarity protected with reference to a shared common ground.
 An input voltage of between 5VDC and 50VDC is interpreted as
 an ON condition and when ON the nominal current draw per input
 channel is 8mA at 12VDC, 10mA at 24VDC.
