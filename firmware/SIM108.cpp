@@ -18,9 +18,8 @@
 #include <NMEA2000_CAN.h>
 #include <N2kTypes.h>
 #include <N2kMessages.h>
-#include <Debouncer.h>
-#include <LedManager.h>
 #include <DilSwitch.h>
+#include <B74HC595.h>
 #include <arraymacros.h>
 
 /**********************************************************************
@@ -52,29 +51,30 @@
  * GPIO pin definitions for the Teensy 3.2 MCU and some collections
  * that can be used as array initialisers
  */
+#define GPIO_MPX_CLOCK 0
 #define GPIO_MPX_LATCH 1
-#define GPIO_ENCODER_BIT7 5
-#define GPIO_ENCODER_BIT6 6
-#define GPIO_ENCODER_BIT5 7
-#define GPIO_ENCODER_BIT4 8
-#define GPIO_ENCODER_BIT3 9
-#define GPIO_ENCODER_BIT2 10
-#define GPIO_ENCODER_BIT1 11
-#define GPIO_ENCODER_BIT0 12
+#define GPIO_MPX_DATA 2
+#define GPIO_CAN_TX 3
+#define GPIO_CAN_RX 4
+#define GPIO_INSTANCE_BIT7 5
+#define GPIO_INSTANCE_BIT6 6
+#define GPIO_INSTANCE_BIT5 7
+#define GPIO_INSTANCE_BIT4 8
+#define GPIO_INSTANCE_BIT3 9
+#define GPIO_INSTANCE_BIT2 10
+#define GPIO_INSTANCE_BIT1 11
+#define GPIO_INSTANCE_BIT0 12
 #define GPIO_POWER_LED 13
-#define GPIO_SENSOR0 14
-#define GPIO_SENSOR7 15
+#define GPIO_PRG 14
 #define GPIO_SENSOR6 16
 #define GPIO_SENSOR5 17
 #define GPIO_SENSOR4 18
 #define GPIO_SENSOR3 19
 #define GPIO_SENSOR2 20
 #define GPIO_SENSOR1 21
-#define GPIO_MPX_DATA 22
-#define GPIO_MPX_CLOCK 23
 #define GPIO_SENSOR_PINS { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 } 
-#define GPIO_ENCODER_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7 }
-#define GPIO_INPUT_PINS { GPIO_ENCODER_BIT0, GPIO_ENCODER_BIT1, GPIO_ENCODER_BIT2, GPIO_ENCODER_BIT3, GPIO_ENCODER_BIT4, GPIO_ENCODER_BIT5, GPIO_ENCODER_BIT6, GPIO_ENCODER_BIT7, GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7, GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH }
+#define GPIO_INSTANCE_PINS { GPIO_INSTANCE_BIT0, GPIO_INSTANCE_BIT1, GPIO_INSTANCE_BIT2, GPIO_INSTANCE_BIT3, GPIO_INSTANCE_BIT4, GPIO_INSTANCE_BIT5, GPIO_INSTANCE_BIT6, GPIO_INSTANCE_BIT7 }
+#define GPIO_INPUT_PINS { GPIO_INSTANCE_BIT0, GPIO_INSTANCE_BIT1, GPIO_INSTANCE_BIT2, GPIO_INSTANCE_BIT3, GPIO_INSTANCE_BIT4, GPIO_INSTANCE_BIT5, GPIO_INSTANCE_BIT6, GPIO_INSTANCE_BIT7, GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 }
 #define GPIO_OUTPUT_PINS { GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH, GPIO_POWER_LED }
 
 /**********************************************************************
@@ -126,18 +126,9 @@
 
 #define DEFAULT_SOURCE_ADDRESS 22         // Seed value for source address claim
 #define INSTANCE_UNDEFINED 255            // Flag value
-#define STARTUP_SETTLE_PERIOD 5000        // Wait this many ms after boot before entering production
+#define PGN127501_TRANSMIT_INTERVAL 4000UL
 #define SWITCH_PROCESS_INTERVAL 100       // Process switch inputs every n ms
-#define LED_MANAGER_HEARTBEAT 200         // Number of ms on / off
-#define LED_MANAGER_INTERVAL 10           // Number of heartbeats between repeats
-#define DEBOUNCER_SIZE 8                  // Number of IO channels to debounce
-
-/**********************************************************************
- * NMEA transmit configuration. Modules that transmit PGN 127501 are
- * required to report switch bank state every four seconds, or
- * immediately on a detected state change.
- */
-#define TRANSMIT_INTERVAL 4000UL
+#define LED_UPDATE_INTERVAL 50         // Number of ms on / off
 
 /**********************************************************************
  * Declarations of local functions.
@@ -162,24 +153,16 @@ const unsigned long TransmitMessages[] PROGMEM={ 127501L, 0 };
  * There are none.
  */
 typedef struct { unsigned long PGN; void (*Handler)(const tN2kMsg &N2kMsg); } tNMEA2000Handler;
-tNMEA2000Handler NMEA2000Handlers[]={ {0, 0} };
+tNMEA2000Handler NMEA2000Handlers[]={ {0L, 0} };
 
 /**********************************************************************
  * DIL_SWITCH switch decoder.
  */
-int ENCODER_PINS[] = GPIO_ENCODER_PINS;
-DilSwitch DIL_SWITCH (ENCODER_PINS, ELEMENTCOUNT(ENCODER_PINS));
+int INSTANCE_PINS[] = GPIO_INSTANCE_PINS;
+DilSwitch DIL_SWITCH (INSTANCE_PINS, ELEMENTCOUNT(INSTANCE_PINS));
 
-/**********************************************************************
- * DEBOUNCER for the switch inputs.
- */
-int SWITCHES[DEBOUNCER_SIZE] = { GPIO_SENSOR0, GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7 };
-Debouncer DEBOUNCER (SWITCHES);
-
-/**********************************************************************
- * LED_MANAGER for LEDs directly connected to Teensy.
- */
-LedManager LED_MANAGER (LED_MANAGER_HEARTBEAT, LED_MANAGER_INTERVAL);
+B74HC595 LED_DISPLAY (GPIO_MPX_DATA, GPIO_MPX_CLOCK, GPIO_MPX_LATCH);
+bool OPERATE_TRANSMIT_LED = false;
 
 /**********************************************************************
  * SWITCHBANK_INSTANCE - working storage for the switchbank module
@@ -192,7 +175,7 @@ unsigned char SWITCHBANK_INSTANCE = INSTANCE_UNDEFINED;
  * SWITCHBANK_STATUS - working storage for holding the most recently
  * read state of the Teensy switch inputs.
  */
-unsigned char SWITCHBANK_STATUS = 0x00;
+tN2kBinaryStatus SWITCHBANK_STATUS = 0x00;
 
 /**********************************************************************
  * MAIN PROGRAM - setup()
@@ -227,6 +210,12 @@ void setup() {
   DIL_SWITCH.sample();
   SWITCHBANK_INSTANCE = DIL_SWITCH.value();
 
+  LED_DISPLAY.update(0xff); delay(100);
+  LED_DISPLAY.update(SWITCHBANK_INSTANCE); delay(1000);
+  LED_DISPLAY.enableLoopUpdates(getLedStatus, LED_UPDATE_INTERVAL);
+
+  N2kResetBinaryStatus(SWITCHBANK_STATUS);
+
   // Initialise and start N2K services.
   NMEA2000.SetProductInformation(PRODUCT_SERIAL_CODE, PRODUCT_CODE, PRODUCT_TYPE, PRODUCT_FIRMWARE_VERSION, PRODUCT_VERSION);
   NMEA2000.SetDeviceInformation(DEVICE_UNIQUE_NUMBER, DEVICE_FUNCTION, DEVICE_CLASS, DEVICE_MANUFACTURER_CODE);
@@ -235,6 +224,8 @@ void setup() {
   NMEA2000.ExtendTransmitMessages(TransmitMessages); // Tell library which PGNs we transmit
   NMEA2000.SetMsgHandler(messageHandler);
   NMEA2000.Open();
+
+  attachInterrupt(digitalPinToInterrupt(GPIO_PRG), isr, RISING);
 }
 
 /**********************************************************************
@@ -250,22 +241,15 @@ void setup() {
  * inputs have been debounced.
  */ 
 void loop() {
-  static bool JUST_STARTED = true;
-  bool switchChange;
+  bool switchChange = true;
 
-  if (JUST_STARTED && (millis() > STARTUP_SETTLE_PERIOD)) {
-    #ifdef DEBUG_SERIAL
-    Serial.println();
-    Serial.println("Starting:");
-    Serial.print("  N2K Source address is "); Serial.println(NMEA2000.GetN2kSource());
-    Serial.print("  Module instance number is "); Serial.println(SWITCHBANK_INSTANCE);
-    #endif
-    JUST_STARTED = false;
-  }
-
-  // Debounce all switch inputs.
-  DEBOUNCER.debounce();
-
+  #ifdef DEBUG_SERIAL
+  Serial.println();
+  Serial.println("Starting:");
+  Serial.print("  N2K Source address is "); Serial.println(NMEA2000.GetN2kSource());
+  Serial.print("  Module instance number is "); Serial.println(SWITCHBANK_INSTANCE);
+  #endif
+  
   // Before we transmit anything, let's do the NMEA housekeeping and
   // process any received messages. This call may result in acquisition
   // of a new CAN source address, so we check if there has been any
@@ -276,13 +260,10 @@ void loop() {
   // Once the start-up settle period is over we can enter production by
   // executing our only substantive function ... but only if we have a
   // valid switchbank instance number.
-  if ((!JUST_STARTED) && (SWITCHBANK_INSTANCE < 253)) {
-    switchChange = checkSwitchStates();
-    transmitSwitchbankStatusMaybe(SWITCHBANK_INSTANCE, SWITCHBANK_STATUS, switchChange);
-  }
+  if (SWITCHBANK_INSTANCE < 253) transmitSwitchbankStatusMaybe();
   
   // Update the states of connected LEDs
-  LED_MANAGER.loop();
+  LED_DISPLAY.loop();
 }
 
 /**********************************************************************
@@ -292,7 +273,6 @@ void loop() {
  */
 bool checkSwitchStates() {
   static unsigned long deadline = 0UL;
-  static unsigned char lastKnownStatus = 0x00;
   unsigned long now = millis();
   bool retval = false;
 
@@ -307,9 +287,9 @@ bool checkSwitchStates() {
 /**********************************************************************
  * transmitSwitchbankStatusMaybe() should be called directly from
  * loop(). The function proceeds to transmit a switchbank binary status
- * message if TRANSMIT_INTERVAL has elapsed or <force> is true.
+ * message if PGN127501_TRANSMIT_INTERVAL has elapsed or <force> is true.
  */
-void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status, bool force) {
+void transmitSwitchbankStatusMaybe(bool force) {
   static unsigned long deadline = 0UL;
   unsigned long now = millis();
 
@@ -328,7 +308,7 @@ void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status,
 
     transmitPGN127501(instance, status);
     updateLeds(status);
-    deadline = (now + TRANSMIT_INTERVAL);
+    deadline = (now + PGN127501_TRANSMIT_INTERVAL);
   }
 }
 
