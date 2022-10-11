@@ -262,10 +262,8 @@ void loop() {
   // Once the start-up settle period is over we can enter production by
   // executing our only substantive function ... but only if we have a
   // valid switchbank instance number.
-  if (SWITCHBANK_INSTANCE < 253) {
-    processSwitchInputs();
-    transmitSwitchbankStatusMaybe();
-  }
+  processSwitchInputs();
+  transmitSwitchbankStatusMaybe();
   
   // Update the states of connected LEDs
   LED_DISPLAY.loop();
@@ -307,13 +305,11 @@ void transmitSwitchbankStatusMaybe(bool force) {
 
   if ((now > deadline) || force) {
     transmitPGN127501();
-    OPERATE_TRANSMIT_LED = true;
+    digitalWrite(GPIO_POWER_LED, 1);
     LED_DISPLAY.preempt();
-
     deadline = (now + PGN127501_TRANSMIT_INTERVAL);
   }
 }
-
 
 /**********************************************************************
  * Assemble and transmit a PGN 127501 Binary Status Update message
@@ -322,16 +318,18 @@ void transmitSwitchbankStatusMaybe(bool force) {
 void transmitPGN127501() {
   static tN2kMsg N2kMsg;
 
-  SetN2kPGN127501(N2kMsg, SWITCHBANK_INSTANCE, SWITCHBANK_STATUS);
-  NMEA2000.SendMsg(N2kMsg);
+  if (SWITCHBANK_INSTANCE < 253) {
+    SetN2kPGN127501(N2kMsg, SWITCHBANK_INSTANCE, SWITCHBANK_STATUS);
+    NMEA2000.SendMsg(N2kMsg);
+  }
 }  
 
-/**********************************************************************
- * Helper function to convert a boolean <state> into a tN2kOnOff value
- * suitable for updating a tN2kBinaryStatus buffer.
- */
-tN2kOnOff bool2tN2kOnOff(bool state) {
-  return((state)?N2kOnOff_On:N2kOnOff_Off);
+unsigned char getLedStatus() {
+  unsigned char retval = 0;
+  for (int i = 0; i < 8; i++) {
+    retval = (retval | (((N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1)) == N2kOnOff_On)?1:0) << i));
+  }
+  return(retval);
 }
 
 /**********************************************************************
