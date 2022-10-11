@@ -62,7 +62,7 @@ The firmware transmits the following NMEA 2000 message types.
 
 | REF      | Subsystem       | Component               | RS Part#|
 | :---     | :---            | :---                    | :--- |
-| --       | ENC             | [Plastic flanged enclosure](https://docs.rs-online.com/1460/0900766b814af994.pdf) | [919-0357](https://uk.rs-online.com/web/p/general-purpose-enclosures/9190357) |
+| --       | ENC             | [Plastic flanged enclosure](https://docs.rs-online.com/7852/0900766b80fcf8b3.pdf) | [https://uk.rs-online.com/web/p/general-purpose-enclosures/7417477) |
 | --       | PCB             | [PCB](./ROM104.brd.pdf) | |
 | U7       | Microcontroller | [PJRC Teensy 3.2 MCU](https://www.pjrc.com/store/teensy32.html) |
 | C8       | Microcontroller | [100nF elctrolytic capacitor](https://docs.rs-online.com/6ccf/0900766b8143e698.pdf)| [862-4146](https://uk.rs-online.com/web/p/aluminium-capacitors/8624146) |
