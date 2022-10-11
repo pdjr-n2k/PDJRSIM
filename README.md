@@ -46,7 +46,7 @@ an ON condition and when ON the nominal current draw per input
 channel is 8mA at 12VDC, 10mA at 24VDC.
 
 __SIM108__'s stock firmware monitors input channel state changes
-and queues switchbank status updates for transmition over NMEA 2000.
+and queues switchbank status updates for transmission over NMEA 2000.
 Switchbank status messages are transmitted once every four seconds or
 immediately a state change is detected on an input channel.
 
