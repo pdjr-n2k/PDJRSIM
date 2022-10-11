@@ -161,6 +161,8 @@ tNMEA2000Handler NMEA2000Handlers[]={ {0L, 0} };
 int INSTANCE_PINS[] = GPIO_INSTANCE_PINS;
 DilSwitch DIL_SWITCH (INSTANCE_PINS, ELEMENTCOUNT(INSTANCE_PINS));
 
+int SENSOR_PINS[] = GPIO_SENSOR_PINS;
+
 B74HC595 LED_DISPLAY (GPIO_MPX_DATA, GPIO_MPX_CLOCK, GPIO_MPX_LATCH);
 bool OPERATE_TRANSMIT_LED = false;
 
@@ -260,25 +262,35 @@ void loop() {
   // Once the start-up settle period is over we can enter production by
   // executing our only substantive function ... but only if we have a
   // valid switchbank instance number.
-  if (SWITCHBANK_INSTANCE < 253) transmitSwitchbankStatusMaybe();
+  if (SWITCHBANK_INSTANCE < 253) {
+    processSwitchInputs();
+    transmitSwitchbankStatusMaybe();
+  }
   
   // Update the states of connected LEDs
   LED_DISPLAY.loop();
 }
 
 /**********************************************************************
- * checkSwitchStates() should be called directly from loop(). The
- * function checks switch states every SWITCH_PROCESS_INTERVAL and
- * returns true iff a switch state change is detected.
+ * processSwitchInputsMaybe() should be called directly from loop().
+ * The function checks switch states every SWITCH_PROCESS_INTERVAL and
+ * updates SWITCHBANK_STATUS with any changes. If a change is made,
+ * then a call is made to transmit the update over NMEA.
  */
-bool checkSwitchStates() {
+void processSwitchInputsMaybe() {
   static unsigned long deadline = 0UL;
   unsigned long now = millis();
-  bool retval = false;
+  bool updated = false;
 
   if (now > deadline) {
-    retval = ((SWITCHBANK_STATUS = DEBOUNCER.getStates()) != lastKnownStatus);
-    lastKnownStatus = SWITCHBANK_STATUS;
+    for (int i = 0; i < ELEMENTCOUNT(SENSOR_PINS); i++) {
+      tN2kOnOff switchStatus = ((digitalRead(SENSOR_PINS[i])?N2kOnOff_On:N2kOnOff_Off);
+      if (switchStatus != N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1))) {
+        N2kSetStatusOnBinaryStatus(SWITCHBANK_STATUS, switchStatus, (i + 1));
+        updated = true;
+      }
+    }
+    if (updated) transmitSwitchbankStatusMaybe(true);
     deadline = (now + SWITCH_PROCESS_INTERVAL);
   }
   return(retval);
@@ -294,56 +306,23 @@ void transmitSwitchbankStatusMaybe(bool force) {
   unsigned long now = millis();
 
   if ((now > deadline) || force) {
-    #ifdef DEBUG_SERIAL
-    Serial.print("Transmitting status:");
-    Serial.print(" "); Serial.print(status & 0x01); 
-    Serial.print(" "); Serial.print((status & 0x02) >> 1); 
-    Serial.print(" "); Serial.print((status & 0x04) >> 2); 
-    Serial.print(" "); Serial.print((status & 0x08) >> 3); 
-    Serial.print(" "); Serial.print((status & 0x10) >> 4); 
-    Serial.print(" "); Serial.print((status & 0x20) >> 5); 
-    Serial.print(" "); Serial.print((status & 0x40) >> 6); 
-    Serial.print(" "); Serial.println((status & 0x80) >> 7); 
-    #endif
+    transmitPGN127501();
+    OPERATE_TRANSMIT_LED = true;
+    LED_DISPLAY.preempt();
 
-    transmitPGN127501(instance, status);
-    updateLeds(status);
     deadline = (now + PGN127501_TRANSMIT_INTERVAL);
   }
 }
 
-/**********************************************************************
- * Flash the power LED once to indicate that a data packet has been
- * transmitted and update the shift register so that the channel
- * indicator LEDs reflect the value of <status>.
- */ 
-void updateLeds(unsigned char status) {
-  LED_MANAGER.operate(GPIO_POWER_LED, 0, 1);
-  digitalWrite(GPIO_MPX_LATCH, LOW);
-  shiftOut(GPIO_MPX_DATA, GPIO_MPX_CLOCK, MSBFIRST, status);
-  digitalWrite(GPIO_MPX_LATCH, HIGH);
-}
 
 /**********************************************************************
- * Assemble and transmit a PGN 127501 Binary Status Update message over
- * the host NMEA bus. <instance> specifies the switchbank instance
- * number and <status> the switchbank channel states. 
+ * Assemble and transmit a PGN 127501 Binary Status Update message
+ * reflecting the current switchbank state.
  */
-void transmitPGN127501(unsigned char instance, unsigned char status) {
-  static tN2kBinaryStatus N2kBinaryStatus;
+void transmitPGN127501() {
   static tN2kMsg N2kMsg;
 
-  N2kResetBinaryStatus(N2kBinaryStatus);
-  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x01) != 0), 1);
-  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x02) != 0), 2);
-  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x04) != 0), 3);
-  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x08) != 0), 4);
-  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x10) != 0), 5);
-  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x20) != 0), 6);
-  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x40) != 0), 7);
-  N2kSetStatusBinaryOnStatus(N2kBinaryStatus, bool2tN2kOnOff((status & 0x80) != 0), 8);
-
-  SetN2kPGN127501(N2kMsg, instance, N2kBinaryStatus);
+  SetN2kPGN127501(N2kMsg, SWITCHBANK_INSTANCE, SWITCHBANK_STATUS);
   NMEA2000.SendMsg(N2kMsg);
 }  
 
