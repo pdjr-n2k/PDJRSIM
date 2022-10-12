@@ -219,6 +219,7 @@ void setup() {
   LED_DISPLAY.update(SWITCHBANK_INSTANCE); delay(1000);
   LED_DISPLAY.enableLoopUpdates(getLedStatus, LED_UPDATE_INTERVAL);
 
+  // Clear the switchbank status buffer
   N2kResetBinaryStatus(SWITCHBANK_STATUS);
 
   // Initialise and start N2K services.
@@ -240,10 +241,6 @@ void setup() {
  * called from loop() implement interval timers which ensure that they
  * will mostly return immediately, only performing their substantive
  * tasks at intervals defined by program constants.
- * 
- * The global constant JUST_STARTED is used to delay acting on switch
- * inputs until a newly started system has stabilised and the GPIO
- * inputs have been debounced.
  */ 
 void loop() {
   #ifdef DEBUG_SERIAL
@@ -260,9 +257,8 @@ void loop() {
   NMEA2000.ParseMessages();
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
-  // Once the start-up settle period is over we can enter production by
-  // executing our only substantive function ... but only if we have a
-  // valid switchbank instance number.
+  // Process any switch state changes and transmit switchbank status
+  // updates as required. 
   processSwitchInputsMaybe();
   transmitSwitchbankStatusMaybe();
   
