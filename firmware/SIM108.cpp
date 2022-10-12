@@ -269,6 +269,10 @@ void loop() {
   LED_DISPLAY.loop();
 }
 
+void isr() {
+
+}
+
 /**********************************************************************
  * processSwitchInputsMaybe() should be called directly from loop().
  * The function checks switch states every SWITCH_PROCESS_INTERVAL and
@@ -291,7 +295,6 @@ void processSwitchInputsMaybe() {
     if (updated) transmitSwitchbankStatusMaybe(true);
     deadline = (now + SWITCH_PROCESS_INTERVAL);
   }
-  return(retval);
 }
   
 /**********************************************************************
