@@ -10,7 +10,7 @@
  * This firmware recovers the state of sensor channel inputs, assembles
  * a switchbank Binary Status Report and transmits this over NMEA using 
  * PGN127501. Local feedback on detected switch channel states is
- * presented by modulating some indicator LEDs. 
+ * presented by modulating indicator LEDs. 
  */
 
 #include <Arduino.h>
