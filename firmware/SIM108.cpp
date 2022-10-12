@@ -135,13 +135,12 @@
 /**********************************************************************
  * Declarations of local functions.
  */
-void messageHandler(const tN2kMsg&);
-void transmitPGN127501();
-void transmitSwitchbankStatusMaybe(bool force = false);
-unsigned char getLedStatus();
-void updateLeds(unsigned char status);
 void isr();
 void processSwitchInputsMaybe();
+void transmitSwitchbankStatusMaybe(bool force = false);
+void transmitPGN127501();
+unsigned char getLedStatus();
+void messageHandler(const tN2kMsg&);
 
 /**********************************************************************
  * PGNs of messages transmitted by this program.
