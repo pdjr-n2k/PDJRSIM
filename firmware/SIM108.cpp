@@ -166,7 +166,11 @@ DilSwitch DIL_SWITCH (INSTANCE_PINS, ELEMENTCOUNT(INSTANCE_PINS));
 
 int SENSOR_PINS[] = GPIO_SENSOR_PINS;
 
+/**********************************************************************
+ * LED_DISPLAY shift register.
+*/
 B74HC595 LED_DISPLAY (GPIO_MPX_DATA, GPIO_MPX_CLOCK, GPIO_MPX_LATCH);
+
 bool OPERATE_TRANSMIT_LED = false;
 
 /**********************************************************************
@@ -215,6 +219,8 @@ void setup() {
   DIL_SWITCH.sample();
   SWITCHBANK_INSTANCE = DIL_SWITCH.value();
 
+  // Run a startup sequence in the LED display: all LEDs on to confirm
+  // function, then a display of the module instance number.
   LED_DISPLAY.update(0xff); delay(100);
   LED_DISPLAY.update(SWITCHBANK_INSTANCE); delay(1000);
   LED_DISPLAY.enableLoopUpdates(getLedStatus, LED_UPDATE_INTERVAL);
