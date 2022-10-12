@@ -135,12 +135,13 @@
 /**********************************************************************
  * Declarations of local functions.
  */
-bool checkSwitchStates();
 void messageHandler(const tN2kMsg&);
-void transmitPGN127501(unsigned char instance, unsigned char status);
-void transmitSwitchbankStatusMaybe(unsigned char instance, unsigned char status, bool force);
+void transmitPGN127501();
+void transmitSwitchbankStatusMaybe(bool force = false);
+unsigned char getLedStatus();
 void updateLeds(unsigned char status);
-tN2kOnOff bool2tN2kOnOff(bool state);
+void isr();
+void processSwitchInputsMaybe();
 
 /**********************************************************************
  * PGNs of messages transmitted by this program.
@@ -245,8 +246,6 @@ void setup() {
  * inputs have been debounced.
  */ 
 void loop() {
-  bool switchChange = true;
-
   #ifdef DEBUG_SERIAL
   Serial.println();
   Serial.println("Starting:");
@@ -264,15 +263,22 @@ void loop() {
   // Once the start-up settle period is over we can enter production by
   // executing our only substantive function ... but only if we have a
   // valid switchbank instance number.
-  processSwitchInputs();
+  processSwitchInputsMaybe();
   transmitSwitchbankStatusMaybe();
   
   // Update the states of connected LEDs
   LED_DISPLAY.loop();
 }
 
+/**********************************************************************
+ * MAIN PROGRAM - isr()
+ * 
+ * Invoked by a press of the PRG button. Updates SWITCHBANK_INSTANCE
+ * from the DIL switch setting.
+ */
 void isr() {
-
+  DIL_SWITCH.sample();
+  SWITCHBANK_INSTANCE = DIL_SWITCH.value();
 }
 
 /**********************************************************************
@@ -287,10 +293,10 @@ void processSwitchInputsMaybe() {
   bool updated = false;
 
   if (now > deadline) {
-    for (int i = 0; i < ELEMENTCOUNT(SENSOR_PINS); i++) {
-      tN2kOnOff switchStatus = ((digitalRead(SENSOR_PINS[i])?N2kOnOff_On:N2kOnOff_Off);
+    for (unsigned int i = 0; i < ELEMENTCOUNT(SENSOR_PINS); i++) {
+      tN2kOnOff switchStatus = ((digitalRead(SENSOR_PINS[i]))?N2kOnOff_On:N2kOnOff_Off);
       if (switchStatus != N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1))) {
-        N2kSetStatusOnBinaryStatus(SWITCHBANK_STATUS, switchStatus, (i + 1));
+        N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, switchStatus, (i + 1));
         updated = true;
       }
     }
@@ -329,7 +335,6 @@ void transmitPGN127501() {
   }
 }  
 
-<<<<<<< Updated upstream
 unsigned char getLedStatus() {
   unsigned char retval = 0;
   for (int i = 0; i < 8; i++) {
@@ -338,8 +343,6 @@ unsigned char getLedStatus() {
   return(retval);
 }
 
-=======
->>>>>>> Stashed changes
 /**********************************************************************
  * Helper function called by the NMEA2000 library function
  * parseMessages() (which itself must be called from loop()) in order
