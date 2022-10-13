@@ -80,8 +80,11 @@ The firmware transmits the following NMEA 2000 message types.
 | C1       | CAN interface | [100nF elctrolytic capacitor](https://docs.rs-online.com/6ccf/0900766b8143e698.pdf)| [862-4146](https://uk.rs-online.com/web/p/aluminium-capacitors/8624146) |
 | R1       | CAN interface   | [4K7 0.25W resistor](https://docs.rs-online.com/d566/A700000008919924.pdf) | [707-7260](https://uk.rs-online.com/web/p/through-hole-resistors/7077726) |
 | R2       | CAN interface   | [120R 0.5W resistor](https://docs.rs-online.com/1e48/0900766b8157ae0f.pdf) | [707-8154](https://uk.rs-online.com/web/p/through-hole-resistors/7078154) |
-| J3       | CAN interface   | [Terminal block 1x5 2.54"](https://docs.rs-online.com/85fb/0900766b816edda7.pdf) | [220-4298](https://uk.rs-online.com/web/p/pcb-terminal-blocks/2204298) |
-| J3*      | CAN interface   | [M12 5-pin male connector ](https://docs.rs-online.com/6e45/A700000007926144.pdf) | [877-1154](https://uk.rs-online.com/web/p/industrial-circular-connectors/8771154) |
+| J3       | CAN interface   | [M12 5-pin male connector](https://docs.rs-online.com/6e45/A700000007926144.pdf) | [877-1154](https://uk.rs-online.com/web/p/industrial-circular-connectors/8771154) |
+| D9       | Switch input    | [ IN4148 diode]() | |
+| R3       | Switch input    | [ 10K 0.5W resistor ]() | |
+| R4       | Switch input    | [ 100R 0.5W resistor]() | |
+| R19      | Switch input    |
 
 
 ### Assembly
