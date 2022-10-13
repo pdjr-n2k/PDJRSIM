@@ -131,7 +131,7 @@
 #define INSTANCE_UNDEFINED 255            // Flag value
 #define PGN127501_TRANSMIT_INTERVAL 4000UL
 #define SWITCH_PROCESS_INTERVAL 100       // Process switch inputs every n ms
-#define LED_UPDATE_INTERVAL 50         // Number of ms on / off
+#define LED_UPDATE_INTERVAL 50            // Number of ms on / off
 
 /**********************************************************************
  * Declarations of local functions.
