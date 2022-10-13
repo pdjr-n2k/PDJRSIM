@@ -66,6 +66,7 @@
 #define GPIO_INSTANCE_BIT0 12
 #define GPIO_POWER_LED 13
 #define GPIO_PRG 14
+#define GPIO_TRANSMIT_LED 15
 #define GPIO_SENSOR8 16
 #define GPIO_SENSOR7 17
 #define GPIO_SENSOR6 18
@@ -140,6 +141,7 @@ void processSwitchInputsMaybe();
 void transmitSwitchbankStatusMaybe(bool force = false);
 void transmitPGN127501();
 unsigned char getLedStatus();
+void updateLedsMaybe();
 void messageHandler(const tN2kMsg&);
 
 /**********************************************************************
@@ -170,7 +172,7 @@ int SENSOR_PINS[] = GPIO_SENSOR_PINS;
 */
 B74HC595 LED_DISPLAY (GPIO_MPX_DATA, GPIO_MPX_CLOCK, GPIO_MPX_LATCH);
 
-bool OPERATE_TRANSMIT_LED = false;
+int TRANSMIT_LED_STATE = 0;
 
 /**********************************************************************
  * SWITCHBANK_INSTANCE - working storage for the switchbank module
@@ -268,6 +270,7 @@ void loop() {
   // updates as required. 
   processSwitchInputsMaybe();
   transmitSwitchbankStatusMaybe();
+  updateLedsMaybe();
   
   // Update the states of connected LEDs
   LED_DISPLAY.loop();
@@ -321,7 +324,19 @@ void transmitSwitchbankStatusMaybe(bool force) {
     transmitPGN127501();
     digitalWrite(GPIO_POWER_LED, 1);
     LED_DISPLAY.preempt();
+    TRANSMIT_LED_STATE = 1;
     deadline = (now + PGN127501_TRANSMIT_INTERVAL);
+  }
+}
+
+
+void updateLedsMaybe() {
+  static unsigned long deadline = 0UL;
+  unsigned long now = millis();
+
+  if (now > deadline) {
+    digitalWrite(GPIO_TRANSMIT_LED, TRANSMIT_LED_STATE); TRANSMIT_LED_STATE = 0;
+    deadline = (now + LED_UPDATE_INTERVAL);
   }
 }
 
