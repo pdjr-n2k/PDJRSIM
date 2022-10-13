@@ -141,7 +141,7 @@ void processSwitchInputsMaybe();
 void transmitSwitchbankStatusMaybe(bool force = false);
 void transmitPGN127501();
 unsigned char getLedStatus();
-void updateLedsMaybe();
+void flashTransmitLedMaybe();
 void messageHandler(const tN2kMsg&);
 
 /**********************************************************************
@@ -270,7 +270,7 @@ void loop() {
   // updates as required. 
   processSwitchInputsMaybe();
   transmitSwitchbankStatusMaybe();
-  updateLedsMaybe();
+  flashTransmitLedMaybe();
   
   // Update the states of connected LEDs
   LED_DISPLAY.loop();
@@ -329,8 +329,10 @@ void transmitSwitchbankStatusMaybe(bool force) {
   }
 }
 
-
-void updateLedsMaybe() {
+/**********************************************************************
+ * Flash the transmit LED every time a packet is transmitted over NMEA.
+ */
+void flashTransmitLedMaybe() {
   static unsigned long deadline = 0UL;
   unsigned long now = millis();
 
