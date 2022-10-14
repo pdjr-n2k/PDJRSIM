@@ -1,140 +1,31 @@
-Source:,/home/preeve/Projects/git/SIM108/hardware/kicad/SIM108.sch,,,,,,,,
-Date:,Thu 13 Oct 2022 14:15:20 BST,,,,,,,,
-Tool:,Eeschema 5.1.10-88a1d61d58~90~ubuntu20.04.1,,,,,,,,
-Generator:,/usr/share/kicad/plugins/bom_csv_grouped_by_value.py,,,,,,,,
-Component Count:,100,,,,,,,,
-,,,,,,,,,
-Individual Components:,,,,,,,,,
-,,,,,,,,,
-Item,Qty,Reference(s),Value,LibPart,Footprint,Datasheet,Power,Spice_Netlist_Enabled,Spice_Primitive
-,,C1,100nF,Device:CP_Small,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,~,,,
-,,C2,100nF,Device:CP_Small,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,~,,,
-,,C3,100nF,Device:C,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,~,,,
-,,C4,100nF,Device:CP_Small,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,~,,,
-,,C5,100nF,Device:CP_Small,Capacitor_SMD:CP_Elec_4x4.5,~,,,
-,,C6,100nF,Device:CP_Small,Capacitor_SMD:CP_Elec_4x4.5,~,,,
-,,C7,100nF,Device:CP_Small,Capacitor_SMD:CP_Elec_4x4.5,~,,,
-,,C8,100nF,Device:CP_Small,Capacitor_SMD:CP_Elec_4x4.5,~,,,
-,,C9,100nF,Device:CP_Small,Capacitor_SMD:CP_Elec_4x4.5,~,,,
-,,C10,100nF,Device:CP_Small,Capacitor_SMD:CP_Elec_4x4.5,~,,,
-,,C11,100nF,Device:CP_Small,Capacitor_SMD:CP_Elec_4x4.5,~,,,
-,,C12,100nF,Device:CP_Small,Capacitor_SMD:CP_Elec_4x4.5,~,,,
-1,3,"C1, C2, C4",100nF,Device:CP_Small,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,~,,,
-2,1,C3,100nF,Device:C,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,~,,,
-3,8,"C5, C6, C7, C8, C9, C10, C11, C12",100nF,Device:CP_Small,Capacitor_SMD:CP_Elec_4x4.5,~,,,
-,,R4,100R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R6,100R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R8,100R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R10,100R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R12,100R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R14,100R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R16,100R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R18,100R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-14,8,"R4, R6, R8, R10, R12, R14, R16, R18",100R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R19,10K,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~,0.125W,,
-,,R20,10K,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~,0.125W,,
-,,R21,10K,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~,0.125W,,
-,,R22,10K,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~,0.125W,,
-,,R23,10K,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~,0.125W,,
-,,R24,10K,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~,0.125W,,
-,,R25,10K,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~,0.125W,,
-,,R26,10K,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~,0.125W,,
-15,8,"R19, R20, R21, R22, R23, R24, R25, R26",10K,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~,0.125W,,
-,,R3,10K 0.5W,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R5,10K 0.5W,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R7,10K 0.5W,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R9,10K 0.5W,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R11,10K 0.5W,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R13,10K 0.5W,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R15,10K 0.5W,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R17,10K 0.5W,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-13,8,"R3, R5, R7, R9, R11, R13, R15, R17",10K 0.5W,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,0.125W,,
-,,R2,120R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,~,,,
-12,1,R2,120R,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,~,,,
-,,F1,1A,Device:Polyfuse,Fuse:Fuse_Littelfuse_395Series,~,,,
-6,1,F1,1A,Device:Polyfuse,Fuse:Fuse_Littelfuse_395Series,~,,,
-,,R1,4K7,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,~,,,
-,,R27,4K7,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,,,
-11,1,R1,4K7,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,~,,,
-16,1,R27,4K7,Device:R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,~,,,
-,,U4,74HC595,74xx:74HC595,Package_DIP:DIP-16_W7.62mm_Socket_LongPads,http://www.ti.com/lit/ds/symlink/sn74hc595.pdf,,,
-24,1,U4,74HC595,74xx:74HC595,Package_DIP:DIP-16_W7.62mm_Socket_LongPads,http://www.ti.com/lit/ds/symlink/sn74hc595.pdf,,,
-,,Q2,BC337,Transistor_BJT:BC337,Package_TO_SOT_THT:TO-92_Inline,https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf,,,
-,,Q4,BC337,Transistor_BJT:BC337,Package_TO_SOT_THT:TO-92_Inline,https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf,,,
-,,Q6,BC337,Transistor_BJT:BC337,Package_TO_SOT_THT:TO-92_Inline,https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf,,,
-,,Q8,BC337,Transistor_BJT:BC337,Package_TO_SOT_THT:TO-92_Inline,https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf,,,
-,,Q10,BC337,Transistor_BJT:BC337,Package_TO_SOT_THT:TO-92_Inline,https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf,,,
-,,Q12,BC337,Transistor_BJT:BC337,Package_TO_SOT_THT:TO-92_Inline,https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf,,,
-,,Q14,BC337,Transistor_BJT:BC337,Package_TO_SOT_THT:TO-92_Inline,https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf,,,
-,,Q16,BC337,Transistor_BJT:BC337,Package_TO_SOT_THT:TO-92_Inline,https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf,,,
-10,8,"Q2, Q4, Q6, Q8, Q10, Q12, Q14, Q16",BC337,Transistor_BJT:BC337,Package_TO_SOT_THT:TO-92_Inline,https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf,,,
-,,Q1,BC547,Transistor_BJT:BC547,Package_TO_SOT_THT:TO-92_Inline,https://www.onsemi.com/pub/Collateral/BC550-D.pdf,,,
-,,Q3,BC547,Transistor_BJT:BC547,Package_TO_SOT_THT:TO-92_Inline,https://www.onsemi.com/pub/Collateral/BC550-D.pdf,,,
-,,Q5,BC547,Transistor_BJT:BC547,Package_TO_SOT_THT:TO-92_Inline,https://www.onsemi.com/pub/Collateral/BC550-D.pdf,,,
-,,Q7,BC547,Transistor_BJT:BC547,Package_TO_SOT_THT:TO-92_Inline,https://www.onsemi.com/pub/Collateral/BC550-D.pdf,,,
-,,Q9,BC547,Transistor_BJT:BC547,Package_TO_SOT_THT:TO-92_Inline,https://www.onsemi.com/pub/Collateral/BC550-D.pdf,,,
-,,Q11,BC547,Transistor_BJT:BC547,Package_TO_SOT_THT:TO-92_Inline,https://www.onsemi.com/pub/Collateral/BC550-D.pdf,,,
-,,Q13,BC547,Transistor_BJT:BC547,Package_TO_SOT_THT:TO-92_Inline,https://www.onsemi.com/pub/Collateral/BC550-D.pdf,,,
-,,Q15,BC547,Transistor_BJT:BC547,Package_TO_SOT_THT:TO-92_Inline,https://www.onsemi.com/pub/Collateral/BC550-D.pdf,,,
-9,8,"Q1, Q3, Q5, Q7, Q9, Q11, Q13, Q15",BC547,Transistor_BJT:BC547,Package_TO_SOT_THT:TO-92_Inline,https://www.onsemi.com/pub/Collateral/BC550-D.pdf,,,
-,,SW3,BUS,Switch:SW_DIP_x02,Package_DIP:DIP-4_W7.62mm_LongPads,~,,,
-20,1,SW3,BUS,Switch:SW_DIP_x02,Package_DIP:DIP-4_W7.62mm_LongPads,~,,,
-,,J2,CAN,Connector:Screw_Terminal_01x05,Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical,~,,,
-8,1,J2,CAN,Connector:Screw_Terminal_01x05,Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical,~,,,
-,,D9,IN4148,Simulation_SPICE:DIODE,Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp,~,,Y,D
-,,D10,IN4148,Simulation_SPICE:DIODE,Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp,~,,Y,D
-,,D11,IN4148,Simulation_SPICE:DIODE,Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp,~,,Y,D
-,,D12,IN4148,Simulation_SPICE:DIODE,Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp,~,,Y,D
-,,D13,IN4148,Simulation_SPICE:DIODE,Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp,~,,Y,D
-,,D14,IN4148,Simulation_SPICE:DIODE,Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp,~,,Y,D
-,,D15,IN4148,Simulation_SPICE:DIODE,Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp,~,,Y,D
-,,D16,IN4148,Simulation_SPICE:DIODE,Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp,~,,Y,D
-5,8,"D9, D10, D11, D12, D13, D14, D15, D16",IN4148,Simulation_SPICE:DIODE,Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp,~,,Y,D
-,,SW2,INSTANCE,Switch:SW_DIP_x08,Package_DIP:DIP-16_W7.62mm,~,,,
-19,1,SW2,INSTANCE,Switch:SW_DIP_x08,Package_DIP:DIP-16_W7.62mm,~,,,
-,,D1,LED,Device:LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,~,,,
-,,D2,LED,Device:LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,~,,,
-,,D3,LED,Device:LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,~,,,
-,,D4,LED,Device:LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,~,,,
-,,D5,LED,Device:LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,~,,,
-,,D6,LED,Device:LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,~,,,
-,,D7,LED,Device:LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,~,,,
-,,D8,LED,Device:LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,~,,,
-,,D17,LED,Device:LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,~,,,
-4,9,"D1, D2, D3, D4, D5, D6, D7, D8, D17",LED,Device:LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,~,,,
-,,U3,MAX6816,Interface:MAX6816,Package_TO_SOT_SMD:SOT-143,https://datasheets.maximintegrated.com/en/ds/1896.pdf,,,
-,,U14,MAX6816,Interface:MAX6816,Package_TO_SOT_SMD:SOT-143,https://datasheets.maximintegrated.com/en/ds/1896.pdf,,,
-,,U15,MAX6816,Interface:MAX6816,Package_TO_SOT_SMD:SOT-143,https://datasheets.maximintegrated.com/en/ds/1896.pdf,,,
-,,U16,MAX6816,Interface:MAX6816,Package_TO_SOT_SMD:SOT-143,https://datasheets.maximintegrated.com/en/ds/1896.pdf,,,
-,,U17,MAX6816,Interface:MAX6816,Package_TO_SOT_SMD:SOT-143,https://datasheets.maximintegrated.com/en/ds/1896.pdf,,,
-,,U18,MAX6816,Interface:MAX6816,Package_TO_SOT_SMD:SOT-143,https://datasheets.maximintegrated.com/en/ds/1896.pdf,,,
-,,U19,MAX6816,Interface:MAX6816,Package_TO_SOT_SMD:SOT-143,https://datasheets.maximintegrated.com/en/ds/1896.pdf,,,
-,,U20,MAX6816,Interface:MAX6816,Package_TO_SOT_SMD:SOT-143,https://datasheets.maximintegrated.com/en/ds/1896.pdf,,,
-,,U21,MAX6816,Interface:MAX6816,Package_TO_SOT_SMD:SOT-143,https://datasheets.maximintegrated.com/en/ds/1896.pdf,,,
-23,9,"U3, U14, U15, U16, U17, U18, U19, U20, U21",MAX6816,Interface:MAX6816,Package_TO_SOT_SMD:SOT-143,https://datasheets.maximintegrated.com/en/ds/1896.pdf,,,
-,,U1,MCP2551-I-P,Interface_CAN_LIN:MCP2551-I-P,Package_DIP:DIP-8_W7.62mm,http://ww1.microchip.com/downloads/en/devicedoc/21667d.pdf,,,
-21,1,U1,MCP2551-I-P,Interface_CAN_LIN:MCP2551-I-P,Package_DIP:DIP-8_W7.62mm,http://ww1.microchip.com/downloads/en/devicedoc/21667d.pdf,,,
-,,SW1,PRG,Switch:SW_Push,PDJR-connectors:PCB_PUSH_BUTTON,~,,,
-18,1,SW1,PRG,Switch:SW_Push,PDJR-connectors:PCB_PUSH_BUTTON,~,,,
-,,RN1,R_Network08,Device:R_Network08,Resistor_THT:R_Array_SIP9,http://www.vishay.com/docs/31509/csc.pdf,,,
-17,1,RN1,R_Network08,Device:R_Network08,Resistor_THT:R_Array_SIP9,http://www.vishay.com/docs/31509/csc.pdf,,,
-,,J1,Screw_Terminal_01x09,Connector:Screw_Terminal_01x09,TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-3-9-5.08_1x09_P5.08mm_Horizontal,~,,,
-7,1,J1,Screw_Terminal_01x09,Connector:Screw_Terminal_01x09,TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-3-9-5.08_1x09_P5.08mm_Horizontal,~,,,
-,,U6,SFH617A-1,Isolator:SFH617A-1,Package_DIP:DIP-4_W7.62mm,http://www.vishay.com/docs/83740/sfh617a.pdf,,,
-,,U7,SFH617A-1,Isolator:SFH617A-1,Package_DIP:DIP-4_W7.62mm,http://www.vishay.com/docs/83740/sfh617a.pdf,,,
-,,U8,SFH617A-1,Isolator:SFH617A-1,Package_DIP:DIP-4_W7.62mm,http://www.vishay.com/docs/83740/sfh617a.pdf,,,
-,,U9,SFH617A-1,Isolator:SFH617A-1,Package_DIP:DIP-4_W7.62mm,http://www.vishay.com/docs/83740/sfh617a.pdf,,,
-,,U10,SFH617A-1,Isolator:SFH617A-1,Package_DIP:DIP-4_W7.62mm,http://www.vishay.com/docs/83740/sfh617a.pdf,,,
-,,U11,SFH617A-1,Isolator:SFH617A-1,Package_DIP:DIP-4_W7.62mm,http://www.vishay.com/docs/83740/sfh617a.pdf,,,
-,,U12,SFH617A-1,Isolator:SFH617A-1,Package_DIP:DIP-4_W7.62mm,http://www.vishay.com/docs/83740/sfh617a.pdf,,,
-,,U13,SFH617A-1,Isolator:SFH617A-1,Package_DIP:DIP-4_W7.62mm,http://www.vishay.com/docs/83740/sfh617a.pdf,,,
-26,8,"U6, U7, U8, U9, U10, U11, U12, U13",SFH617A-1,Isolator:SFH617A-1,Package_DIP:DIP-4_W7.62mm,http://www.vishay.com/docs/83740/sfh617a.pdf,,,
-,,U5,Teensy_3.2,SIM108-rescue:Teensy_3.2-pdjr,Package_DIP:DIP-28_W15.24mm_LongPads,,,,
-25,1,U5,Teensy_3.2,SIM108-rescue:Teensy_3.2-pdjr,Package_DIP:DIP-28_W15.24mm_LongPads,,,,
-,,U2,TMR_2411,SIM108-rescue:TMR_2411-pdjr,PDJR-connectors:TMR_2411,,,,
-22,1,U2,TMR_2411,SIM108-rescue:TMR_2411-pdjr,PDJR-connectors:TMR_2411,,,,
-Item,Qty,Reference(s),Value,LibPart,Footprint,Datasheet,Power,Spice_Netlist_Enabled,Spice_Primitive
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-Collated Components:,,,,,,,,,
+"Source:","/home/preeve/Projects/git/SIM108/hardware/kicad/SIM108.sch"
+"Date:","Fri 14 Oct 2022 11:51:31 BST"
+"Tool:","Eeschema 5.1.10-88a1d61d58~90~ubuntu20.04.1"
+"Generator:","/usr/share/kicad/plugins/bom_csv_grouped_by_value_with_fp.py"
+"Component Count:","100"
+"Ref","Qnty","Value","Cmp name","Footprint","Description","Vendor"
+"C1, C2, C3, C4, ","4","100nF","CP_Small","Capacitor_THT:CP_Radial_D5.0mm_P2.00mm","Polarized capacitor, small symbol",""
+"C5, C6, C7, C8, C9, C10, C11, C12, ","8","100nF","CP_Small","Capacitor_SMD:CP_Elec_4x4.5","Polarized capacitor, small symbol",""
+"D1, D2, D3, D4, D5, D6, D7, D8, D9, ","9","LED","LED","LED_THT:LED_D1.8mm_W3.3mm_H2.4mm","Light emitting diode",""
+"D10, D11, D12, D13, D14, D15, D16, D17, ","8","IN4148","DIODE","Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp","Diode, anode on pin 1, for simulation only!",""
+"F1, ","1","1A","Polyfuse","Fuse:Fuse_Littelfuse_395Series","Resettable fuse, polymeric positive temperature coefficient",""
+"J1, ","1","Screw_Terminal_01x09","Screw_Terminal_01x09","PDJR-connectors:RS-PLUG-TERMINAL-HORIZ-9-PIN","Generic screw terminal, single row, 01x09, script generated (kicad-library-utils/schlib/autogen/connector/)",""
+"J2, ","1","CAN","Screw_Terminal_01x05","Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical","Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)",""
+"Q1, Q3, Q5, Q7, Q9, Q11, Q13, Q15, ","8","BC547","BC547","Package_TO_SOT_THT:TO-92_Inline","0.1A Ic, 45V Vce, Small Signal NPN Transistor, TO-92",""
+"Q2, Q4, Q6, Q8, Q10, Q12, Q14, Q16, ","8","BC337","BC337","Package_TO_SOT_THT:TO-92_Inline","0.8A Ic, 45V Vce, NPN Transistor, TO-92",""
+"R1, ","1","4K7 0.125W","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical","Resistor",""
+"R2, ","1","120R 0.5W","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal","Resistor",""
+"R3, ","1","4K7","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical","Resistor",""
+"R4, R7, R10, R13, R16, R19, R22, R25, ","8","10K 0.5W","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical","Resistor",""
+"R5, R8, R11, R14, R17, R20, R23, R26, ","8","100R 0.25W","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical","Resistor",""
+"R6, R9, R12, R15, R18, R21, R24, R27, ","8","4K7 0.125W","R","Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder","Resistor",""
+"RN1, ","1","R_Network08","R_Network08","Resistor_THT:R_Array_SIP9","8 resistor network, star topology, bussed resistors, small symbol",""
+"SW1, ","1","PRG","SW_Push","PDJR-connectors:PCB_PUSH_BUTTON","Push button switch, generic, two pins",""
+"SW2, ","1","INSTANCE","SW_DIP_x08","Package_DIP:DIP-16_W7.62mm","8x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol",""
+"SW3, ","1","BUS","SW_DIP_x02","Package_DIP:DIP-4_W7.62mm_LongPads","2x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol",""
+"U1, ","1","MCP2551-I-P","MCP2551-I-P","Package_DIP:DIP-8_W7.62mm","High-Speed CAN Transceiver, 1Mbps, 5V supply, DIP-8",""
+"U2, ","1","TMR_2411","TMR_2411-pdjr","PDJR-connectors:TMR_2411","",""
+"U3, U7, U9, U11, U13, U15, U17, U19, U21, ","9","MAX6816","MAX6816","Package_TO_SOT_SMD:SOT-143","Single Switch  Debouncer, SOT-143",""
+"U4, ","1","74HC595","74HC595","Package_DIP:DIP-16_W7.62mm_Socket_LongPads","8-bit serial in/out Shift Register 3-State Outputs",""
+"U5, ","1","Teensy_3.2","Teensy_3.2-pdjr","Package_DIP:DIP-28_W15.24mm_LongPads","",""
+"U6, U8, U10, U12, U14, U16, U18, U20, ","8","SFH617A-1","SFH617A-1","Package_DIP:DIP-4_W7.62mm","Optocoupler, Phototransistor Output, 5300 VRMS, VCEO 70V, CTR% 40-80, -55 to +110 degree Celcius, UL, BSI, FIMKO, cUL, THT PDIP-4",""

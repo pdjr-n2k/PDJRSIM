@@ -109,7 +109,7 @@ U 1 1 62D3957B
 P 800 2200
 F 0 "J1" H 800 2700 50  0000 C CNN
 F 1 "Screw_Terminal_01x09" H 800 2700 50  0001 C CNN
-F 2 "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-3-9-5.08_1x09_P5.08mm_Horizontal" H 800 2200 50  0001 C CNN
+F 2 "PDJR-connectors:RS-PLUG-TERMINAL-HORIZ-9-PIN" H 800 2200 50  0001 C CNN
 F 3 "~" H 800 2200 50  0001 C CNN
 	1    800  2200
 	-1   0    0    -1  
