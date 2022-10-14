@@ -1,31 +1,27 @@
-"Source:","/home/preeve/Projects/git/SIM108/hardware/kicad/SIM108.sch"
-"Date:","Fri 14 Oct 2022 11:51:31 BST"
-"Tool:","Eeschema 5.1.10-88a1d61d58~90~ubuntu20.04.1"
-"Generator:","/usr/share/kicad/plugins/bom_csv_grouped_by_value_with_fp.py"
-"Component Count:","100"
-"Ref","Qnty","Value","Cmp name","Footprint","Description","Vendor"
-"C1, C2, C3, C4, ","4","100nF","CP_Small","Capacitor_THT:CP_Radial_D5.0mm_P2.00mm","Polarized capacitor, small symbol",""
-"C5, C6, C7, C8, C9, C10, C11, C12, ","8","100nF","CP_Small","Capacitor_SMD:CP_Elec_4x4.5","Polarized capacitor, small symbol",""
-"D1, D2, D3, D4, D5, D6, D7, D8, D9, ","9","LED","LED","LED_THT:LED_D1.8mm_W3.3mm_H2.4mm","Light emitting diode",""
-"D10, D11, D12, D13, D14, D15, D16, D17, ","8","IN4148","DIODE","Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp","Diode, anode on pin 1, for simulation only!",""
-"F1, ","1","1A","Polyfuse","Fuse:Fuse_Littelfuse_395Series","Resettable fuse, polymeric positive temperature coefficient",""
-"J1, ","1","Screw_Terminal_01x09","Screw_Terminal_01x09","PDJR-connectors:RS-PLUG-TERMINAL-HORIZ-9-PIN","Generic screw terminal, single row, 01x09, script generated (kicad-library-utils/schlib/autogen/connector/)",""
-"J2, ","1","CAN","Screw_Terminal_01x05","Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical","Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)",""
-"Q1, Q3, Q5, Q7, Q9, Q11, Q13, Q15, ","8","BC547","BC547","Package_TO_SOT_THT:TO-92_Inline","0.1A Ic, 45V Vce, Small Signal NPN Transistor, TO-92",""
-"Q2, Q4, Q6, Q8, Q10, Q12, Q14, Q16, ","8","BC337","BC337","Package_TO_SOT_THT:TO-92_Inline","0.8A Ic, 45V Vce, NPN Transistor, TO-92",""
-"R1, ","1","4K7 0.125W","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical","Resistor",""
-"R2, ","1","120R 0.5W","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal","Resistor",""
-"R3, ","1","4K7","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical","Resistor",""
-"R4, R7, R10, R13, R16, R19, R22, R25, ","8","10K 0.5W","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical","Resistor",""
-"R5, R8, R11, R14, R17, R20, R23, R26, ","8","100R 0.25W","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical","Resistor",""
-"R6, R9, R12, R15, R18, R21, R24, R27, ","8","4K7 0.125W","R","Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder","Resistor",""
-"RN1, ","1","R_Network08","R_Network08","Resistor_THT:R_Array_SIP9","8 resistor network, star topology, bussed resistors, small symbol",""
-"SW1, ","1","PRG","SW_Push","PDJR-connectors:PCB_PUSH_BUTTON","Push button switch, generic, two pins",""
-"SW2, ","1","INSTANCE","SW_DIP_x08","Package_DIP:DIP-16_W7.62mm","8x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol",""
-"SW3, ","1","BUS","SW_DIP_x02","Package_DIP:DIP-4_W7.62mm_LongPads","2x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol",""
-"U1, ","1","MCP2551-I-P","MCP2551-I-P","Package_DIP:DIP-8_W7.62mm","High-Speed CAN Transceiver, 1Mbps, 5V supply, DIP-8",""
-"U2, ","1","TMR_2411","TMR_2411-pdjr","PDJR-connectors:TMR_2411","",""
-"U3, U7, U9, U11, U13, U15, U17, U19, U21, ","9","MAX6816","MAX6816","Package_TO_SOT_SMD:SOT-143","Single Switch  Debouncer, SOT-143",""
-"U4, ","1","74HC595","74HC595","Package_DIP:DIP-16_W7.62mm_Socket_LongPads","8-bit serial in/out Shift Register 3-State Outputs",""
-"U5, ","1","Teensy_3.2","Teensy_3.2-pdjr","Package_DIP:DIP-28_W15.24mm_LongPads","",""
-"U6, U8, U10, U12, U14, U16, U18, U20, ","8","SFH617A-1","SFH617A-1","Package_DIP:DIP-4_W7.62mm","Optocoupler, Phototransistor Output, 5300 VRMS, VCEO 70V, CTR% 40-80, -55 to +110 degree Celcius, UL, BSI, FIMKO, cUL, THT PDIP-4",""
+Component Count:,100,,,,,
+Ref,Qnty,Value,Cmp name,Footprint,Description,Vendor
+"C1, C2, C3, C4, ",4,100nF,CP_Small,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,"Polarized capacitor, small symbol",
+"C5, C6, C7, C8, C9, C10, C11, C12, ",8,100nF,CP_Small,Capacitor_SMD:CP_Elec_4x4.5,"Polarized capacitor, small symbol",
+"D1, D2, D3, D4, D5, D6, D7, D8, D9, ",9,LED,LED,LED_THT:LED_D1.8mm_W3.3mm_H2.4mm,Light emitting diode,
+"D10, D11, D12, D13, D14, D15, D16, D17, ",8,IN4148,DIODE,Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp,"Diode, anode on pin 1, for simulation only!",
+"F1, ",1,1A,Polyfuse,Fuse:Fuse_Littelfuse_395Series,"Resettable fuse, polymeric positive temperature coefficient",
+"J1, ",1,Screw_Terminal_01x09,Screw_Terminal_01x09,PDJR-connectors:RS-PLUG-TERMINAL-HORIZ-9-PIN,"Generic screw terminal, single row, 01x09, script generated (kicad-library-utils/schlib/autogen/connector/)",
+"J2, ",1,CAN,Screw_Terminal_01x05,Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical,"Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)",
+"Q1, Q3, Q5, Q7, Q9, Q11, Q13, Q15, ",8,BC547,BC547,Package_TO_SOT_THT:TO-92_Inline,"0.1A Ic, 45V Vce, Small Signal NPN Transistor, TO-92",
+"Q2, Q4, Q6, Q8, Q10, Q12, Q14, Q16, ",8,BC337,BC337,Package_TO_SOT_THT:TO-92_Inline,"0.8A Ic, 45V Vce, NPN Transistor, TO-92",
+"R1, ",1,4K7 0.125W,R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,Resistor,
+"R2, ",1,120R 0.5W,R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,Resistor,
+"R3, ",1,4K7,R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,Resistor,
+"R4, R7, R10, R13, R16, R19, R22, R25, ",8,10K 0.5W,R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,Resistor,
+"R5, R8, R11, R14, R17, R20, R23, R26, ",8,100R 0.25W,R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical,Resistor,
+"R6, R9, R12, R15, R18, R21, R24, R27, ",8,4K7 0.125W,R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,Resistor,
+"RN1, ",1,R_Network08,R_Network08,Resistor_THT:R_Array_SIP9,"8 resistor network, star topology, bussed resistors, small symbol",
+"SW1, ",1,PRG,SW_Push,PDJR-connectors:PCB_PUSH_BUTTON,"Push button switch, generic, two pins",
+"SW2, ",1,INSTANCE,SW_DIP_x08,Package_DIP:DIP-16_W7.62mm,"8x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol",
+"SW3, ",1,BUS,SW_DIP_x02,Package_DIP:DIP-4_W7.62mm_LongPads,"2x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol",
+"U1, ",1,MCP2551-I-P,MCP2551-I-P,Package_DIP:DIP-8_W7.62mm,"High-Speed CAN Transceiver, 1Mbps, 5V supply, DIP-8",
+"U2, ",1,TMR_2411,TMR_2411-pdjr,PDJR-connectors:TMR_2411,,
+"U3, U7, U9, U11, U13, U15, U17, U19, U21, ",9,MAX6816,MAX6816,Package_TO_SOT_SMD:SOT-143,"Single Switch  Debouncer, SOT-143",
+"U4, ",1,74HC595,74HC595,Package_DIP:DIP-16_W7.62mm_Socket_LongPads,8-bit serial in/out Shift Register 3-State Outputs,
+"U5, ",1,Teensy_3.2,Teensy_3.2-pdjr,Package_DIP:DIP-28_W15.24mm_LongPads,,
+"U6, U8, U10, U12, U14, U16, U18, U20, ",8,SFH617A-1,SFH617A-1,Package_DIP:DIP-4_W7.62mm,"Optocoupler, Phototransistor Output, 5300 VRMS, VCEO 70V, CTR% 40-80, -55 to +110 degree Celcius, UL, BSI, FIMKO, cUL, THT PDIP-4",
