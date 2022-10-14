@@ -16,7 +16,7 @@ The module is powered from the NMEA bus and has an LEN of 0.5.
 ## Design overview
 
 __SIM108__ uses a Teensy 3.2 microcontroller supported by power
-supply, CAN unterface, configuration, display and switch input
+supply, CAN interface, configuration, display and switch input
 sub-systems.
 
 The power supply sub-system consists of a solid-state DC-DC
