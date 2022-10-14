@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 5 9
+Sheet 2 9
 Title "SIM108 Switch Input Module"
 Date "2022-06-11"
 Rev "2.0.0"
@@ -25,7 +25,7 @@ AR Path="/62FD589D/62EBA913" Ref="U12"  Part="1"
 AR Path="/63041ECA/62EBA913" Ref="U14"  Part="1" 
 AR Path="/62F45EE0/62EBA913" Ref="U16"  Part="1" 
 AR Path="/62FB890E/62EBA913" Ref="U18"  Part="1" 
-F 0 "U12" H 6100 3200 50  0000 C CNN
+F 0 "U6" H 6100 3200 50  0000 C CNN
 F 1 "SFH617A-1" H 6100 3600 50  0000 C CNN
 F 2 "Package_DIP:DIP-4_W7.62mm" H 5900 3200 50  0001 L CIN
 F 3 "http://www.vishay.com/docs/83740/sfh617a.pdf" H 6100 3400 50  0001 L CNN
@@ -46,7 +46,7 @@ AR Path="/62FD589D/62ED7963" Ref="R13"  Part="1"
 AR Path="/63041ECA/62ED7963" Ref="R16"  Part="1" 
 AR Path="/62F45EE0/62ED7963" Ref="R19"  Part="1" 
 AR Path="/62FB890E/62ED7963" Ref="R22"  Part="1" 
-F 0 "R13" H 5350 3500 50  0000 L CNN
+F 0 "R4" H 5350 3500 50  0000 L CNN
 F 1 "10K 0.5W" V 5300 3500 20  0000 C CNN
 F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical" V 5230 3500 50  0001 C CNN
 F 3 "~" H 5300 3500 50  0001 C CNN
@@ -77,7 +77,7 @@ AR Path="/62FD589D/62F493CD" Ref="R14"  Part="1"
 AR Path="/63041ECA/62F493CD" Ref="R17"  Part="1" 
 AR Path="/62F45EE0/62F493CD" Ref="R20"  Part="1" 
 AR Path="/62FB890E/62F493CD" Ref="R23"  Part="1" 
-F 0 "R14" H 5750 4050 50  0000 L CNN
+F 0 "R5" H 5750 4050 50  0000 L CNN
 F 1 "100R 0.25W" V 5700 4050 20  0000 C CNN
 F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical" V 5630 4050 50  0001 C CNN
 F 3 "~" H 5700 4050 50  0001 C CNN
@@ -99,7 +99,7 @@ AR Path="/62FD589D/62EA87F7" Ref="Q8"  Part="1"
 AR Path="/63041ECA/62EA87F7" Ref="Q10"  Part="1" 
 AR Path="/62F45EE0/62EA87F7" Ref="Q12"  Part="1" 
 AR Path="/62FB890E/62EA87F7" Ref="Q14"  Part="1" 
-F 0 "Q8" H 5791 3746 50  0000 L CNN
+F 0 "Q2" H 5791 3746 50  0000 L CNN
 F 1 "BC337" H 5791 3655 50  0000 L CNN
 F 2 "Package_TO_SOT_THT:TO-92_Inline" H 5800 3625 50  0001 L CIN
 F 3 "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf" H 5600 3700 50  0001 L CNN
@@ -115,7 +115,7 @@ Connection ~ 5300 4200
 $Comp
 L Simulation_SPICE:DIODE D10
 U 1 1 62FE9B9E
-P 5100 3500
+P 4950 3300
 AR Path="/62FB7846/62FE9B9E" Ref="D10"  Part="1" 
 AR Path="/63089671/62FE9B9E" Ref="D17"  Part="1" 
 AR Path="/63103CAF/62FE9B9E" Ref="D11"  Part="1" 
@@ -124,27 +124,15 @@ AR Path="/62FD589D/62FE9B9E" Ref="D13"  Part="1"
 AR Path="/63041ECA/62FE9B9E" Ref="D14"  Part="1" 
 AR Path="/62F45EE0/62FE9B9E" Ref="D15"  Part="1" 
 AR Path="/62FB890E/62FE9B9E" Ref="D16"  Part="1" 
-F 0 "D13" V 5150 3600 50  0000 L CNN
-F 1 "IN4148" V 5050 3600 50  0000 L CNN
-F 2 "Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp" H 5100 3500 50  0001 C CNN
-F 3 "~" H 5100 3500 50  0001 C CNN
-F 4 "Y" H 5100 3500 50  0001 L CNN "Spice_Netlist_Enabled"
-F 5 "D" H 5100 3500 50  0001 L CNN "Spice_Primitive"
-	1    5100 3500
-	0    -1   -1   0   
+F 0 "D10" H 4750 3250 50  0000 L CNN
+F 1 "IN4148" H 5000 3250 50  0000 L CNN
+F 2 "Diode_THT:D_A-405_P2.54mm_Vertical_AnodeUp" H 4950 3300 50  0001 C CNN
+F 3 "~" H 4950 3300 50  0001 C CNN
+F 4 "Y" H 4950 3300 50  0001 L CNN "Spice_Netlist_Enabled"
+F 5 "D" H 4950 3300 50  0001 L CNN "Spice_Primitive"
+	1    4950 3300
+	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	5100 3350 5100 3300
-Wire Wire Line
-	5000 4200 5100 4200
-Connection ~ 5100 3300
-Wire Wire Line
-	5100 3300 5000 3300
-Wire Wire Line
-	5100 3650 5100 4200
-Connection ~ 5100 4200
-Wire Wire Line
-	5100 4200 5300 4200
 $Comp
 L Transistor_BJT:BC547 Q1
 U 1 1 62FB7374
@@ -157,7 +145,7 @@ AR Path="/62FD589D/62FB7374" Ref="Q7"  Part="1"
 AR Path="/63041ECA/62FB7374" Ref="Q9"  Part="1" 
 AR Path="/62F45EE0/62FB7374" Ref="Q11"  Part="1" 
 AR Path="/62FB890E/62FB7374" Ref="Q13"  Part="1" 
-F 0 "Q7" H 5591 3946 50  0000 L CNN
+F 0 "Q1" H 5591 3946 50  0000 L CNN
 F 1 "BC547" H 5591 3855 50  0000 L CNN
 F 2 "Package_TO_SOT_THT:TO-92_Inline" H 5600 3825 50  0001 L CIN
 F 3 "https://www.onsemi.com/pub/Collateral/BC550-D.pdf" H 5400 3900 50  0001 L CNN
@@ -165,9 +153,9 @@ F 3 "https://www.onsemi.com/pub/Collateral/BC550-D.pdf" H 5400 3900 50  0001 L C
 	-1   0    0    -1  
 $EndComp
 Connection ~ 5300 3700
-Text HLabel 5000 3300 0    50   Input ~ 0
+Text HLabel 4700 3300 0    50   Input ~ 0
 OII_IN
-Text HLabel 5000 4200 0    50   UnSpc ~ 0
+Text HLabel 4750 4200 0    50   UnSpc ~ 0
 OII_IN_GND
 Text HLabel 7600 3500 2    50   Output ~ 0
 OII_OUT
@@ -185,7 +173,7 @@ AR Path="/62FD589D/63451832" Ref="U13"  Part="1"
 AR Path="/63041ECA/63451832" Ref="U15"  Part="1" 
 AR Path="/62F45EE0/63451832" Ref="U17"  Part="1" 
 AR Path="/62FB890E/63451832" Ref="U19"  Part="1" 
-F 0 "U13" H 7000 3850 50  0000 L CNN
+F 0 "U7" H 7000 3850 50  0000 L CNN
 F 1 "MAX6816" H 6950 3150 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-143" H 7550 3050 50  0001 C CNN
 F 3 "https://datasheets.maximintegrated.com/en/ds/1896.pdf" H 6900 3500 50  0001 C CNN
@@ -225,7 +213,7 @@ AR Path="/62FD589D/6344909D" Ref="R15"  Part="1"
 AR Path="/63041ECA/6344909D" Ref="R18"  Part="1" 
 AR Path="/62F45EE0/6344909D" Ref="R21"  Part="1" 
 AR Path="/62FB890E/6344909D" Ref="R24"  Part="1" 
-F 0 "R15" H 6550 4050 50  0000 L CNN
+F 0 "R6" H 6550 4050 50  0000 L CNN
 F 1 "4K7 0.125W" V 6500 4050 20  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 6430 4050 50  0001 C CNN
 F 3 "~" H 6500 4050 50  0001 C CNN
@@ -253,7 +241,7 @@ AR Path="/63041ECA/6344B5F5" Ref="C9"  Part="1"
 AR Path="/62F45EE0/6344B5F5" Ref="C10"  Part="1" 
 AR Path="/62FB890E/6344B5F5" Ref="C11"  Part="1" 
 AR Path="/63089671/6344B5F5" Ref="C12"  Part="1" 
-F 0 "C8" H 7438 3346 50  0000 L CNN
+F 0 "C5" H 7438 3346 50  0000 L CNN
 F 1 "100nF" H 7438 3255 50  0000 L CNN
 F 2 "Capacitor_SMD:CP_Elec_4x4.5" H 7350 3300 50  0001 C CNN
 F 3 "~" H 7350 3300 50  0001 C CNN
@@ -272,4 +260,8 @@ Wire Wire Line
 Connection ~ 7350 4200
 Wire Wire Line
 	7350 4200 7650 4200
+Wire Wire Line
+	4750 4200 5300 4200
+Wire Wire Line
+	4800 3300 4700 3300
 $EndSCHEMATC
