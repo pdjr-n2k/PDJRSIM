@@ -100,7 +100,7 @@ AR Path="/63041ECA/62EA87F7" Ref="Q10"  Part="1"
 AR Path="/62F45EE0/62EA87F7" Ref="Q12"  Part="1" 
 AR Path="/62FB890E/62EA87F7" Ref="Q14"  Part="1" 
 F 0 "Q2" H 5791 3746 50  0000 L CNN
-F 1 "BC337" H 5791 3655 50  0000 L CNN
+F 1 "BC337-40" H 5791 3655 50  0000 L CNN
 F 2 "Package_TO_SOT_THT:TO-92_Inline" H 5800 3625 50  0001 L CIN
 F 3 "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf" H 5600 3700 50  0001 L CNN
 	1    5600 3700
@@ -159,7 +159,7 @@ Text HLabel 4750 4200 0    50   UnSpc ~ 0
 OII_IN_GND
 Text HLabel 7600 3500 2    50   Output ~ 0
 OII_OUT
-Text HLabel 7600 4200 2    50   UnSpc ~ 0
+Text HLabel 7650 4200 2    50   UnSpc ~ 0
 OII_OUT_GND
 $Comp
 L Interface:MAX6816 U7
