@@ -64,15 +64,15 @@ The firmware transmits the following NMEA 2000 message types.
 | :---                             | :--- | :---          |
 | ENC                              |      | [Hammond 1591 Series Flanged ABS Enclosure](https://uk.rs-online.com/web/p/general-purpose-enclosures/7417477) |
 | PCB                              |      | [PCB](./ROM104.brd.pdf) |
-| C1-C4                            | THT  | [100nF electrolytic capacitor](https://uk.rs-online.com/web/p/aluminium-capacitors/8624146) |
-| C5-C12                           | SMD  | [100nF aluminium capacitor](https://uk.rs-online.com/web/p/aluminium-capacitors/8388005) |
-| D1-D9                            | THT  | [2mm rectangular LED](https://uk.rs-online.com/web/p/leds/2292447) |
-| D10-D17                          | THT  | [1N4148 300mA diode](https://uk.rs-online.com/web/p/switching-diodes/7390290) |
+| C1,C2,C3,C4                      | THT  | [100nF electrolytic capacitor](https://uk.rs-online.com/web/p/aluminium-capacitors/8624146) |
+| C5,C6,C7,C8,C9,C10,C11,C12       | SMD  | [100nF aluminium capacitor](https://uk.rs-online.com/web/p/aluminium-capacitors/8388005) |
+| D1,D2,D3,D4,D5,D6,D7,D8,D9       | THT  | [2mm rectangular LED](https://uk.rs-online.com/web/p/leds/2292447) |
+| D10,D11,D12,D13,D14,D15,D16,D17  | THT  | [1N4148 300mA diode](https://uk.rs-online.com/web/p/switching-diodes/7390290) |
 | F1                               | THT  | [1A resettable fuse](https://uk.rs-online.com/web/p/resettable-fuses/6571772) |
 | J1                               |      | [M12 5-pin male connector](https://uk.rs-online.com/web/p/industrial-circular-connectors/8771154) |
 | J2                               | THT  | [2.54mm pin header 5-way] () |
-| Q1,Q3..Q15                       | THT  | [BC547 NPN transistor](https://uk.rs-online.com/web/p/bipolar-transistors/6711113) |
-| Q2,Q4..Q16                       | THT  | [BC337-40 bipolar transistor]() |
+| Q1,Q3,Q5,Q7,Q9,Q11,Q13,Q15       | THT  | [BC547 NPN transistor](https://uk.rs-online.com/web/p/bipolar-transistors/6711113) |
+| Q2,Q4,Q6,Q8,Q10,Q12,Q14,Q16      | THT  | [BC337-40 bipolar transistor]() |
 | R1,R3                            | THT  | [4K7 0.25W resistor]() ]
 | R2                               | THT  | [120R 0.5W resistor]() |
 | R4,R7,R10,R13,R16,R19,R22,R25    | THT  | [10K 0.5W resistor]() |
