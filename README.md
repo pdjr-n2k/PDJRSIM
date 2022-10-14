@@ -73,8 +73,9 @@ The firmware transmits the following NMEA 2000 message types.
 | J2                               | THT  | [2.54mm pin header 5-way] () |
 | Q1,Q3,Q5,Q7,Q9,Q11,Q13,Q15       | THT  | [BC547 NPN transistor](https://uk.rs-online.com/web/p/bipolar-transistors/6711113) |
 | Q2,Q4,Q6,Q8,Q10,Q12,Q14,Q16      | THT  | [BC337-40 bipolar transistor]() |
-| R1,R3                            | THT  | [4K7 0.25W resistor]() ]
+| R1                               | THT  | [4K7 0.25W resistor]() ]
 | R2                               | THT  | [120R 0.5W resistor]() |
+| R3                               | THT  | [470R 0.25W resistor]() |
 | R4,R7,R10,R13,R16,R19,R22,R25    | THT  | [10K 0.5W resistor]() |
 | R5,R8,R11,R14,R17,R20,R23,R26    | THT  | [100R 0.25W resistor]() |
 | R6,R9,R12,R15,R18,R21,R24,R27    | SMD  | [4K7 0.125W resistor]() |
