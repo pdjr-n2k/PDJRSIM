@@ -59,33 +59,35 @@ The firmware transmits the following NMEA 2000 message types.
 ## Implementation
 
 ### Parts list
-
-| REF      | Subsystem       | Component               | RS Part#|
-| :---     | :---            | :---                    | :--- |
-| --       | ENC             | [Plastic flanged enclosure](https://docs.rs-online.com/7852/0900766b80fcf8b3.pdf) | [https://uk.rs-online.com/web/p/general-purpose-enclosures/7417477) |
-| --       | PCB             | [PCB](./ROM104.brd.pdf) | |
-| U7       | Microcontroller | [PJRC Teensy 3.2 MCU](https://www.pjrc.com/store/teensy32.html) |
-| C8       | Microcontroller | [100nF elctrolytic capacitor](https://docs.rs-online.com/6ccf/0900766b8143e698.pdf)| [862-4146](https://uk.rs-online.com/web/p/aluminium-capacitors/8624146) |
-| SW1      | Configuration   | [8-way SPST DIP switch](https://docs.rs-online.com/c98b/0900766b810b550f.pdf) | [756-1347](https://uk.rs-online.com/web/p/dip-sip-switches/7561347/) |
-| SW2      | Configuration   | [2-way SPST DIP switch](https://docs.rs-online.com/a014/0900766b81670159.pdf) | [177-4261](https://uk.rs-online.com/web/p/dip-sip-switches/1774261) |
-| SW3      | Configuration   | [Push button](https://docs.rs-online.com/9eaa/0900766b81403991.pdf) | [010-2327](https://uk.rs-online.com/web/p/keyboard-switches/0102327) |
-| ??       | Configuration   | [MAX6816 debouncer](https://docs.rs-online.com/617e/0900766b81729403.pdf) | [189-9248](https://uk.rs-online.com/web/p/bounce-eliminator-ics/1899248) |
-| U6       | Display         | [74HC595 shift register](https://uk.rs-online.com/web/p/counter-ics/7091971) | [709-1971](https://uk.rs-online.com/web/p/counter-ics/7091971) |
-| C9       | Display         | [100nF elctrolytic capacitor](https://docs.rs-online.com/6ccf/0900766b8143e698.pdf)| [862-4146](https://uk.rs-online.com/web/p/aluminium-capacitors/8624146) |
-| D1-D8    | Display         | [2mm rectangular LED](https://docs.rs-online.com/3547/0900766b81384f75.pdf) | [229-2447](https://uk.rs-online.com/web/p/leds/2292447) |
-| RN1      | Display         | [470R 8x resistor array](https://docs.rs-online.com/d532/0900766b8069ccfd.pdf) | [522-4273](https://uk.rs-online.com/web/p/resistor-arrays/5224273) |
-| U3       | Power supply    | [TracoPower TMR-2411 DC-DC converter](https://docs.rs-online.com/1b79/0900766b8172f5cb.pdf) | [433-8258](https://uk.rs-online.com/web/p/dc-dc-converters/4338258) |
-| F1       | Power supply    | [1A resettable fuse](https://docs.rs-online.com/ec39/0900766b80bc9043.pdf) | [657-1772](https://uk.rs-online.com/web/p/resettable-fuses/6571772) |
-| U2       | CAN interface   | [MCP2551-I/P CAN transceiver](https://docs.rs-online.com/f763/0900766b8140ba57.pdf) | [876-7259](https://uk.rs-online.com/web/p/can-interface-ics/8767259) | 
-| C1       | CAN interface | [100nF elctrolytic capacitor](https://docs.rs-online.com/6ccf/0900766b8143e698.pdf)| [862-4146](https://uk.rs-online.com/web/p/aluminium-capacitors/8624146) |
-| R1       | CAN interface   | [4K7 0.25W resistor](https://docs.rs-online.com/d566/A700000008919924.pdf) | [707-7260](https://uk.rs-online.com/web/p/through-hole-resistors/7077726) |
-| R2       | CAN interface   | [120R 0.5W resistor](https://docs.rs-online.com/1e48/0900766b8157ae0f.pdf) | [707-8154](https://uk.rs-online.com/web/p/through-hole-resistors/7078154) |
-| J3       | CAN interface   | [M12 5-pin male connector](https://docs.rs-online.com/6e45/A700000007926144.pdf) | [877-1154](https://uk.rs-online.com/web/p/industrial-circular-connectors/8771154) |
-| D9       | Switch input    | [ IN4148 diode]() | |
-| R3       | Switch input    | [ 10K 0.5W resistor ]() | |
-| R4       | Switch input    | [ 100R 0.5W resistor]() | |
-| R19      | Switch input    |
-
+         
+| REF                              | Type | Component               |
+| :---                             | :--- | :---          |
+| ENC                              |      | [Hammond 1591 Series Flanged ABS Enclosure](https://uk.rs-online.com/web/p/general-purpose-enclosures/7417477) |
+| PCB                              |      | [PCB](./ROM104.brd.pdf) |
+| C1-C4                            | THT  | [100nF electrolytic capacitor](https://uk.rs-online.com/web/p/aluminium-capacitors/8624146) |
+| C5-C12                           | SMD  | [100nF aluminium capacitor](https://uk.rs-online.com/web/p/aluminium-capacitors/8388005) |
+| D1-D9                            | THT  | [2mm rectangular LED](https://uk.rs-online.com/web/p/leds/2292447) |
+| D10-D17                          | THT  | [1N4148 300mA diode](https://uk.rs-online.com/web/p/switching-diodes/7390290) |
+| F1                               | THT  | [1A resettable fuse](https://uk.rs-online.com/web/p/resettable-fuses/6571772) |
+| J1                               |      | [M12 5-pin male connector](https://uk.rs-online.com/web/p/industrial-circular-connectors/8771154) |
+| J2                               | THT  | [2.54mm pin header 5-way] () |
+| Q1,Q3..Q15                       | THT  | [BC547 NPN transistor](https://uk.rs-online.com/web/p/bipolar-transistors/6711113) |
+| Q2,Q4..Q16                       | THT  | [BC337-40 bipolar transistor]() |
+| R1,R3                            | THT  | [4K7 0.25W resistor]() ]
+| R2                               | THT  | [120R 0.5W resistor]() |
+| R4,R7,R10,R13,R16,R19,R22,R25    | THT  | [10K 0.5W resistor]() |
+| R5,R8,R11,R14,R17,R20,R23,R26    | THT  | [100R 0.25W resistor]() |
+| R6,R9,R12,R15,R18,R21,R24,R27    | SMD  | [4K7 0.125W resistor]() |
+| RN1                              | THT  | [470R 0.125W resistor network](https://uk.rs-online.com/web/p/resistor-arrays/5224273) |
+| SW1                              | THT  | [Push-button 10mm](https://uk.rs-online.com/web/p/keyboard-switches/0102327) |
+| SW2                              | THT  | [DIP switch 8-channel](https://uk.rs-online.com/web/p/dip-sip-switches/7561347/) |
+| SW3                              | THT  | [DIP switch 2-channel](https://uk.rs-online.com/web/p/dip-sip-switches/1774261) |
+| U1                               | THT  | [MCP2551-I-P CAN transceiver](https://uk.rs-online.com/web/p/can-interface-ics/8767259) |
+| U2                               | THT  | [TracoPower TMR-2411 DC-DC converter](https://uk.rs-online.com/web/p/dc-dc-converters/4338258) |
+| U3,U7,U9,U11,U13,U15,U17,U19,U21 | SMD  | [MAX6816 switch debouncer](https://uk.rs-online.com/web/p/bounce-eliminator-ics/1899248) |
+| U4                               | THT  | [74HC595 shift register](https://uk.rs-online.com/web/p/counter-ics/7091971) |
+| U5                               | THT  | [PJRC Teensy 3.2 MCU](https://www.pjrc.com/store/teensy32.html) |
+| U6,U8,U10,U12,U14,U16,U18,U20    | THT  | [SFH617A optocoupler](https://uk.rs-online.com/web/p/optocouplers/1807182) |
 
 ### Assembly
 
