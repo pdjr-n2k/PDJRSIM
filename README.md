@@ -95,16 +95,11 @@ The firmware transmits the following NMEA 2000 message types.
 Components must be placed and soldered with care taken to ensure
 correct orientation and polarity.
 
-The host NMEA bus can be wired directly to J1 or (and preferably)
-ENCLOSURE can be drilled to accommodate J3 and J3's flying leads
-connected to J1 or soldered directly to the PCB.
+The host NMEA bus connector (J1) should be wired directly to the
+PCB.
 
-D9 through D17 can be soldered with long leads and holes drilled in
-ENCLOSURE to expose the LED or (and preferably), they can each be
-mounted with CLIP to ENCLOSURE and trailing leads used to connect
-back to the PCB mounting location.
-The latter approach means exact positioning of the holes which
-expose the PCB mounted LEDs is not required.
+D1 through D9 can be routed to the enclosure using LED light
+pipes (not included in parts list).
 
 ## Use
 
@@ -133,6 +128,8 @@ expose the PCB mounted LEDs is not required.
    SW1[1] sets address bit 0; SW1[8] sets address bit 7.
    
 ### Connecting switch inputs
+
+Switch inputs shopuld be connected to an appropriate pluggable screw terminal.
 
 1. Connect a reference switch input ground to J2[9].
 
