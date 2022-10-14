@@ -66,7 +66,7 @@ The firmware transmits the following NMEA 2000 message types.
 | PCB                              |      | 1    | [PCB](./ROM104.brd.pdf) |
 | C1,C2,C3,C4                      | THT  | 4    | [100nF electrolytic capacitor](https://uk.rs-online.com/web/p/aluminium-capacitors/8624146) |
 | C5,C6,C7,C8,C9,C10,C11,C12       | SMD  | 8    | [100nF aluminium capacitor](https://uk.rs-online.com/web/p/aluminium-capacitors/8388005) |
-| D1,D2,D3,D4,D5,D6,D7,D8,D9       | THT  | 8    | [2mm rectangular LED](https://uk.rs-online.com/web/p/leds/2292447) |
+| D1,D2,D3,D4,D5,D6,D7,D8,D9       | THT  | 9    | [2mm rectangular LED](https://uk.rs-online.com/web/p/leds/2292447) |
 | D10,D11,D12,D13,D14,D15,D16,D17  | THT  | 8    | [1N4148 300mA diode](https://uk.rs-online.com/web/p/switching-diodes/7390290) |
 | F1                               | THT  | 1    | [1A resettable fuse](https://uk.rs-online.com/web/p/resettable-fuses/6571772) |
 | J1                               |      | 1    | [M12 5-pin male connector](https://uk.rs-online.com/web/p/industrial-circular-connectors/8771154) |
