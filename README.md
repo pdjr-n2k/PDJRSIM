@@ -78,7 +78,6 @@ The firmware transmits the following NMEA 2000 message types.
 | R3,R28,R29,R30,R31,R32,R33,R34,R35 | THT  | 9    | 470R 0.25W resistor                       | []() |
 | R4,R7,R10,R13,R16,R19,R22,R25      | THT  | 8    | 10K 0.5W resistor                         | []() |
 | R5,R8,R11,R14,R17,R20,R23,R26      | THT  | 8    | 100R 0.25W resistor                       | []() |
-
 | SW1                                | THT  | 1    | Push-button 10mm                          | [010-2327](https://uk.rs-online.com/web/p/keyboard-switches/0102327) |
 | SW2                                | THT  | 1    | DIP switch 8-channel                      | [756-1347](https://uk.rs-online.com/web/p/dip-sip-switches/7561347/) |
 | SW3                                | THT  | 1    | DIP switch 2-channel                      | [177-4261](https://uk.rs-online.com/web/p/dip-sip-switches/1774261) |
