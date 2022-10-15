@@ -94,8 +94,12 @@ The firmware transmits the following NMEA 2000 message types.
 
 1. Components must be placed and soldered with care taken to ensure
    correct orientation and polarity.
-2. The flying leads of the host NMEA bus connector (J2) should be
-   wired directly to the PCB.
+   
+2. The flying leads of the host NMEA bus connector (J2) can be
+   soldered directly to the PCB, but, if desired, a screw connector
+   block can be installed on the PCB to enable a demountable
+   connection.
+   
 3. LEDs D1 through D9 can be routed to the enclosure using LED light
    pipes (not included in parts list).
 
@@ -109,30 +113,30 @@ The firmware transmits the following NMEA 2000 message types.
 2. Begin configuration by exposing the module PCB.
 
 3. Configure bus termination.
-   Set SW2[T] to ON(1) if the module will be connected as a terminating node
+   Set SW3[T] to ON(1) if the module will be connected as a terminating node
    at the end of its host NMEA bus backbone; or
-   set SW2[T] to OFF(0) if the module will be connected to its host NMEA bus
+   set SW3[T] to OFF(0) if the module will be connected to its host NMEA bus
    via a T-connector and drop cable.
 
 4. Configure bus ground.
-   Set SW2[G] to ON(1) to connect the NMEA bus shield to the module GND.
-   Set SW2[G] to OFF(0) to isolate the NMEA bus shield from the module GND.
+   Set SW3[G] to ON(1) to connect the NMEA bus shield to the module GND.
+   Set SW3[G] to OFF(0) to isolate the NMEA bus shield from the module GND.
    Usually it is appropriate to set SW2[G] to OFF(0).
 
 5. Configure switchbank instance address.
-   Set SW1[1..8] to a binary representation of your chosen, unique, instance
+   Set SW2[1..8] to a binary representation of your chosen, unique, instance
    address in the range 0 through 252.
    Setting an address outside this range will disable the module.
-   SW1[1] sets address bit 0; SW1[8] sets address bit 7.
+   SW2[1] sets address bit 0; SW2[8] sets address bit 7.
    
 ### Connecting switch inputs
 
 Switch inputs shopuld be connected to an appropriate pluggable screw terminal.
 
-1. Connect a reference switch input ground to J2[9].
+1. Connect a reference switch input ground to J1[1].
 
-2. Connect up to a maximum of eight switch inputs to J2[1..8].
+2. Connect up to a maximum of eight switch inputs to J1[2..9].
    Each input must supply an ON voltage in the range 5VDC through 50VDC
-   relative to J2[9].
+   relative to J1[1].
    Each input must be able to source around 10mA necessary to drive the
    opto-isolation input circuitry.
