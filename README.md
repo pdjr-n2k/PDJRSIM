@@ -95,7 +95,7 @@ The firmware transmits the following NMEA 2000 message types.
 Components must be placed and soldered with care taken to ensure
 correct orientation and polarity.
 
-The host NMEA bus connector (J1) should be wired directly to the
+The host NMEA bus connector (J2) should be wired directly to the
 PCB.
 
 D1 through D9 can be routed to the enclosure using LED light
