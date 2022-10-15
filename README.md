@@ -62,7 +62,7 @@ The firmware transmits the following NMEA 2000 message types.
 
 | REF                                | Type | Qtty | Component                                 | Purchase |
 | :---                               | :--- | ---: | :---                                      | :--
-| ENC                                |      | 1    | Hammond 1591 Series Flanged ABS Enclosure | [741-7477](https://uk.rs-online.com/web/p/general-purpose-enclosures/7417477) |
+| ENC                                |      | 1    | [Hammond 1591 Series Flanged ABS Enclosure](http://www.hammondmfg.com/pdf/1591GFL.pdf) | [741-7477](https://uk.rs-online.com/web/p/general-purpose-enclosures/7417477) |
 | PCB                                |      | 1    | PCB 2-layer 100 x 85                      | [](./ROM104.brd.pdf) |
 | C1,C2,C3,C4                        | THT  | 4    | 100nF electrolytic capacitor              | [862-4146](https://uk.rs-online.com/web/p/aluminium-capacitors/8624146) |
 | C5,C6,C7,C8,C9,C10,C11,C12         | SMD  | 8    | 100nF aluminium capacitor                 | [838-8005](https://uk.rs-online.com/web/p/aluminium-capacitors/8388005) |
