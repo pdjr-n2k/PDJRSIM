@@ -69,7 +69,7 @@ The firmware transmits the following NMEA 2000 message types.
 | D1,D2,D3,D4,D5,D6,D7,D8,D9       | THT  | 9    | [2mm rectangular LED](https://uk.rs-online.com/web/p/leds/2292447) |
 | D10,D11,D12,D13,D14,D15,D16,D17  | THT  | 8    | [1N4148 300mA diode](https://uk.rs-online.com/web/p/switching-diodes/7390290) |
 | F1                               | THT  | 1    | [1A resettable fuse](https://uk.rs-online.com/web/p/resettable-fuses/6571772) |
-| J1                               | THT  | 1    | [PCB terminal header 5mm x 9](https://uk.rs-online.com/web/p/pcb-headers/8971200 |
+| J1                               | THT  | 1    | [PCB terminal header 5mm x 9](https://uk.rs-online.com/web/p/pcb-headers/8971200) |
 | J2                               | ---  | 1    | [M12 5-pin male connector](https://uk.rs-online.com/web/p/industrial-circular-connectors/8771154) |
 | Q1,Q3,Q5,Q7,Q9,Q11,Q13,Q15       | THT  | 8    | [BC547 NPN transistor](https://uk.rs-online.com/web/p/bipolar-transistors/6711113) |
 | Q2,Q4,Q6,Q8,Q10,Q12,Q14,Q16      | THT  | 8    | [BC337-40 bipolar transistor]() |
