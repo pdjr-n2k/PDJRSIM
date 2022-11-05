@@ -1,4 +1,4 @@
-(kicad_pcb (version 20171130) (host pcbnew "(5.1.9-0-10_14)")
+(kicad_pcb (version 20171130) (host pcbnew 5.1.10-88a1d61d58~90~ubuntu20.04.1)
 
   (general
     (thickness 1.6)
@@ -20,7 +20,7 @@
   (layers
     (0 F.Cu mixed hide)
     (31 B.Cu mixed hide)
-    (33 F.Adhes user hide)
+    (33 F.Adhes user)
     (35 F.Paste user)
     (37 F.SilkS user)
     (38 B.Mask user hide)
@@ -37,7 +37,7 @@
   )
 
   (setup
-    (last_trace_width 0.5)
+    (last_trace_width 0.25)
     (user_trace_width 0.5)
     (user_trace_width 0.75)
     (user_trace_width 1)
@@ -1504,7 +1504,7 @@
     )
   )
 
-  (module Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder (layer F.Cu) (tedit 5F68FEEE) (tstamp 635CAE8E)
+  (module Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder (layer F.Cu) (tedit 5F68FEEE) (tstamp 6366279B)
     (at 22.352 71.222)
     (descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
     (tags "resistor handsolder")
@@ -2299,7 +2299,7 @@
     )
   )
 
-  (module Package_TO_SOT_SMD:SOT-143 (layer F.Cu) (tedit 5A02FF57) (tstamp 635CA921)
+  (module Package_TO_SOT_SMD:SOT-143 (layer F.Cu) (tedit 5A02FF57) (tstamp 636627CE)
     (at 22.733 68.555)
     (descr SOT-143)
     (tags SOT-143)
@@ -3225,10 +3225,10 @@
     (descr "Resistor, Axial_DIN0207 series, Axial, Horizontal, pin pitch=7.62mm, 0.25W = 1/4W, length*diameter=6.3*2.5mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf")
     (tags "Resistor Axial_DIN0207 series Axial Horizontal pin pitch 7.62mm 0.25W = 1/4W length 6.3mm diameter 2.5mm")
     (path /63360130)
-    (fp_text reference R2 (at 3.81 0 180) (layer F.SilkS)
+    (fp_text reference Re (at 3.81 0 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value "120R 0.5W" (at 3.81 2.37 90) (layer F.Fab)
+    (fp_text value 120R (at 3.7596 0.0256 90) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 8.67 -1.5) (end -1.05 -1.5) (layer F.CrtYd) (width 0.05))
