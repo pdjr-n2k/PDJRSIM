@@ -427,10 +427,10 @@
   (module PDJR_DC-DC_Converters:TMR_2411 (layer F.Cu) (tedit 632705B9) (tstamp 635CB5BD)
     (at 34.214 24.613)
     (path /6327DB22)
-    (fp_text reference U2 (at 7.747 0) (layer F.SilkS)
+    (fp_text reference U2 (at 7.747 0) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value TMR_2411 (at 8.66 2.54) (layer F.Fab)
+    (fp_text value TMR_2411 (at 8.66 2.54) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -2.018 -3.329) (end 8.882 -3.329) (layer F.SilkS) (width 0.12))
@@ -934,7 +934,7 @@
     (fp_text reference R28 (at 4.343 0.0125 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 470R (at 1.27 2.37 90) (layer F.Fab)
+    (fp_text value "470R x 9" (at 4.5208 -1.9941 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 3.59 -1.5) (end -1.5 -1.5) (layer F.CrtYd) (width 0.05))
@@ -1504,7 +1504,7 @@
     )
   )
 
-  (module Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder (layer F.Cu) (tedit 5F68FEEE) (tstamp 635CAE8E)
+  (module Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder (layer F.Cu) (tedit 5F68FEEE) (tstamp 6366279B)
     (at 22.352 71.222)
     (descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
     (tags "resistor handsolder")
@@ -2299,7 +2299,7 @@
     )
   )
 
-  (module Package_TO_SOT_SMD:SOT-143 (layer F.Cu) (tedit 5A02FF57) (tstamp 635CA921)
+  (module Package_TO_SOT_SMD:SOT-143 (layer F.Cu) (tedit 5A02FF57) (tstamp 636627CE)
     (at 22.733 68.555)
     (descr SOT-143)
     (tags SOT-143)
@@ -2345,7 +2345,7 @@
     (descr "4-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)")
     (tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
     (path /63041ECA/62EBA913)
-    (fp_text reference U14 (at 3.81 0.508) (layer F.SilkS)
+    (fp_text reference U14 (at 3.81 0.508) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value SFH617A-1 (at 3.81 4.87) (layer F.Fab)
@@ -2389,7 +2389,7 @@
     (descr "4-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)")
     (tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
     (path /62FB890E/62EBA913)
-    (fp_text reference U18 (at 3.81 0.508) (layer F.SilkS)
+    (fp_text reference U18 (at 3.81 0.508) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value SFH617A-1 (at 3.81 4.87) (layer F.Fab)
@@ -2433,7 +2433,7 @@
     (descr "4-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)")
     (tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
     (path /62F45EE0/62EBA913)
-    (fp_text reference U16 (at 3.81 0.508) (layer F.SilkS)
+    (fp_text reference U16 (at 3.81 0.508) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value SFH617A-1 (at 3.81 4.87) (layer F.Fab)
@@ -2477,7 +2477,7 @@
     (descr "4-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)")
     (tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
     (path /62FD589D/62EBA913)
-    (fp_text reference U12 (at 3.683 0.508) (layer F.SilkS)
+    (fp_text reference U12 (at 3.683 0.508) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value SFH617A-1 (at 3.81 4.87) (layer F.Fab)
@@ -2521,7 +2521,7 @@
     (descr "4-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)")
     (tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
     (path /62F64647/62EBA913)
-    (fp_text reference U10 (at 3.937 0.508) (layer F.SilkS)
+    (fp_text reference U10 (at 3.937 0.508) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value SFH617A-1 (at 3.81 4.87) (layer F.Fab)
@@ -2565,7 +2565,7 @@
     (descr "4-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)")
     (tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
     (path /63103CAF/62EBA913)
-    (fp_text reference U8 (at 3.81 0.635) (layer F.SilkS)
+    (fp_text reference U8 (at 3.81 0.635) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value SFH617A-1 (at 3.81 4.87) (layer F.Fab)
@@ -2609,7 +2609,7 @@
     (descr "4-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)")
     (tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
     (path /63089671/62EBA913)
-    (fp_text reference U20 (at 3.8735 0.5715) (layer F.SilkS)
+    (fp_text reference U20 (at 3.8735 0.5715) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value SFH617A-1 (at 3.81 4.87) (layer F.Fab)
@@ -2653,7 +2653,7 @@
     (descr "4-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)")
     (tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
     (path /62FB7846/62EBA913)
-    (fp_text reference U6 (at 3.81 0.508) (layer F.SilkS)
+    (fp_text reference U6 (at 3.81 0.508) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value SFH617A-1 (at 83.283 1.365) (layer F.SilkS)
@@ -3225,10 +3225,10 @@
     (descr "Resistor, Axial_DIN0207 series, Axial, Horizontal, pin pitch=7.62mm, 0.25W = 1/4W, length*diameter=6.3*2.5mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf")
     (tags "Resistor Axial_DIN0207 series Axial Horizontal pin pitch 7.62mm 0.25W = 1/4W length 6.3mm diameter 2.5mm")
     (path /63360130)
-    (fp_text reference R2 (at 3.81 0 180) (layer F.SilkS)
+    (fp_text reference Re (at 3.81 0 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value "120R 0.5W" (at 3.81 2.37 90) (layer F.Fab)
+    (fp_text value 120R (at 3.7596 0.0256 90) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 0.66 -1.25) (end 0.66 1.25) (layer F.Fab) (width 0.1))
@@ -4510,10 +4510,10 @@
     (descr "28-lead though-hole mounted DIP package, row spacing 15.24 mm (600 mils), LongPads")
     (tags "THT DIP DIL PDIP 2.54mm 15.24mm 600mil LongPads")
     (path /60F2AB82)
-    (fp_text reference U5 (at 7.493 32.004) (layer F.SilkS)
+    (fp_text reference U5 (at 7.493 32.004) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value Teensy_3.2 (at 7.62 35.35) (layer F.Fab)
+    (fp_text value Teensy_3.2 (at 7.62 16.612) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 1.255 -1.27) (end 14.985 -1.27) (layer F.Fab) (width 0.1))
@@ -4752,10 +4752,10 @@
     (descr "16-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils), Socket, LongPads")
     (tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil Socket LongPads")
     (path /6338D277)
-    (fp_text reference U4 (at 3.937 8.89 180) (layer F.SilkS)
+    (fp_text reference U4 (at 3.937 8.89 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 74HC595 (at 3.81 20.11 90) (layer F.Fab)
+    (fp_text value 74HC595 (at 3.531 8.9154 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 1.635 -1.27) (end 6.985 -1.27) (layer F.Fab) (width 0.1))
@@ -5122,7 +5122,7 @@
     (fp_text reference D1 (at 4.572 0 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value LED (at 1.27 2.26 90) (layer F.Fab)
+    (fp_text value "LED x 9" (at 4.6232 1.2192 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_circle (center 1.27 0) (end 2.17 0) (layer F.Fab) (width 0.1))
@@ -5160,11 +5160,11 @@
     (descr "8-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)")
     (tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
     (path /5F1D12F5)
-    (fp_text reference U1 (at 3.81 3.81 180) (layer F.SilkS)
+    (fp_text reference U1 (at 3.81 3.81 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value MCP2551-I-P (at 8.89 3.175 90) (layer F.SilkS) hide
-      (effects (font (size 1.5 1) (thickness 0.15)))
+    (fp_text value MCP2551-I-P (at 3.8354 3.7842 180) (layer F.SilkS)
+      (effects (font (size 1 0.45) (thickness 0.1125)))
     )
     (fp_line (start 1.635 -1.27) (end 6.985 -1.27) (layer F.Fab) (width 0.1))
     (fp_line (start 6.985 -1.27) (end 6.985 8.89) (layer F.Fab) (width 0.1))
