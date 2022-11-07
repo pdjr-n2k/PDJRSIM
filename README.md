@@ -136,8 +136,6 @@ to fit the chosen enclosure.
    
 ### Connecting switch inputs
 
-Switch inputs shopuld be connected to an appropriate pluggable screw terminal.
-
 1. Connect a reference switch input ground to J1[1].
 
 2. Connect up to a maximum of eight switch inputs to J1[2..9].
