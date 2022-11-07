@@ -20,8 +20,8 @@ supply, CAN interface, configuration, display and switch input
 sub-systems.
 
 The power supply sub-system consists of a solid-state DC-DC
-converter which adapts the voltage of the NMEA host NMEA bus to
-the 5VDC required by the module's electronics.
+converter which adapts the voltage of the host NMEA power bus
+to the 5VDC required by the module's electronics.
 The power supply is rated at 2W and its bus connection is fused
 and reverse polarity protected.
 
@@ -31,12 +31,12 @@ include a 120 Ohm bus termination resistor allowing the module
 to be installed as either a bus termination node or a drop node.
 
 The configuration sub-system consists of an 8-position DIL switch
-and push-button which allow installer configuration of the module's
-NMEA instance number.
+and confirmatory push-button which allow the installer to set and
+update the module's NMEA instance number.
 
 The display sub-system provides a collection of LEDs which are used
-to give configuration feedback and indicate the module operating
-status.
+to indicate the state of input channels and status of NMEA
+communication.
 
 The switch input sub-system consists of eight hardware debounced
 input channels each of which is optically isolated and reverse
@@ -57,6 +57,13 @@ The firmware transmits the following NMEA 2000 message types.
 |127501 (Binary Status Report) | Issued every four seconds or immediately on the state change of any input channel. |
 
 ## Implementation
+
+### PCB
+
+The module PCB is a 100 x 85 x 1.6mm, 1oz, 2-layer fabrication designed
+to fit the chosen enclosure.
+
+![PCB version 2211](pcb.png)
 
 ### Parts list
 
