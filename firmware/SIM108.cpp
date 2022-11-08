@@ -9,8 +9,8 @@
  * 
  * This firmware recovers the state of sensor channel inputs, assembles
  * a switchbank Binary Status Report and transmits this over NMEA using 
- * PGN127501. Local feedback on detected switch channel states is
- * presented by modulating indicator LEDs. 
+ * PGN127501. Feedback on module operation is presented by modulating
+ * channel state and transmission indicator LEDs.
  */
 
 #include <Arduino.h>
@@ -185,7 +185,7 @@ unsigned char SWITCHBANK_INSTANCE = INSTANCE_UNDEFINED;
  * SWITCHBANK_STATUS - working storage for holding the most recently
  * read state of the Teensy switch inputs.
  */
-tN2kBinaryStatus SWITCHBANK_STATUS = 0x00;
+tN2kBinaryStatus SWITCHBANK_STATUS;
 
 /**********************************************************************
  * MAIN PROGRAM - setup()
