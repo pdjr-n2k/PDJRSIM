@@ -65,10 +65,8 @@ to fit the chosen enclosure.
 
 | PCB Version | Description |
 | :---        | :---        |
-| 2211        | Original release |
-| 2212        | Minor revision adding the option to use a jumper or DIP-switch as SW2. |
-
-![PCB version 2211](pcb.png)
+| [2211](pcb.2211.png) | Original release |
+| [2212](pcb.2212.png) | Minor revision adding the option to use a jumper or DIP-switch as SW2. |
 
 ### Parts list
 
