@@ -63,6 +63,11 @@ The firmware transmits the following NMEA 2000 message types.
 The module PCB is a 100 x 85 x 1.6mm, 1oz, 2-layer fabrication designed
 to fit the chosen enclosure.
 
+| PCB Version | Description |
+| :---        | :---        |
+| 2211        | Original release |
+| 2212        | Minor revision adding the option to use a jumper or DIP-switch as SW2. |
+
 ![PCB version 2211](pcb.png)
 
 ### Parts list
