@@ -1,13 +1,12 @@
 # SIM108 - NMEA 2000 switch input module
 
-This project implements an NMEA 2000 switch input module with
-support for eight switch input channels.
-
-__SIM108__ consists of a microcontroller-based hardware design
-and an associated firmware.
+This project consists of a microcontroller-based hardware
+design and an associated firmware which together implement
+an NMEA 2000 switch input module with support for eight
+switch input channels.
 
 The stock firmware realises an NMEA 2000 switchbank interface
-that accepts SPST switch inputs and transmits
+that reports switch channel status through transmission of
 [PGN 127501 Binary Status Report]()
 messages.
 
