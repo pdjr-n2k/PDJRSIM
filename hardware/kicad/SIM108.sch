@@ -447,8 +447,6 @@ Wire Wire Line
 Text Label 4200 5350 2    50   ~ 0
 NET_C
 Wire Wire Line
-	1000 6250 1850 6250
-Wire Wire Line
 	2350 6750 2350 7100
 Connection ~ 2350 6750
 NoConn ~ 1850 6450
@@ -499,13 +497,11 @@ $EndComp
 Wire Wire Line
 	1000 5850 1550 5850
 Wire Wire Line
-	1000 7100 1750 7100
-Text Label 1000 6250 0    50   ~ 0
+	1000 7100 1150 7100
+Text Label 700  6750 0    50   ~ 0
 CAN_RX
-Text Label 1000 6150 0    50   ~ 0
+Text Label 700  6650 0    50   ~ 0
 CAN_TX
-Wire Wire Line
-	1000 6150 1850 6150
 Wire Wire Line
 	3900 7100 3900 6900
 Wire Wire Line
@@ -929,7 +925,7 @@ L Device:CP_Small C1
 U 1 1 635FBF50
 P 1550 6500
 F 0 "C1" H 1700 6500 50  0000 C CNN
-F 1 "100nF" H 1350 6500 50  0000 C CNN
+F 1 "100nF" H 1700 6600 50  0000 C CNN
 F 2 "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm" H 1550 6500 50  0001 C CNN
 F 3 "~" H 1550 6500 50  0001 C CNN
 	1    1550 6500
@@ -1427,4 +1423,76 @@ Wire Wire Line
 Connection ~ 10750 5750
 Wire Wire Line
 	10750 5750 10750 5850
+$Comp
+L Device:R R?
+U 1 1 638A66B7
+P 1300 6450
+F 0 "R?" H 1250 6450 50  0000 R CNN
+F 1 "2K2 0.125W" V 1300 6450 20  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical" V 1230 6450 50  0001 C CNN
+F 3 "~" H 1300 6450 50  0001 C CNN
+	1    1300 6450
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 638A701E
+P 1300 6950
+F 0 "R?" H 1250 6950 50  0000 R CNN
+F 1 "3K3 0.125W" V 1300 6950 20  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical" V 1230 6950 50  0001 C CNN
+F 3 "~" H 1300 6950 50  0001 C CNN
+	1    1300 6950
+	1    0    0    -1  
+$EndComp
+Connection ~ 1300 7100
+Wire Wire Line
+	1300 7100 1750 7100
+Wire Wire Line
+	1300 6300 1300 6150
+Wire Wire Line
+	1300 6150 1850 6150
+Wire Wire Line
+	1300 6600 1300 6650
+Wire Wire Line
+	700  6650 1300 6650
+Connection ~ 1300 6650
+Wire Wire Line
+	1300 6650 1300 6800
+$Comp
+L Device:R R?
+U 1 1 638DB685
+P 1150 6450
+F 0 "R?" H 1100 6450 50  0000 R CNN
+F 1 "2K2 0.125W" V 1150 6450 20  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical" V 1080 6450 50  0001 C CNN
+F 3 "~" H 1150 6450 50  0001 C CNN
+	1    1150 6450
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 638DBDD6
+P 1150 6950
+F 0 "R?" H 1100 6950 50  0000 R CNN
+F 1 "3K3 0.125W" V 1150 6950 20  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical" V 1080 6950 50  0001 C CNN
+F 3 "~" H 1150 6950 50  0001 C CNN
+	1    1150 6950
+	1    0    0    -1  
+$EndComp
+Connection ~ 1150 7100
+Wire Wire Line
+	1150 7100 1300 7100
+Wire Wire Line
+	1150 6600 1150 6750
+Wire Wire Line
+	1150 6750 700  6750
+Connection ~ 1150 6750
+Wire Wire Line
+	1150 6750 1150 6800
+Wire Wire Line
+	1150 6300 1150 6250
+Wire Wire Line
+	1150 6250 1850 6250
 $EndSCHEMATC
