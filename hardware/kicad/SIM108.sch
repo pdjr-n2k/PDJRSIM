@@ -902,17 +902,6 @@ Wire Wire Line
 	9150 4850 9700 4850
 Wire Wire Line
 	9900 4850 10850 4850
-$Comp
-L Switch:SW_Push SW1
-U 1 1 633332C8
-P 5800 7100
-F 0 "SW1" H 5800 7300 50  0000 C CNN
-F 1 "PRG" H 5800 7000 50  0000 C CNN
-F 2 "PDJR_Switches:PCB_PUSH_BUTTON_10mm" H 5800 7300 50  0001 C CNN
-F 3 "~" H 5800 7300 50  0001 C CNN
-	1    5800 7100
-	1    0    0    -1  
-$EndComp
 Text Label 6450 7100 0    50   ~ 0
 PRG
 $Comp
@@ -976,11 +965,6 @@ Wire Wire Line
 Wire Wire Line
 	5500 5650 5200 5650
 Connection ~ 5200 6250
-Wire Wire Line
-	5600 7100 5200 7100
-Connection ~ 5200 7100
-Wire Wire Line
-	5200 7100 5200 7600
 $Comp
 L power:GND #PWR014
 U 1 1 63724529
@@ -1341,8 +1325,6 @@ Wire Wire Line
 Wire Wire Line
 	1150 6250 1850 6250
 Wire Wire Line
-	5200 6250 5200 7100
-Wire Wire Line
 	6000 7100 6450 7100
 Wire Wire Line
 	5200 7600 6550 7600
@@ -1372,4 +1354,24 @@ Text Label 4950 1450 0    50   ~ 0
 3V3
 Text Label 4950 800  0    50   ~ 0
 3V3
+$Comp
+L Switch:SW_MEC_5E SW1
+U 1 1 638DE6DD
+P 5800 7200
+F 0 "SW1" H 5800 7585 50  0000 C CNN
+F 1 "PRG" H 5800 7494 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_TH_Tactile_Omron_B3F-10xx" H 5800 7500 50  0001 C CNN
+F 3 "http://www.apem.com/int/index.php?controller=attachment&id_attachment=1371" H 5800 7500 50  0001 C CNN
+	1    5800 7200
+	-1   0    0    -1  
+$EndComp
+NoConn ~ 6000 7200
+NoConn ~ 5600 7100
+Wire Wire Line
+	5200 6250 5200 7200
+Wire Wire Line
+	5600 7200 5200 7200
+Connection ~ 5200 7200
+Wire Wire Line
+	5200 7200 5200 7600
 $EndSCHEMATC
