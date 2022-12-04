@@ -165,8 +165,9 @@ int INSTANCE_PINS[] = GPIO_INSTANCE_PINS;
 DilSwitch DIL_SWITCH (INSTANCE_PINS, ELEMENTCOUNT(INSTANCE_PINS));
 
 /**********************************************************************
- * Debounced Button inputs.
-*/
+ * Create some Button instances to software debounce all our switch
+ * inputs.
+ */
 Button PRG_BUTTON(GPIO_PRG);
 Button SWITCH_INPUTS[] = {
   Button(GPIO_SWITCH_INPUT1),
@@ -278,9 +279,12 @@ void loop() {
   NMEA2000.ParseMessages();
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
+  // If the PRG button has been pressed, then update module instance.
+  if (PRG_BUTTON.pressed()) ;
+  if (PRG_BUTTON.released()) { DIL_SWITCH.sample(); SWITCHBANK_INSTANCE = DIL_SWITCH.value(); }
+
   // Process any switch state changes and transmit switchbank status
   // updates as required.
-  if (PRG_BUTTON.released()) { DIL_SWITCH.sample(); SWITCHBANK_INSTANCE = DIL_SWITCH.value(); }
 
   processSwitchInputsMaybe();
   transmitSwitchbankStatusMaybe();
@@ -304,10 +308,12 @@ void processSwitchInputsMaybe() {
 
   if (now > deadline) {
     for (unsigned int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) {
-      if (SWITCH_INPUTS[i].toggled()) switchStatus = (SWITCH_INPUTS[i].read() == Button::PRESSED)?N2kOnOff_On:N2kOnOff_Off;
-      if ((switchStatus != N2kOnOff_Unavailable) && (switchStatus != N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1)))) {
-        N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, switchStatus, (i + 1));
-        updated = true;
+      if (SWITCH_INPUTS[i].toggled()) {
+        switchStatus = (SWITCH_INPUTS[i].read() == Button::PRESSED)?N2kOnOff_On:N2kOnOff_Off;
+        if (switchStatus != N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1))) {
+          N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, switchStatus, (i + 1));
+          updated = true;
+        }
       }
     }
     if (updated) transmitSwitchbankStatusMaybe(true);
