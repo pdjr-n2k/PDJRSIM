@@ -16,6 +16,7 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 #include <NMEA2000_CAN.h>
+#include <Button.h>
 #include <N2kTypes.h>
 #include <N2kMessages.h>
 #include <DilSwitch.h>
@@ -67,17 +68,15 @@
 #define GPIO_POWER_LED 13
 #define GPIO_PRG 14
 #define GPIO_TRANSMIT_LED 15
-#define GPIO_SENSOR8 16
-#define GPIO_SENSOR7 17
-#define GPIO_SENSOR6 18
-#define GPIO_SENSOR5 19
-#define GPIO_SENSOR4 20
-#define GPIO_SENSOR3 21
-#define GPIO_SENSOR2 22
-#define GPIO_SENSOR1 23
-#define GPIO_SENSOR_PINS { GPIO_SENSOR1, GPIO_SENSOR2, GPIO_SENSOR3, GPIO_SENSOR4, GPIO_SENSOR5, GPIO_SENSOR6, GPIO_SENSOR7, GPIO_SENSOR8 } 
+#define GPIO_SWITCH_INPUT8 16
+#define GPIO_SWITCH_INPUT7 17
+#define GPIO_SWITCH_INPUT6 18
+#define GPIO_SWITCH_INPUT5 19
+#define GPIO_SWITCH_INPUT4 20
+#define GPIO_SWITCH_INPUT3 21
+#define GPIO_SWITCH_INPUT2 22
+#define GPIO_SWITCH_INPUT1 23
 #define GPIO_INSTANCE_PINS { GPIO_INSTANCE_BIT0, GPIO_INSTANCE_BIT1, GPIO_INSTANCE_BIT2, GPIO_INSTANCE_BIT3, GPIO_INSTANCE_BIT4, GPIO_INSTANCE_BIT5, GPIO_INSTANCE_BIT6, GPIO_INSTANCE_BIT7 }
-#define GPIO_INPUT_PINS { GPIO_INSTANCE_BIT0, GPIO_INSTANCE_BIT1, GPIO_INSTANCE_BIT2, GPIO_INSTANCE_BIT3, GPIO_INSTANCE_BIT4, GPIO_INSTANCE_BIT5, GPIO_INSTANCE_BIT6, GPIO_INSTANCE_BIT7 }
 #define GPIO_OUTPUT_PINS { GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH, GPIO_POWER_LED }
 
 /**********************************************************************
@@ -165,7 +164,20 @@ tNMEA2000Handler NMEA2000Handlers[]={ {0L, 0} };
 int INSTANCE_PINS[] = GPIO_INSTANCE_PINS;
 DilSwitch DIL_SWITCH (INSTANCE_PINS, ELEMENTCOUNT(INSTANCE_PINS));
 
-int SENSOR_PINS[] = GPIO_SENSOR_PINS;
+/**********************************************************************
+ * Debounced Button inputs.
+*/
+Button PRG_BUTTON(GPIO_PRG);
+Button SWITCH_INPUTS[] = {
+  Button(GPIO_SWITCH_INPUT1),
+  Button(GPIO_SWITCH_INPUT2),
+  Button(GPIO_SWITCH_INPUT3),
+  Button(GPIO_SWITCH_INPUT4),
+  Button(GPIO_SWITCH_INPUT5),
+  Button(GPIO_SWITCH_INPUT6),
+  Button(GPIO_SWITCH_INPUT7),
+  Button(GPIO_SWITCH_INPUT8)
+};
 
 /**********************************************************************
  * LED_DISPLAY shift register.
@@ -197,13 +209,14 @@ void setup() {
   #endif
 
   // Set the mode of all digital GPIO pins.
-  int ipins[] = GPIO_SENSOR_PINS;
   int ippins[] = GPIO_INSTANCE_PINS;
-  int opins[] = GPIO_OUTPUT_PINS;
-  for (unsigned int i = 0 ; i < ELEMENTCOUNT(ipins); i++) pinMode(ipins[i], INPUT);
   for (unsigned int i = 0 ; i < ELEMENTCOUNT(ippins); i++) pinMode(ippins[i], INPUT_PULLUP);
+  int opins[] = GPIO_OUTPUT_PINS;
   for (unsigned int i = 0 ; i < ELEMENTCOUNT(opins); i++) pinMode(opins[i], OUTPUT);
-  
+
+  PRG_BUTTON.begin();
+  for (int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) SWITCH_INPUTS[i].begin();
+
   // We assume that a new host system has its EEPROM initialised to all
   // 0xFF. We test by reading a byte that in a configured system should
   // never be this value and if it indicates a scratch system then we
@@ -240,7 +253,6 @@ void setup() {
   NMEA2000.SetMsgHandler(messageHandler);
   NMEA2000.Open();
 
-  attachInterrupt(digitalPinToInterrupt(GPIO_PRG), isr, RISING);
 }
 
 /**********************************************************************
@@ -267,24 +279,15 @@ void loop() {
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
   // Process any switch state changes and transmit switchbank status
-  // updates as required. 
+  // updates as required.
+  if (PRG_BUTTON.released()) { DIL_SWITCH.sample(); SWITCHBANK_INSTANCE = DIL_SWITCH.value(); }
+
   processSwitchInputsMaybe();
   transmitSwitchbankStatusMaybe();
   flashTransmitLedMaybe();
   
   // Update the states of connected LEDs
   LED_DISPLAY.loop();
-}
-
-/**********************************************************************
- * MAIN PROGRAM - isr()
- * 
- * Invoked by a press of the PRG button. Updates SWITCHBANK_INSTANCE
- * from the DIL switch setting.
- */
-void isr() {
-  DIL_SWITCH.sample();
-  SWITCHBANK_INSTANCE = DIL_SWITCH.value();
 }
 
 /**********************************************************************
@@ -297,11 +300,12 @@ void processSwitchInputsMaybe() {
   static unsigned long deadline = 0UL;
   unsigned long now = millis();
   bool updated = false;
+  tN2kOnOff switchStatus = N2kOnOff_Unavailable;
 
   if (now > deadline) {
-    for (unsigned int i = 0; i < ELEMENTCOUNT(SENSOR_PINS); i++) {
-      tN2kOnOff switchStatus = ((digitalRead(SENSOR_PINS[i]))?N2kOnOff_On:N2kOnOff_Off);
-      if (switchStatus != N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1))) {
+    for (unsigned int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) {
+      if (SWITCH_INPUTS[i].toggled()) switchStatus = (SWITCH_INPUTS[i].read() == Button::PRESSED)?N2kOnOff_On:N2kOnOff_Off;
+      if ((switchStatus != N2kOnOff_Unavailable) && (switchStatus != N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1)))) {
         N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, switchStatus, (i + 1));
         updated = true;
       }
