@@ -3,19 +3,29 @@
 This project implements an NMEA 2000 switch input module with
 support for eight switch input channels.
 
-A microcontroller-based hardware design and an associated
-firmware provide a NMEA 2000 switchbank interface that
-reports switch channel status through transmission of
+The project implements a microcontroller-based hardware design
+and an associated firmware which together provide an NMEA 2000
+switchbank interface that reports switch channel status through
+transmission of
 [PGN 127501 Binary Status Report]()
 messages.
 
-The module is powered from the NMEA bus and has an LEN of 0.5.
+The eight switch inputs share a common ground and operate with
+individual voltages in the range 4VDC through 48VDC.
+
+The module is powered from the host NMEA bus and has an LEN of
+0.5.
 
 ## Design overview
 
-__SIM108__ uses a Teensy 3.2/4.0 microcontroller supported by
-power supply, CAN interface, configuration, display and switch
-input sub-systems.
+__SIM108__ uses 32-bit microcontroller modules from
+[PJRC](https://www.pjrc.com/)'s 
+Teensy range and can be built with either a 
+[Teensy 3.2](https://www.pjrc.com/store/teensy32.html)
+or a
+[Teensy 4.0](https://www.pjrc.com/store/teensy40.html).
+The microcontroller is supported by power supply, CAN interface,
+configuration, display and switch input sub-systems.
 
 The power supply sub-system consists of a solid-state DC-DC
 converter which adapts the voltage of the host NMEA power bus
