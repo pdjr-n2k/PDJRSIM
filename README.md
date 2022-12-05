@@ -18,7 +18,7 @@ The module is powered from the host NMEA bus and has an LEN of
 
 ## Design overview
 
-__SIM108__ uses 32-bit microcontroller modules from
+__SIM108__ uses a 32-bit microcontroller module from
 [PJRC](https://www.pjrc.com/)'s 
 Teensy range and can be built with either a 
 [Teensy 3.2](https://www.pjrc.com/store/teensy32.html)
