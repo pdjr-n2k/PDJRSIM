@@ -11,7 +11,7 @@ transmission of
 messages.
 
 The eight switch inputs share a common ground and operate with
-individual voltages in the range 4VDC through 48VDC.
+individual voltages in the range 5VDC through 50VDC.
 
 The module is powered from the host NMEA bus and has an LEN of
 0.5.
@@ -42,12 +42,12 @@ The configuration sub-system consists of an 8-position DIL switch
 and confirmatory push-button which allow the installer to set and
 update the module's NMEA instance number.
 
-The display sub-system provides a collection of LEDs which are used
-to indicate the state of input channels and status of NMEA
-communication.
+The display sub-system provides a nine LEDs which are used
+to indicate the state of the eight input channels and status of
+NMEA communication.
 
-The switch input sub-system consists of eight hardware debounced
-input channels each of which is optically isolated and reverse
+The switch input sub-system consists of eight debounced input
+channels each of which is optically isolated and reverse
 polarity protected with reference to a shared common ground.
 An input voltage of between 5VDC and 50VDC is interpreted as
 an ON condition and when ON the nominal current draw per input
