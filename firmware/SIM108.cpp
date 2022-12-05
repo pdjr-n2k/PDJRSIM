@@ -2,7 +2,7 @@
  * SIM108.cpp - firmware for the SIM108 switch input module.
  * Copyright (c) 2021-22 Paul Reeve <preeve@pdjr.eu>
  *
- * Target platform: Teensy 3.2
+ * Target platform: Teensy 4.0
  * 
  * SIM108 is an 8-channel NMEA switch input module built around a
  * Teensy 3.2 microcontroller.
