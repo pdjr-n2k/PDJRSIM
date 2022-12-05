@@ -13,7 +13,7 @@ The module is powered from the NMEA bus and has an LEN of 0.5.
 
 ## Design overview
 
-__SIM108__ uses a Teensy 4.0 microcontroller supported by
+__SIM108__ uses a Teensy 3.2/4.0 microcontroller supported by
 power supply, CAN interface, configuration, display and switch
 input sub-systems.
 
@@ -95,6 +95,15 @@ to fit the chosen enclosure.
 | U4                                 | THT  | 1    | 74HC595 shift register                    | [709-1971](https://uk.rs-online.com/web/p/counter-ics/7091971) |
 | U5                                 | THT  | 1    | PJRC Teensy 3.2 MCU                       | [](https://www.pjrc.com/store/teensy32.html) |
 | U6,U8,U10,U12,U14,U16,U18,U20      | THT  | 8    | SFH617A optocoupler                       | [180-7182](https://uk.rs-online.com/web/p/optocouplers/1807182) |
+
+### Using a Teensy 3.2 microcontroller
+
+The Teensy 3.2 microcontroller has 5VDC tolerant GPIO inputs and
+the voltage dividers which convert 5V CAN data to 3.3V are not
+necessary.
+
+If you wish, you can omit R36, R37, R38 and R39 and substitute a
+plain solder link for R36 and R38.
 
 ### Assembly
 
