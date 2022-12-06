@@ -1,20 +1,18 @@
 # SIM108 - NMEA 2000 switch input module
 
 This project implements an NMEA 2000 switch input module with
-support for eight switch input channels.
-
-The project implements a microcontroller-based hardware design
-and an associated firmware which together provide an NMEA 2000
-switchbank interface that reports switch channel status through
-transmission of
-[PGN 127501 Binary Status Report]()
-messages.
-
-The eight switch inputs share a common ground and operate with
-individual voltages in the range 5VDC through 50VDC.
+support for eight switch input channels which share a common
+ground and operate with individual voltages in the range 5VDC
+through 50VDC.
 
 The module is powered from the host NMEA bus and has an LEN of
 0.5.
+
+A microcontroller-based hardware design and an associated firmware
+together provide a switchbank interface that reports switch channel
+status through transmission of
+[PGN 127501 Binary Status Report]()
+messages.
 
 ## Design overview
 
