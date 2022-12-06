@@ -269,8 +269,8 @@ void loop() {
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
   // If the PRG button has been pressed, then update module instance.
-  if (PRG_BUTTON.pressed()) ;
-  if (PRG_BUTTON.released()) { DIL_SWITCH.sample(); SWITCHBANK_INSTANCE = DIL_SWITCH.value(); }
+  if (PRG_BUTTON.pressed()) DIL_SWITCH.sample();;
+  if (PRG_BUTTON.released()) SWITCHBANK_INSTANCE = DIL_SWITCH.value();
 
   // Process any switch state changes and transmit switchbank status
   // updates as required.
