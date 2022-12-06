@@ -135,7 +135,6 @@
 /**********************************************************************
  * Declarations of local functions.
  */
-void isr();
 void processSwitchInputsMaybe();
 void transmitSwitchbankStatusMaybe(bool force = false);
 void transmitPGN127501();
@@ -169,16 +168,7 @@ DilSwitch DIL_SWITCH (INSTANCE_PINS, ELEMENTCOUNT(INSTANCE_PINS));
  * inputs.
  */
 Button PRG_BUTTON(GPIO_PRG);
-Button SWITCH_INPUTS[] = {
-  Button(GPIO_SWITCH_INPUT1),
-  Button(GPIO_SWITCH_INPUT2),
-  Button(GPIO_SWITCH_INPUT3),
-  Button(GPIO_SWITCH_INPUT4),
-  Button(GPIO_SWITCH_INPUT5),
-  Button(GPIO_SWITCH_INPUT6),
-  Button(GPIO_SWITCH_INPUT7),
-  Button(GPIO_SWITCH_INPUT8)
-};
+Button SWITCH_INPUTS[] = { Button(GPIO_SWITCH_INPUT1), Button(GPIO_SWITCH_INPUT2), Button(GPIO_SWITCH_INPUT3), Button(GPIO_SWITCH_INPUT4), Button(GPIO_SWITCH_INPUT5), Button(GPIO_SWITCH_INPUT6), Button(GPIO_SWITCH_INPUT7), Button(GPIO_SWITCH_INPUT8) };
 
 /**********************************************************************
  * LED_DISPLAY shift register.
@@ -214,7 +204,6 @@ void setup() {
   for (unsigned int i = 0 ; i < ELEMENTCOUNT(ippins); i++) pinMode(ippins[i], INPUT_PULLUP);
   int opins[] = GPIO_OUTPUT_PINS;
   for (unsigned int i = 0 ; i < ELEMENTCOUNT(opins); i++) pinMode(opins[i], OUTPUT);
-
   PRG_BUTTON.begin();
   for (int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) SWITCH_INPUTS[i].begin();
 
