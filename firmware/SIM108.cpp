@@ -5,12 +5,14 @@
  * Target platform: Teensy 4.0
  * 
  * SIM108 is an 8-channel NMEA switch input module built around a
- * Teensy 3.2 microcontroller.
+ * Teensy 3.2/4.0 microcontroller.
  * 
  * This firmware recovers the state of sensor channel inputs, assembles
  * a switchbank Binary Status Report and transmits this over NMEA using 
  * PGN127501. Feedback on module operation is presented by modulating
  * channel state and transmission indicator LEDs.
+ * 
+ * Switch inputs are debounced in software.
  */
 
 #include <Arduino.h>
@@ -243,6 +245,13 @@ void setup() {
   NMEA2000.SetMsgHandler(messageHandler);
   NMEA2000.Open();
 
+  #ifdef DEBUG_SERIAL
+  Serial.println();
+  Serial.println("Starting:");
+  Serial.print("  N2K Source address is "); Serial.println(NMEA2000.GetN2kSource());
+  Serial.print("  Module instance number is "); Serial.println(SWITCHBANK_INSTANCE);
+  #endif
+
 }
 
 /**********************************************************************
@@ -254,12 +263,6 @@ void setup() {
  * tasks at intervals defined by program constants.
  */ 
 void loop() {
-  #ifdef DEBUG_SERIAL
-  Serial.println();
-  Serial.println("Starting:");
-  Serial.print("  N2K Source address is "); Serial.println(NMEA2000.GetN2kSource());
-  Serial.print("  Module instance number is "); Serial.println(SWITCHBANK_INSTANCE);
-  #endif
   
   // Before we transmit anything, let's do the NMEA housekeeping and
   // process any received messages. This call may result in acquisition
@@ -354,6 +357,11 @@ void transmitPGN127501() {
   }
 }  
 
+/**********************************************************************
+ * Returns a byte with each bit set to reflect the state of a switch
+ * bank channel: channel 1 -> bit 0, channel 2 -> bit 1 and so on.
+ * Thinks - may need to reverse the bit order?
+ */
 unsigned char getLedStatus() {
   unsigned char retval = 0;
   for (int i = 0; i < 8; i++) {
