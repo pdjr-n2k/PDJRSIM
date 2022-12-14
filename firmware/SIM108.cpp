@@ -21,8 +21,9 @@
 #include <Button.h>
 #include <N2kTypes.h>
 #include <N2kMessages.h>
-#include <DilSwitch.h>
-#include <B74HC595.h>
+#include <IC74HC165.h>
+#include <IC74HC595.h>
+#include <ProcessQueue.h>
 #include <arraymacros.h>
 
 /**********************************************************************
@@ -39,7 +40,7 @@
 #define DEBUG_SERIAL_START_DELAY 4000
 
 /**********************************************************************
- * MCU EEPROM (PERSISTENT) STORAGE 
+ * MCU EEPROM (PERSISTENT) STORAGE ADDRESSES
  * 
  * Module configuration is persisted to Teensy EEPROM storage.
  * 
@@ -47,39 +48,19 @@
  * module's 1-byte N2K/CAN source address.
  */
 #define SOURCE_ADDRESS_EEPROM_ADDRESS 0
+#define INSTANCE_ADDRESS_EEPROM_ADDRESS 1
 
-/**********************************************************************
- * MCU PIN DEFINITIONS
- * 
- * GPIO pin definitions for the Teensy 3.2 MCU and some collections
- * that can be used as array initialisers
- */
-#define GPIO_MPX_CLOCK 0
-#define GPIO_MPX_LATCH 1
-#define GPIO_MPX_DATA 2
-#define GPIO_CAN_TX 3
-#define GPIO_CAN_RX 4
-#define GPIO_INSTANCE_BIT7 5
-#define GPIO_INSTANCE_BIT6 6
-#define GPIO_INSTANCE_BIT5 7
-#define GPIO_INSTANCE_BIT4 8
-#define GPIO_INSTANCE_BIT3 9
-#define GPIO_INSTANCE_BIT2 10
-#define GPIO_INSTANCE_BIT1 11
-#define GPIO_INSTANCE_BIT0 12
-#define GPIO_POWER_LED 13
-#define GPIO_PRG 14
-#define GPIO_TRANSMIT_LED 15
-#define GPIO_SWITCH_INPUT8 16
-#define GPIO_SWITCH_INPUT7 17
-#define GPIO_SWITCH_INPUT6 18
-#define GPIO_SWITCH_INPUT5 19
-#define GPIO_SWITCH_INPUT4 20
-#define GPIO_SWITCH_INPUT3 21
-#define GPIO_SWITCH_INPUT2 22
-#define GPIO_SWITCH_INPUT1 23
-#define GPIO_INSTANCE_PINS { GPIO_INSTANCE_BIT0, GPIO_INSTANCE_BIT1, GPIO_INSTANCE_BIT2, GPIO_INSTANCE_BIT3, GPIO_INSTANCE_BIT4, GPIO_INSTANCE_BIT5, GPIO_INSTANCE_BIT6, GPIO_INSTANCE_BIT7 }
-#define GPIO_OUTPUT_PINS { GPIO_MPX_CLOCK, GPIO_MPX_DATA, GPIO_MPX_LATCH, GPIO_POWER_LED }
+#include "mcu-pins.defs"
+
+#define GPIO_SWITCH_INPUT1 GPIO_D23
+#define GPIO_SWITCH_INPUT2 GPIO_D22
+#define GPIO_SWITCH_INPUT3 GPIO_D21
+#define GPIO_SWITCH_INPUT4 GPIO_D20
+#define GPIO_SWITCH_INPUT5 GPIO_D19
+#define GPIO_SWITCH_INPUT6 GPIO_D18
+#define GPIO_SWITCH_INPUT7 GPIO_D17
+#define GPIO_SWITCH_INPUT8 GPIO_D16
+#define GPIO_OUTPUT_PINS { GPIO_SIPO_CLOCK, GPIO_SIPO_DATA, GPIO_SIPO_LATCH, GPIO_PISO_CLOCK, GPIO_PISO_LATCH, GPIO_POWER_LED, GPIO_TRANSMIT_LED }
 
 /**********************************************************************
  * DEVICE INFORMATION
@@ -107,20 +88,7 @@
 #define DEVICE_MANUFACTURER_CODE 2046
 #define DEVICE_UNIQUE_NUMBER 849
 
-/**********************************************************************
- * PRODUCT INFORMATION
- * 
- * This poorly structured set of values is what NMEA expects a product
- * description to be shoe-horned into.
- */
-#define PRODUCT_CERTIFICATION_LEVEL 1
-#define PRODUCT_CODE 002
-#define PRODUCT_FIRMWARE_VERSION "1.1.0 (Jun 2022)"
-#define PRODUCT_LEN 1
-#define PRODUCT_N2K_VERSION 2101
-#define PRODUCT_SERIAL_CODE "002-849" // PRODUCT_CODE + DEVICE_UNIQUE_NUMBER
-#define PRODUCT_TYPE "SIM108"
-#define PRODUCT_VERSION "1.0 (Mar 2022)"
+#include "product-information.defs"
 
 /**********************************************************************
  * Include the build.h header file which can be used to override any or
@@ -160,31 +128,24 @@ typedef struct { unsigned long PGN; void (*Handler)(const tN2kMsg &N2kMsg); } tN
 tNMEA2000Handler NMEA2000Handlers[]={ {0L, 0} };
 
 /**********************************************************************
- * DIL_SWITCH switch decoder.
- */
-int INSTANCE_PINS[] = GPIO_INSTANCE_PINS;
-DilSwitch DIL_SWITCH (INSTANCE_PINS, ELEMENTCOUNT(INSTANCE_PINS));
-
-/**********************************************************************
- * Create some Button instances to software debounce all our switch
- * inputs.
+ * BASE PLATFORM DEVICES
  */
 Button PRG_BUTTON(GPIO_PRG);
+IC74HC165 DIL_SWITCH (GPIO_PISO_CLOCK, GPIO_PISO_DATA, GPIO_PISO_LATCH);
+IC74HC595 LED_DISPLAY (GPIO_SIPO_CLOCK, GPIO_SIPO_DATA, GPIO_SIPO_LATCH);
+int TRANSMIT_LED = 0;
+
+/**********************************************************************
+ * APPLICATION SPECIFIC DEVICES
+ */
 Button SWITCH_INPUTS[] = { Button(GPIO_SWITCH_INPUT1), Button(GPIO_SWITCH_INPUT2), Button(GPIO_SWITCH_INPUT3), Button(GPIO_SWITCH_INPUT4), Button(GPIO_SWITCH_INPUT5), Button(GPIO_SWITCH_INPUT6), Button(GPIO_SWITCH_INPUT7), Button(GPIO_SWITCH_INPUT8) };
 
 /**********************************************************************
- * LED_DISPLAY shift register.
-*/
-B74HC595 LED_DISPLAY (GPIO_MPX_DATA, GPIO_MPX_CLOCK, GPIO_MPX_LATCH);
-
-int TRANSMIT_LED_STATE = 0;
-
-/**********************************************************************
- * SWITCHBANK_INSTANCE - working storage for the switchbank module
+ * MODULE_INSTANCE - working storage for the switchbank module
  * instance number. The user selected value is recovered from hardware
  * and assigned during module initialisation,
  */
-unsigned char SWITCHBANK_INSTANCE = INSTANCE_UNDEFINED;
+unsigned char MODULE_INSTANCE = INSTANCE_UNDEFINED;
 
 /**********************************************************************
  * SWITCHBANK_STATUS - working storage for holding the most recently
@@ -201,13 +162,16 @@ void setup() {
   delay(DEBUG_SERIAL_START_DELAY);
   #endif
 
-  // Set the mode of all digital GPIO pins.
-  int ippins[] = GPIO_INSTANCE_PINS;
-  for (unsigned int i = 0 ; i < ELEMENTCOUNT(ippins); i++) pinMode(ippins[i], INPUT_PULLUP);
+  // Set the mode of GPIO output pins.
   int opins[] = GPIO_OUTPUT_PINS;
   for (unsigned int i = 0 ; i < ELEMENTCOUNT(opins); i++) pinMode(opins[i], OUTPUT);
+
+  // Set the mode of GPIO input pins.
+
   PRG_BUTTON.begin();
   for (int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) SWITCH_INPUTS[i].begin();
+  DIL_SWITCH.begin();
+  LED_DISPLAY.begin();
 
   // We assume that a new host system has its EEPROM initialised to all
   // 0xFF. We test by reading a byte that in a configured system should
@@ -224,14 +188,16 @@ void setup() {
   }
 
   // Recover module instance number.
-  DIL_SWITCH.sample();
-  SWITCHBANK_INSTANCE = DIL_SWITCH.value();
+  MODULE_INSTANCE = DIL_SWITCH.readByte();
 
   // Run a startup sequence in the LED display: all LEDs on to confirm
   // function, then a display of the module instance number.
-  LED_DISPLAY.update(0xff); delay(100);
-  LED_DISPLAY.update(SWITCHBANK_INSTANCE); delay(1000);
-  LED_DISPLAY.enableLoopUpdates(getLedStatus, LED_UPDATE_INTERVAL);
+  LED_DISPLAY.writeByte(0xff); delay(100);
+  LED_DISPLAY.writeByte(MODULE_INSTANCE); delay(1000);
+  LED_DISPLAY.writeByte(0x00);
+
+  // Arrange for automatic update of the status LEDs.
+  LED_DISPLAY.configureUpdate(LED_UPDATE_INTERVAL, getLedStatus);
 
   // Clear the switchbank status buffer
   N2kResetBinaryStatus(SWITCHBANK_STATUS);
@@ -249,7 +215,7 @@ void setup() {
   Serial.println();
   Serial.println("Starting:");
   Serial.print("  N2K Source address is "); Serial.println(NMEA2000.GetN2kSource());
-  Serial.print("  Module instance number is "); Serial.println(SWITCHBANK_INSTANCE);
+  Serial.print("  Module instance number is "); Serial.println(MODULE_INSTANCE);
   #endif
 
 }
@@ -271,9 +237,8 @@ void loop() {
   NMEA2000.ParseMessages();
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
-  // If the PRG button has been pressed, then update module instance.
-  if (PRG_BUTTON.pressed()) DIL_SWITCH.sample();;
-  if (PRG_BUTTON.released()) SWITCHBANK_INSTANCE = DIL_SWITCH.value();
+  // If the PRG button has been operated, then update module instance.
+  if (PRG_BUTTON.released()) MODULE_INSTANCE = DIL_SWITCH.readByte();
 
   // Process any switch state changes and transmit switchbank status
   // updates as required.
@@ -283,7 +248,7 @@ void loop() {
   flashTransmitLedMaybe();
   
   // Update the states of connected LEDs
-  LED_DISPLAY.loop();
+  LED_DISPLAY.updateMaybe();
 }
 
 /**********************************************************************
@@ -325,8 +290,7 @@ void transmitSwitchbankStatusMaybe(bool force) {
   if ((now > deadline) || force) {
     transmitPGN127501();
     digitalWrite(GPIO_POWER_LED, 1);
-    LED_DISPLAY.preempt();
-    TRANSMIT_LED_STATE = 1;
+    TRANSMIT_LED = 1;
     deadline = (now + PGN127501_TRANSMIT_INTERVAL);
   }
 }
@@ -339,7 +303,7 @@ void flashTransmitLedMaybe() {
   unsigned long now = millis();
 
   if (now > deadline) {
-    digitalWrite(GPIO_TRANSMIT_LED, TRANSMIT_LED_STATE); TRANSMIT_LED_STATE = 0;
+    digitalWrite(GPIO_TRANSMIT_LED, TRANSMIT_LED); TRANSMIT_LED = 0;
     deadline = (now + LED_UPDATE_INTERVAL);
   }
 }
@@ -351,8 +315,8 @@ void flashTransmitLedMaybe() {
 void transmitPGN127501() {
   static tN2kMsg N2kMsg;
 
-  if (SWITCHBANK_INSTANCE < 253) {
-    SetN2kPGN127501(N2kMsg, SWITCHBANK_INSTANCE, SWITCHBANK_STATUS);
+  if (MODULE_INSTANCE < 253) {
+    SetN2kPGN127501(N2kMsg, MODULE_INSTANCE, SWITCHBANK_STATUS);
     NMEA2000.SendMsg(N2kMsg);
   }
 }  
