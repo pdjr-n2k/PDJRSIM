@@ -1,0 +1,10 @@
+/**********************************************************************
+ * MCU EEPROM (PERSISTENT) STORAGE ADDRESSES
+ * 
+ * Module configuration is persisted to Teensy EEPROM storage.
+ * 
+ * SOURCE_ADDRESS_EEPROM_ADDRESS is the storage address for the
+ * module's 1-byte N2K/CAN source address.
+ */
+#define SOURCE_ADDRESS_EEPROM_ADDRESS 0
+#define INSTANCE_ADDRESS_EEPROM_ADDRESS 1

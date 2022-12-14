@@ -39,18 +39,10 @@
 #define DEBUG_SERIAL
 #define DEBUG_SERIAL_START_DELAY 4000
 
-/**********************************************************************
- * MCU EEPROM (PERSISTENT) STORAGE ADDRESSES
- * 
- * Module configuration is persisted to Teensy EEPROM storage.
- * 
- * SOURCE_ADDRESS_EEPROM_ADDRESS is the storage address for the
- * module's 1-byte N2K/CAN source address.
- */
-#define SOURCE_ADDRESS_EEPROM_ADDRESS 0
-#define INSTANCE_ADDRESS_EEPROM_ADDRESS 1
-
-#include "mcu-pins.defs"
+#include "core-eepromaddresses.defs"
+#include "core-mcupins.defs"
+#include "module-deviceinfo.defs"
+#include "module-productinfo.defs"
 
 #define GPIO_SWITCH_INPUT1 GPIO_D23
 #define GPIO_SWITCH_INPUT2 GPIO_D22
@@ -60,41 +52,6 @@
 #define GPIO_SWITCH_INPUT6 GPIO_D18
 #define GPIO_SWITCH_INPUT7 GPIO_D17
 #define GPIO_SWITCH_INPUT8 GPIO_D16
-#define GPIO_OUTPUT_PINS { GPIO_SIPO_CLOCK, GPIO_SIPO_DATA, GPIO_SIPO_LATCH, GPIO_PISO_CLOCK, GPIO_PISO_LATCH, GPIO_POWER_LED, GPIO_TRANSMIT_LED }
-
-/**********************************************************************
- * DEVICE INFORMATION
- * 
- * Because of NMEA's closed standard, most of this is fiction. Maybe it
- * can be made better with more research. In particular, even recent
- * releases of the NMEA function and class lists found using Google
- * don't discuss anchor systems, so the proper values for CLASS and
- * FUNCTION in this application are not known.  At the moment they are
- * set to 25 (network device) and 130 (PC gateway).
- * 
- * INDUSTRY_GROUP we can be confident about (4 says maritime). However,
- * MANUFACTURER_CODE is only allocated to subscribed NMEA members and,
- * unsurprisingly, an anonymous code has not been assigned: 2046 is
- * currently unused, so we adopt that.  
- * 
- * MANUFACTURER_CODE and UNIQUE_NUMBER together must make a unique
- * value on any N2K bus and an easy way to achieve this is just to
- * bump the unique number for every software build and this is done
- * automatically by the build system.
- */
-#define DEVICE_CLASS 75
-#define DEVICE_FUNCTION 130
-#define DEVICE_INDUSTRY_GROUP 4
-#define DEVICE_MANUFACTURER_CODE 2046
-#define DEVICE_UNIQUE_NUMBER 849
-
-#include "product-information.defs"
-
-/**********************************************************************
- * Include the build.h header file which can be used to override any or
- * all of the above  constant definitions.
- */
-#include "build.h"
 
 #define DEFAULT_SOURCE_ADDRESS 22         // Seed value for source address claim
 #define INSTANCE_UNDEFINED 255            // Flag value
