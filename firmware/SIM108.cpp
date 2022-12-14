@@ -169,7 +169,7 @@ void setup() {
   // Set the mode of GPIO input pins.
 
   PRG_BUTTON.begin();
-  for (int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) SWITCH_INPUTS[i].begin();
+  for (unsigned int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) SWITCH_INPUTS[i].begin();
   DIL_SWITCH.begin();
   LED_DISPLAY.begin();
 
