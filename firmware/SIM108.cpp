@@ -39,10 +39,52 @@
 #define DEBUG_SERIAL
 #define DEBUG_SERIAL_START_DELAY 4000
 
-#include "core-eepromaddresses.defs"
-#include "core-mcupins.defs"
-#include "module-deviceinfo.defs"
-#include "module-productinfo.defs"
+/**********************************************************************
+ * MCU EEPROM (PERSISTENT) STORAGE ADDRESSES
+ * 
+ * Module configuration is persisted to Teensy EEPROM storage.
+ * 
+ * SOURCE_ADDRESS_EEPROM_ADDRESS is the storage address for the
+ * module's 1-byte N2K/CAN source address.
+ */
+#define SOURCE_ADDRESS_EEPROM_ADDRESS 0
+#define INSTANCE_ADDRESS_EEPROM_ADDRESS 1
+
+/**********************************************************************
+ * MCU PIN DEFINITIONS
+ * 
+ * GPIO pin definitions for the Teensy 3.2/4.0 MCU and some collections
+ * that can be used as array initialisers
+ */
+#define GPIO_SIPO_DATA 0
+#define GPIO_SIPO_LATCH 1
+#define GPIO_SIPO_CLOCK 2
+#define GPIO_CAN_TX 3
+#define GPIO_CAN_RX 4
+#define GPIO_D5 5
+#define GPIO_D6 6
+#define GPIO_D7 7
+#define GPIO_D8 8
+#define GPIO_D9 9
+#define GPIO_PISO_DATA 10
+#define GPIO_PISO_LATCH 11
+#define GPIO_PISO_CLOCK 12
+#define GPIO_POWER_LED 13
+#define GPIO_PRG 14
+#define GPIO_TRANSMIT_LED 15
+#define GPIO_D16 16
+#define GPIO_D17 17
+#define GPIO_D18 18
+#define GPIO_D19 19
+#define GPIO_D20 20
+#define GPIO_D21 21
+#define GPIO_D22 22
+#define GPIO_D23 23
+#define GPIO_OUTPUT_PINS { GPIO_SIPO_CLOCK, GPIO_SIPO_DATA, GPIO_SIPO_LATCH, GPIO_PISO_CLOCK, GPIO_PISO_LATCH, GPIO_POWER_LED, GPIO_TRANSMIT_LED }
+
+#define DEFAULT_SOURCE_ADDRESS 22         // Seed value for source address claim
+#define INSTANCE_UNDEFINED 255            // Flag value
+#define TRANSMIT_LED_UPDATE_INTERVAL 50   // Frequency at which to update the transmit LED.
 
 #define GPIO_SWITCH_INPUT1 GPIO_D23
 #define GPIO_SWITCH_INPUT2 GPIO_D22
@@ -53,60 +95,81 @@
 #define GPIO_SWITCH_INPUT7 GPIO_D17
 #define GPIO_SWITCH_INPUT8 GPIO_D16
 
-#define DEFAULT_SOURCE_ADDRESS 22         // Seed value for source address claim
-#define INSTANCE_UNDEFINED 255            // Flag value
-#define PGN127501_TRANSMIT_INTERVAL 4000UL
+#define DEFAULT_INSTANCE_ADDRESS 255
 #define SWITCH_PROCESS_INTERVAL 100       // Process switch inputs every n ms
-#define LED_UPDATE_INTERVAL 50            // Number of ms on / off
+#define PGN127501_TRANSMIT_INTERVAL 4000UL
+
+#include "module-deviceinfo.defs"
+#include "module-productinfo.defs"
 
 /**********************************************************************
  * Declarations of local functions.
  */
+void messageHandler(const tN2kMsg&);
+void flashTransmitLedMaybe();
+void processPrgButtonPress();
+uint8_t getTransmitLedStatus();
+
 void processSwitchInputsMaybe();
 void transmitSwitchbankStatusMaybe(bool force = false);
 void transmitPGN127501();
-unsigned char getLedStatus();
-void flashTransmitLedMaybe();
-void messageHandler(const tN2kMsg&);
+uint8_t getStatusDisplayStatus();
 
 /**********************************************************************
- * PGNs of messages transmitted by this program.
+ * List of PGNs transmitted by this program.
  * 
  * PGN 127501 Binary Status Report.
  */
 const unsigned long TransmitMessages[] PROGMEM={ 127501L, 0 };
 
 /**********************************************************************
- * PGNs of messages handled by this program.
- * 
- * There are none.
+ * NMEA2000Handlers -  vector mapping each PGN handled by this module
+ * onto a function which will process any received messages.
  */
 typedef struct { unsigned long PGN; void (*Handler)(const tN2kMsg &N2kMsg); } tNMEA2000Handler;
 tNMEA2000Handler NMEA2000Handlers[]={ {0L, 0} };
 
 /**********************************************************************
- * BASE PLATFORM DEVICES
+ * PRG_BUTTON - debounced GPIO_PRG.
  */
 Button PRG_BUTTON(GPIO_PRG);
-IC74HC165 DIL_SWITCH (GPIO_PISO_CLOCK, GPIO_PISO_DATA, GPIO_PISO_LATCH);
-IC74HC595 LED_DISPLAY (GPIO_SIPO_CLOCK, GPIO_SIPO_DATA, GPIO_SIPO_LATCH);
-int TRANSMIT_LED = 0;
 
 /**********************************************************************
- * APPLICATION SPECIFIC DEVICES
+ * TRANSMIT_LED_STATE - holds the state that should be assigned to the
+ * GPIO_TRANSMIT_LED pin the next time its output is updated (the value
+ * will be reset to 0 after each update). 
  */
-Button SWITCH_INPUTS[] = { Button(GPIO_SWITCH_INPUT1), Button(GPIO_SWITCH_INPUT2), Button(GPIO_SWITCH_INPUT3), Button(GPIO_SWITCH_INPUT4), Button(GPIO_SWITCH_INPUT5), Button(GPIO_SWITCH_INPUT6), Button(GPIO_SWITCH_INPUT7), Button(GPIO_SWITCH_INPUT8) };
+int TRANSMIT_LED_STATE = 0;
 
 /**********************************************************************
- * MODULE_INSTANCE - working storage for the switchbank module
- * instance number. The user selected value is recovered from hardware
- * and assigned during module initialisation,
+ * DIL_SWITCH - interface to the IC74HC165 IC that connects the eight
+ * DIL switch parallel inputs.
+ */
+IC74HC165 DIL_SWITCH (GPIO_PISO_CLOCK, GPIO_PISO_DATA, GPIO_PISO_LATCH);
+
+/**********************************************************************
+ * MODULE_INSTANCE - working storage for the module instance number.
+ * The user selected value is recovered from hardware and assigned
+ * during module initialisation and reconfiguration.
  */
 unsigned char MODULE_INSTANCE = INSTANCE_UNDEFINED;
 
 /**********************************************************************
+ * LED_STATUS_DISPLAY - interface to the IC74HC595 IC that operates the
+ * (up to) 16 status display LEDs.
+ */ 
+ IC74HC595 LED_STATUS_DISPLAY (GPIO_SIPO_CLOCK, GPIO_SIPO_DATA, GPIO_SIPO_LATCH);
+
+/**********************************************************************
+ * SWITCH_INPUTS - array of debounced GPIO inputs which connect the
+ * module's external switch inputs.
+ */
+Button SWITCH_INPUTS[] = { Button(GPIO_SWITCH_INPUT1), Button(GPIO_SWITCH_INPUT2), Button(GPIO_SWITCH_INPUT3), Button(GPIO_SWITCH_INPUT4), Button(GPIO_SWITCH_INPUT5), Button(GPIO_SWITCH_INPUT6), Button(GPIO_SWITCH_INPUT7), Button(GPIO_SWITCH_INPUT8) };
+
+/**********************************************************************
  * SWITCHBANK_STATUS - working storage for holding the most recently
- * read state of the Teensy switch inputs.
+ * read state of the Teensy switch inputs in the format used by the
+ * NMEA2000 library.
  */
 tN2kBinaryStatus SWITCHBANK_STATUS;
 
@@ -119,16 +182,15 @@ void setup() {
   delay(DEBUG_SERIAL_START_DELAY);
   #endif
 
-  // Set the mode of GPIO output pins.
+  // Initialise all core GPIO pins.
   int opins[] = GPIO_OUTPUT_PINS;
   for (unsigned int i = 0 ; i < ELEMENTCOUNT(opins); i++) pinMode(opins[i], OUTPUT);
-
-  // Set the mode of GPIO input pins.
-
   PRG_BUTTON.begin();
-  for (unsigned int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) SWITCH_INPUTS[i].begin();
   DIL_SWITCH.begin();
-  LED_DISPLAY.begin();
+
+  // Initialise all application GPIO pins.
+  for (unsigned int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) SWITCH_INPUTS[i].begin();
+  LED_STATUS_DISPLAY.begin();
 
   // We assume that a new host system has its EEPROM initialised to all
   // 0xFF. We test by reading a byte that in a configured system should
@@ -138,23 +200,25 @@ void setup() {
   // Address | Value                                    | Size in bytes
   // --------+------------------------------------------+--------------
   // 0x00    | N2K source address                       | 1
+  // 0x01    | N2K module instance number               | 1
   //
   //EEPROM.write(SOURCE_ADDRESS_EEPROM_ADDRESS, 0xff);
   if (EEPROM.read(SOURCE_ADDRESS_EEPROM_ADDRESS) == 0xff) {
     EEPROM.write(SOURCE_ADDRESS_EEPROM_ADDRESS, DEFAULT_SOURCE_ADDRESS);
+    EEPROM.write(INSTANCE_ADDRESS_EEPROM_ADDRESS, DEFAULT_INSTANCE_ADDRESS);
   }
 
-  // Recover module instance number.
-  MODULE_INSTANCE = DIL_SWITCH.readByte();
+  // If this module requires a instance numberRecover module instance number.
+  MODULE_INSTANCE = EEPROM.read(INSTANCE_ADDRESS_EEPROM_ADDRESS);
 
   // Run a startup sequence in the LED display: all LEDs on to confirm
   // function, then a display of the module instance number.
-  LED_DISPLAY.writeByte(0xff); delay(100);
-  LED_DISPLAY.writeByte(MODULE_INSTANCE); delay(1000);
-  LED_DISPLAY.writeByte(0x00);
+  LED_STATUS_DISPLAY.writeByte(0xff); delay(100);
+  LED_STATUS_DISPLAY.writeByte(MODULE_INSTANCE); delay(1000);
+  LED_STATUS_DISPLAY.writeByte(0x00);
 
   // Arrange for automatic update of the status LEDs.
-  LED_DISPLAY.configureUpdate(LED_UPDATE_INTERVAL, getLedStatus);
+  LED_STATUS_DISPLAY.configureUpdate(TRANSMIT_LED_UPDATE_INTERVAL, getStatusDisplayStatus);
 
   // Clear the switchbank status buffer
   N2kResetBinaryStatus(SWITCHBANK_STATUS);
@@ -195,7 +259,7 @@ void loop() {
   if (NMEA2000.ReadResetAddressChanged()) EEPROM.update(SOURCE_ADDRESS_EEPROM_ADDRESS, NMEA2000.GetN2kSource());
 
   // If the PRG button has been operated, then update module instance.
-  if (PRG_BUTTON.released()) MODULE_INSTANCE = DIL_SWITCH.readByte();
+  if (PRG_BUTTON.released()) processPrgButtonPress();
 
   // Process any switch state changes and transmit switchbank status
   // updates as required.
@@ -205,7 +269,7 @@ void loop() {
   flashTransmitLedMaybe();
   
   // Update the states of connected LEDs
-  LED_DISPLAY.updateMaybe();
+  LED_STATUS_DISPLAY.updateMaybe();
 }
 
 /**********************************************************************
@@ -247,23 +311,11 @@ void transmitSwitchbankStatusMaybe(bool force) {
   if ((now > deadline) || force) {
     transmitPGN127501();
     digitalWrite(GPIO_POWER_LED, 1);
-    TRANSMIT_LED = 1;
+    TRANSMIT_LED_STATE = 1;
     deadline = (now + PGN127501_TRANSMIT_INTERVAL);
   }
 }
 
-/**********************************************************************
- * Flash the transmit LED every time a packet is transmitted over NMEA.
- */
-void flashTransmitLedMaybe() {
-  static unsigned long deadline = 0UL;
-  unsigned long now = millis();
-
-  if (now > deadline) {
-    digitalWrite(GPIO_TRANSMIT_LED, TRANSMIT_LED); TRANSMIT_LED = 0;
-    deadline = (now + LED_UPDATE_INTERVAL);
-  }
-}
 
 /**********************************************************************
  * Assemble and transmit a PGN 127501 Binary Status Update message
@@ -283,7 +335,7 @@ void transmitPGN127501() {
  * bank channel: channel 1 -> bit 0, channel 2 -> bit 1 and so on.
  * Thinks - may need to reverse the bit order?
  */
-unsigned char getLedStatus() {
+uint8_t getStatusDisplayStatus() {
   unsigned char retval = 0;
   for (int i = 0; i < 8; i++) {
     retval = (retval | (((N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1)) == N2kOnOff_On)?1:0) << i));
@@ -291,13 +343,16 @@ unsigned char getLedStatus() {
   return(retval);
 }
 
-/**********************************************************************
- * Helper function called by the NMEA2000 library function
- * parseMessages() (which itself must be called from loop()) in order
- * to pass incoming messages to any user-defined handler. The mapping
- * between message PGN and handler function should be defined in the
- * global vector NMEA2000Handlers.
- */
+void flashTransmitLedMaybe() {
+  static unsigned long deadline = 0UL;
+  unsigned long now = millis();
+
+  if (now > deadline) {
+    digitalWrite(GPIO_TRANSMIT_LED, TRANSMIT_LED_STATE); TRANSMIT_LED_STATE = 0;
+    deadline = (now + TRANSMIT_LED_UPDATE_INTERVAL);
+  }
+}
+
 void messageHandler(const tN2kMsg &N2kMsg) {
   int iHandler;
   for (iHandler=0; NMEA2000Handlers[iHandler].PGN!=0 && !(N2kMsg.PGN==NMEA2000Handlers[iHandler].PGN); iHandler++);
@@ -305,3 +360,10 @@ void messageHandler(const tN2kMsg &N2kMsg) {
     NMEA2000Handlers[iHandler].Handler(N2kMsg); 
   }
 }
+
+void processPrgButtonPress() {
+  EEPROM.write(INSTANCE_ADDRESS_EEPROM_ADDRESS, DIL_SWITCH.readByte());
+  MODULE_INSTANCE = EEPROM.read(INSTANCE_ADDRESS_EEPROM_ADDRESS);
+  LED_STATUS_DISPLAY.writeByte(MODULE_INSTANCE); delay(1000);
+}
+
