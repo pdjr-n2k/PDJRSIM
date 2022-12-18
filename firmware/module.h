@@ -1,19 +1,4 @@
 /**********************************************************************
- * Aliases for GPIO pins connected to switch inputs. 
- */
-#define GPIO_SWITCH_INPUT1 GPIO_D23
-#define GPIO_SWITCH_INPUT2 GPIO_D22
-#define GPIO_SWITCH_INPUT3 GPIO_D21
-#define GPIO_SWITCH_INPUT4 GPIO_D20
-#define GPIO_SWITCH_INPUT5 GPIO_D19
-#define GPIO_SWITCH_INPUT6 GPIO_D18
-#define GPIO_SWITCH_INPUT7 GPIO_D17
-#define GPIO_SWITCH_INPUT8 GPIO_D16
-
-#define SWITCH_PROCESS_INTERVAL 100       // Process switch inputs every n ms
-#define PGN127501_TRANSMIT_INTERVAL 4000UL
-
-/**********************************************************************
  * DEVICE INFORMATION
  * 
  * Because of NMEA's closed standard, most of this is fiction. Maybe it
@@ -53,3 +38,22 @@
 #define PRODUCT_SERIAL_CODE "002-849" // PRODUCT_CODE + DEVICE_UNIQUE_NUMBER
 #define PRODUCT_TYPE "SIM108"
 #define PRODUCT_VERSION "1.0 (Mar 2022)"
+
+#define NMEA_TRANSMIT_MESSAGE_PGNS { 0 }
+#define NMEA_PGN_HANDLERS  { { 0L, 0 } }
+
+/**********************************************************************
+ * Aliases for GPIO pins connected to switch inputs. 
+ */
+#define GPIO_SWITCH_INPUT1 GPIO_D23
+#define GPIO_SWITCH_INPUT2 GPIO_D22
+#define GPIO_SWITCH_INPUT3 GPIO_D21
+#define GPIO_SWITCH_INPUT4 GPIO_D20
+#define GPIO_SWITCH_INPUT5 GPIO_D19
+#define GPIO_SWITCH_INPUT6 GPIO_D18
+#define GPIO_SWITCH_INPUT7 GPIO_D17
+#define GPIO_SWITCH_INPUT8 GPIO_D16
+
+#define SWITCH_PROCESS_INTERVAL 100       // Process switch inputs every n ms
+#define PGN127501_TRANSMIT_INTERVAL 4000UL
+
