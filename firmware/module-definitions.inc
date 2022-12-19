@@ -1,8 +1,9 @@
 /**********************************************************************
  * module-definitions.inc
  *
- * Contains #defines for the constant values which characterise a
- * particular NMEA module.
+ * Contains #defines for the constant values which characterise our
+ * module application and, a little incongruously, declarations for our
+ * application functions
  */
   
  /**********************************************************************
@@ -98,3 +99,12 @@
  * Number of milliseconds between regular transmission of PGN 127501.
  */
 #define PGN127501_TRANSMIT_INTERVAL 4000UL
+
+/**********************************************************************
+ * Ok, these are declarations, not definitions, but we need to get the
+ * jump vector callbacks in the world quite early...
+ */
+void processSwitchInputsMaybe();
+void transmitSwitchbankStatusMaybe(bool force = false);
+void transmitPGN127501();
+int updateModuleInstance(int value);

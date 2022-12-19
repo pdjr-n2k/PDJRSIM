@@ -1,5 +1,6 @@
-// Process any switch state changes and transmit switchbank status
-  // updates as required.
-
-  processSwitchInputsMaybe();
-  transmitSwitchbankStatusMaybe();
+/**********************************************************************
+ * module-loop.inc
+ */
+ 
+processSwitchInputsMaybe();
+transmitSwitchbankStatusMaybe();

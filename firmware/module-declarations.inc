@@ -1,17 +1,10 @@
 /**********************************************************************
  * module-declarations.inc
  *
- * Contains declarations of types, variables, functions, etc. that are
- * required for implementation of the SIM108 application.
+ * Contains declarations of types, variables, etc. that are required
+ * for implementation of our application. Note that application
+ * functions must be declared at the end of module-definitions.inc.
  */
-
-/**********************************************************************
- * Functions implementing the application
- */
-void processSwitchInputsMaybe();
-void transmitSwitchbankStatusMaybe(bool force = false);
-void transmitPGN127501();
-int updateModuleInstance(int value);
 
 /**********************************************************************
  * SWITCH_INPUTS - array of debounced GPIO inputs which connect the
@@ -97,8 +90,9 @@ int updateModuleInstance(int value) {
  */
 
 /**********************************************************************
- * getStatusLedsStatus - returns a value that should be used to update
- * the status LEDs.
+ * getStatusLedsStatus - overrides the default function in the generic
+ * firmware, returning a value that can be used to update the status
+ * LEDs with the input channel states.
  */
 #define GET_STATUS_LEDS_STATUS
 uint8_t getStatusLedsStatus() {
