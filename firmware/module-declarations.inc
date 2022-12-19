@@ -11,6 +11,7 @@
 void processSwitchInputsMaybe();
 void transmitSwitchbankStatusMaybe(bool force = false);
 void transmitPGN127501();
+int updateModuleInstance(int value);
 
 /**********************************************************************
  * SWITCH_INPUTS - array of debounced GPIO inputs which connect the
@@ -91,11 +92,15 @@ int updateModuleInstance(int value) {
   return(0);
 }
 
-#define GET_STATUS_LEDS_STATUS
+/**********************************************************************
+ * OVERRIDE OF FUNCTIONS IN NOP100
+ */
+
 /**********************************************************************
  * getStatusLedsStatus - returns a value that should be used to update
  * the status LEDs.
  */
+#define GET_STATUS_LEDS_STATUS
 uint8_t getStatusLedsStatus() {
   unsigned char retval = 0;
   for (int i = 0; i < 8; i++) {

@@ -3,4 +3,3 @@
 
   processSwitchInputsMaybe();
   transmitSwitchbankStatusMaybe();
-  flashTransmitLedMaybe();
