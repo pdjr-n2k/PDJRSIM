@@ -1,1 +1,1 @@
-../../NOP100/NOP100.cpp
+../../NOP100/firmware/NOP100.cpp
