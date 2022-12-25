@@ -5,9 +5,9 @@
 which implements an NMEA 2000 switch input module with support for
 eight switch input channels.
 
-The module presents on the NMEA bus as a device with Class Code 30
-(Electrical Distribution) and Function Code 130 (Binary Event
-Monitor) and reports its status through transmission of
+The module presents on the NMEA bus as a switchbank device with
+Class Code 30 (Electrical Distribution) and Function Code 130 (Binary
+Event Monitor) and reports its status through transmission of
 [PGN 127501 Binary Status Report]()
 messages.
 
@@ -30,6 +30,7 @@ The default transmission interval can be configured by the user.
 
 **SIM108** uses the basic configuration mechanism provided by NOP100
 and must be configured with a module instance number before use.
+
 The following configuration parameters are available.
 
 | Parameter                             | Default value | Description |
@@ -40,9 +41,14 @@ The following configuration parameters are available.
 ### Setting the module's instance number
 
 Enter the module instance number you wish to use on the ADDR/VALUE DIL
-switch a press and release PRG.
+switch a press and release the PRG button.
 The module will immediately begin transmitting status report messages
 on the new instance number.
+
+Select your instance number with care: the number used must not be in
+use by any other switchbank on the host NMEA bus.
+
+You can disable the module by setting instance number to 0xff.
 
 ### Setting the module's default transmission interval
 
@@ -50,13 +56,13 @@ In most cases the default transmission interval of four seconds (which
 conforms to the requirements of the NMEA 2000 standard) will not need
 to be altered.
 
-If you do wish to change the rate, then enter the value 2 on the
+If you do wish to change the rate, then enter the value 0x02 on the
 ADDR/VALUE DIL switch and press and hold the PRG button for two seconds
 and then release.
 The module's transmit LED will begin to flash rapidly.
 Enter your required default transmission interval in seconds on the
 ADDR/VALUE DIL switch and press and release PRG.
-The new transmission rate will be applied the next time to module is
+The new transmission rate will be applied the next time the module is
 power cycled.
 
 ## Connecting switch inputs
