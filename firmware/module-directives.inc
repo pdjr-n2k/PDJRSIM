@@ -1,5 +1,5 @@
 /**********************************************************************
- * module-definitions.inc
+ * module-directives.inc
  *
  * Contains #defines for the constant values which characterise our
  * module application and, a little incongruously, declarations for our
@@ -77,19 +77,22 @@
 #define GPIO_SWITCH_INPUT7 GPIO_D17
 #define GPIO_SWITCH_INPUT8 GPIO_D16
 
+#define PGN127501_TRANSMIT_INTERVAL_EEPROM_ADDRESS 2
+
 /**********************************************************************
  * Number of milliseconds between checks on switch input channel state.
  */
 #define SWITCH_PROCESS_INTERVAL 100       // Process switch inputs every n ms
 
+
 /**********************************************************************
  * Number of milliseconds between regular transmission of PGN 127501.
  */
-#define PGN127501_TRANSMIT_INTERVAL 4000UL
+#define PGN127501_TRANSMIT_INTERVAL_DEFAULT 4000UL
 
 /**********************************************************************
- * Ok, these are declarations, not definitions, but we need to get the
- * jump vector callbacks in the world quite early...
+ * Ok, these are declarations, not definitions, but we need to get them
+ * in the world quite early...
  */
 void processSwitchInputsMaybe();
 void transmitSwitchbankStatusMaybe(bool force = false);

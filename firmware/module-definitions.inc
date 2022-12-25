@@ -19,6 +19,8 @@ Button SWITCH_INPUTS[] = { Button(GPIO_SWITCH_INPUT1), Button(GPIO_SWITCH_INPUT2
  */
 tN2kBinaryStatus SWITCHBANK_STATUS;
 
+unsigned long PGN127501_TRANSMIT_INTERVAL = PGN127501_TRANSMIT_INTERVAL_DEFAULT;
+
 /**********************************************************************
  * processSwitchInputsMaybe() should be called directly from loop().
  * The function checks switch states every SWITCH_PROCESS_INTERVAL and
