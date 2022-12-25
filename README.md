@@ -5,38 +5,45 @@
 which implements an NMEA 2000 switch input module with support for
 eight switch input channels.
 
-The module presents on the NMEA bus as a switchbank device with
+**SIM108** presents on the NMEA bus as a switchbank device with
 Class Code 30 (Electrical Distribution) and Function Code 130 (Binary
 Event Monitor) and reports its status through transmission of
 [PGN 127501 Binary Status Report]()
 messages.
 
-**SIM108** is powered from the host NMEA bus and has an LEN of 0.5.
+The module is powered from the host NMEA bus and has an LEN of 0.5.
+
+## Switch inputs
 
 The switch input sub-system consists of eight debounced input channels
 each of which is optically isolated and reverse polarity protected with
-reference to a shared common ground.
+reference to a common ground.
 
-An input voltage of between 5VDC and 50VDC is interpreted as an ON
-condition and when ON the nominal current draw per input channel is 8mA
-at 12VDC, 10mA at 24VDC.
+On any input channel a voltage of between 5VDC and 50VDC is interpreted
+as an ON condition and when ON the nominal current draw per input
+channel is 8mA at 12VDC, 10mA at 24VDC.
 
-By default **SIM108** transmits a PGN 127501 Binary Status Report once
-every four seconds or immediately a state change is detected on an
-input channel.
+## Status reporting
+
+**SIM108** uses the NMEA 2000 switchbank protocol PGN 12501 to report
+the status of module inputs.
+
+By default a status report is transmitted once every four seconds or
+immediately a state change is detected on an input channel.
 The default transmission interval can be configured by the user.
 
 ## Module configuration
 
-**SIM108** uses the basic configuration mechanism provided by NOP100
-and must be configured with a module instance number before use.
-
-The following configuration parameters are available.
+The following configuration parameters are supported.
 
 | Parameter                             | Default value | Description |
 | :---                                  | :---:         | :---        |
+| 0x00 CAN ADDRESS                      | 0x22 | Used internally by the module's CAN bus interface. Not user accessible. |
 | 0x01 MODULE INSTANCE NUMBER           | 0xFF | This parameter must be assigned a value in the range 0 through 252. |
 | 0x02 PGN 127501 TRANSMISSION INTERVAL | 0x04 | Basic transmission interval in seconds. |
+
+**SIM108** uses the basic configuration mechanism provided by NOP100
+and must be configured with a module instance number before use.
 
 ### Setting the module's instance number
 
