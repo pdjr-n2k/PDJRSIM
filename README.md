@@ -17,14 +17,14 @@ The switch input sub-system consists of eight debounced input channels
 each of which is optically isolated and reverse polarity protected with
 reference to a common ground.
 
-On any input channel a voltage of between 5VDC and 50VDC is interpreted
-as an ON condition and when ON the nominal current draw per input
-channel is 8mA at 12VDC, 10mA at 24VDC.
+A voltage of between 5VDC and 50VDC on an input channel is interpreted
+as an ON condition for that channel and when ON the nominal current draw
+per channel from the external source is 8mA at 12VDC, 10mA at 24VDC.
 
 ## Status reporting
 
-**SIM108** uses the NMEA 2000 switchbank protocol PGN 12501 to report
-the status of module inputs.
+**SIM108** uses the NMEA 2000 switchbank protocol PGN 127501 to report
+the module status.
 
 By default a status report is transmitted once every four seconds or
 immediately a state change is detected on an input channel.
@@ -39,7 +39,7 @@ The default transmission interval can be configured by the user.
 | 0x01    | MODULE INSTANCE NUMBER           | 0xFF          | This parameter must be assigned a value in the range 0 through 252. |
 | 0x02    | PGN 127501 TRANSMISSION INTERVAL | 0x04          | Basic transmission interval in seconds. |
 
-**SIM108** uses the basic configuration mechanism provided by NOP100
+The module uses the basic configuration mechanism provided by NOP100
 and must be configured with a module instance number before use.
 
 ### Setting the module's instance number
@@ -50,22 +50,25 @@ The module will immediately begin transmitting status report messages
 on the new instance number.
 
 Select your instance number with care: the number used must not be in
-use by any other switchbank on the host NMEA bus.
+use by any other switchbank on the host NMEA bus and must be in the
+range 0 through 252.
 
-You can disable the module by setting instance number to 0xff.
+You can disable the module by setting its instance number to 0xff.
 
 ### Setting the module's default transmission interval
 
-In most cases the default transmission interval of four seconds (which
-conforms to the requirements of the NMEA 2000 standard) will not need
-to be altered.
+In most cases the default transmission interval of four seconds will
+not need to be altered.
+The NMEA 2000 specification dictates an appropriate transmission
+frequency range for PGN 127501 and it is sensible to respect this
+constraint.
 
 If you do wish to change the rate, then enter the value 0x02 on the
 ADDR/VALUE DIL switch and press and hold the PRG button for two seconds
 and then release.
 The module's transmit LED will begin to flash rapidly.
-Enter your required default transmission interval in seconds on the
-ADDR/VALUE DIL switch and press and release PRG.
+Enter your required transmission interval in seconds on the ADDR/VALUE
+DIL switch and press and release PRG.
 The new transmission rate will be applied the next time the module is
 power cycled.
 
