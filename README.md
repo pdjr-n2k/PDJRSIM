@@ -13,9 +13,9 @@ The module is powered from the host NMEA bus and has an LEN of 0.5.
 
 ## Switch inputs
 
-The switch input sub-system consists of eight debounced input channels
-each of which is optically isolated and reverse polarity protected with
-reference to a common ground.
+**SIM108** supports eight debounced input channels each of which is
+optically isolated and reverse polarity protected with reference to
+a common ground.
 
 A voltage of between 5VDC and 50VDC on an input channel is interpreted
 as an ON condition for that channel and when ON the nominal current draw
