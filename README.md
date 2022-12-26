@@ -2,14 +2,12 @@
 
 **SIM108** is a specialisation of
 [NOP100](https://github.com/preeve9534/NOP100)
-which implements an NMEA 2000 switch input module with support for
-eight switch input channels.
+which implements an eight channel NMEA 2000 switch input module.
 
-**SIM108** presents on the NMEA bus as a switchbank device with
+The module presents on the NMEA bus as a switchbank device with
 Class Code 30 (Electrical Distribution) and Function Code 130 (Binary
 Event Monitor) and reports its status through transmission of
-[PGN 127501 Binary Status Report]()
-messages.
+PGN 127501 Binary Status Report messages.
 
 The module is powered from the host NMEA bus and has an LEN of 0.5.
 
@@ -34,13 +32,12 @@ The default transmission interval can be configured by the user.
 
 ## Module configuration
 
-The following configuration parameters are supported.
+**SIM108** understands the following configuration parameters.
 
-| Parameter                             | Default value | Description |
-| :---                                  | :---:         | :---        |
-| 0x00 CAN ADDRESS                      | 0x22 | Used internally by the module's CAN bus interface. Not user accessible. |
-| 0x01 MODULE INSTANCE NUMBER           | 0xFF | This parameter must be assigned a value in the range 0 through 252. |
-| 0x02 PGN 127501 TRANSMISSION INTERVAL | 0x04 | Basic transmission interval in seconds. |
+| Address | Name                             | Default value | Description |
+| :---:   | :---                             | :---:         | :---        |
+| 0x01    | MODULE INSTANCE NUMBER           | 0xFF          | This parameter must be assigned a value in the range 0 through 252. |
+| 0x02    | PGN 127501 TRANSMISSION INTERVAL | 0x04          | Basic transmission interval in seconds. |
 
 **SIM108** uses the basic configuration mechanism provided by NOP100
 and must be configured with a module instance number before use.
