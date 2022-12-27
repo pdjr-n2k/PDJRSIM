@@ -314,7 +314,7 @@ Connection ~ 2700 3350
 Wire Wire Line
 	2500 3350 2700 3350
 Wire Wire Line
-	800  750  2700 750 
+	800  750  1000 750 
 Wire Wire Line
 	800  1100 2900 1100
 Wire Wire Line
@@ -2102,4 +2102,31 @@ Wire Wire Line
 	9100 2150 9100 2650
 Text Label 9400 4750 0    50   ~ 0
 SPST_GND
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 63AD42D9
+P 800 1100
+F 0 "#FLG0101" H 800 1175 50  0001 C CNN
+F 1 "PWR_FLAG" H 800 1273 50  0001 C CNN
+F 2 "" H 800 1100 50  0001 C CNN
+F 3 "~" H 800 1100 50  0001 C CNN
+	1    800  1100
+	1    0    0    -1  
+$EndComp
+Connection ~ 1000 750 
+Wire Wire Line
+	1000 750  2700 750 
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 63AD4AFF
+P 800 750
+F 0 "#FLG0102" H 800 825 50  0001 C CNN
+F 1 "PWR_FLAG" H 800 923 50  0001 C CNN
+F 2 "" H 800 750 50  0001 C CNN
+F 3 "~" H 800 750 50  0001 C CNN
+	1    800  750 
+	-1   0    0    1   
+$EndComp
+Connection ~ 800  750 
+Connection ~ 800  1100
 $EndSCHEMATC

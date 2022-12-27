@@ -58,11 +58,11 @@ D20
 Text Label 10150 1850 0    50   ~ 0
 D19
 Text Label 10150 1950 0    50   ~ 0
-D8
-Text Label 10150 2050 0    50   ~ 0
 D7
-Text Label 10150 2150 0    50   ~ 0
+Text Label 10150 2050 0    50   ~ 0
 D6
+Text Label 10150 2150 0    50   ~ 0
+D5
 Wire Wire Line
 	1100 4850 2500 4850
 Wire Wire Line
