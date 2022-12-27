@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector:Screw_Terminal_01x09 J101
+L Connector:Screw_Terminal_01x09 J1
 U 1 1 62D3957B
 P 900 5150
-F 0 "J101" H 900 5650 50  0000 C CNN
+F 0 "J1" H 900 5650 50  0000 C CNN
 F 1 "Screw_Terminal_01x09" H 900 5650 50  0001 C CNN
 F 2 "PDJR_Connectors:CAMDEN_BOSS_CSTBV2-9_TERMINAL" H 900 5150 50  0001 C CNN
 F 3 "~" H 900 5150 50  0001 C CNN
@@ -26,10 +26,10 @@ F 3 "~" H 900 5150 50  0001 C CNN
 $EndComp
 NoConn ~ -3250 8100
 $Comp
-L power:+3.3V #PWR0101
+L power:+3.3V #PWR01
 U 1 1 63A28085
 P 800 750
-F 0 "#PWR0101" H 800 600 50  0001 C CNN
+F 0 "#PWR01" H 800 600 50  0001 C CNN
 F 1 "+3.3V" H 815 923 50  0000 C CNN
 F 2 "" H 800 750 50  0001 C CNN
 F 3 "" H 800 750 50  0001 C CNN
@@ -37,10 +37,10 @@ F 3 "" H 800 750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR0102
+L power:GND #PWR02
 U 1 1 63A2A251
 P 800 1100
-F 0 "#PWR0102" H 800 850 50  0001 C CNN
+F 0 "#PWR02" H 800 850 50  0001 C CNN
 F 1 "GND" H 805 927 50  0000 C CNN
 F 2 "" H 800 1100 50  0001 C CNN
 F 3 "" H 800 1100 50  0001 C CNN
@@ -58,11 +58,11 @@ D20
 Text Label 10150 1850 0    50   ~ 0
 D19
 Text Label 10150 1950 0    50   ~ 0
-D18
+D7
 Text Label 10150 2050 0    50   ~ 0
-D17
+D6
 Text Label 10150 2150 0    50   ~ 0
-D16
+D5
 Wire Wire Line
 	1100 4850 2500 4850
 Wire Wire Line
@@ -99,8 +99,8 @@ AR Path="/63A11746/63A1D05D" Ref="U?"  Part="1"
 AR Path="/63A12F68/63A1D05D" Ref="U?"  Part="1" 
 AR Path="/63A14AD1/63A1D05D" Ref="U?"  Part="1" 
 AR Path="/63A169E8/63A1D05D" Ref="U?"  Part="1" 
-AR Path="/63A1D05D" Ref="U101"  Part="1" 
-F 0 "U101" H 2800 2850 50  0000 C CNN
+AR Path="/63A1D05D" Ref="U1"  Part="1" 
+F 0 "U1" H 2800 2850 50  0000 C CNN
 F 1 "SFH617A-1" H 2800 3250 50  0000 C CNN
 F 2 "Package_DIP:SMDIP-4_W7.62mm" H 2600 2850 50  0001 L CIN
 F 3 "http://www.vishay.com/docs/83740/sfh617a.pdf" H 2800 3050 50  0001 L CNN
@@ -127,8 +127,8 @@ AR Path="/63A11746/63A1D065" Ref="R?"  Part="1"
 AR Path="/63A12F68/63A1D065" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63A1D065" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63A1D065" Ref="R?"  Part="1" 
-AR Path="/63A1D065" Ref="R102"  Part="1" 
-F 0 "R102" H 2750 3550 50  0000 L CNN
+AR Path="/63A1D065" Ref="R2"  Part="1" 
+F 0 "R2" H 2750 3550 50  0000 L CNN
 F 1 "10K 0.5W" V 2700 3550 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 2630 3550 50  0001 C CNN
 F 3 "~" H 2700 3550 50  0001 C CNN
@@ -162,8 +162,8 @@ AR Path="/63A11746/63A1D072" Ref="R?"  Part="1"
 AR Path="/63A12F68/63A1D072" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63A1D072" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63A1D072" Ref="R?"  Part="1" 
-AR Path="/63A1D072" Ref="R103"  Part="1" 
-F 0 "R103" H 3150 4100 50  0000 L CNN
+AR Path="/63A1D072" Ref="R3"  Part="1" 
+F 0 "R3" H 3150 4100 50  0000 L CNN
 F 1 "100R 0.25W" V 3100 4100 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 3030 4100 50  0001 C CNN
 F 3 "~" H 3100 4100 50  0001 C CNN
@@ -193,8 +193,8 @@ AR Path="/63A11746/63A1D079" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63A1D079" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63A1D079" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63A1D079" Ref="Q?"  Part="1" 
-AR Path="/63A1D079" Ref="Q102"  Part="1" 
-F 0 "Q102" H 3191 3796 50  0000 L CNN
+AR Path="/63A1D079" Ref="Q2"  Part="1" 
+F 0 "Q2" H 3191 3796 50  0000 L CNN
 F 1 "BC337-40" H 3191 3705 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 3200 3675 50  0001 L CIN
 F 3 "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf" H 3000 3750 50  0001 L CNN
@@ -226,8 +226,8 @@ AR Path="/63A11746/63A1D085" Ref="D?"  Part="1"
 AR Path="/63A12F68/63A1D085" Ref="D?"  Part="1" 
 AR Path="/63A14AD1/63A1D085" Ref="D?"  Part="1" 
 AR Path="/63A169E8/63A1D085" Ref="D?"  Part="1" 
-AR Path="/63A1D085" Ref="D101"  Part="1" 
-F 0 "D101" H 2300 3500 50  0000 L CNN
+AR Path="/63A1D085" Ref="D1"  Part="1" 
+F 0 "D1" H 2300 3500 50  0000 L CNN
 F 1 "IN4007" H 2550 3500 50  0000 L CNN
 F 2 "Diode_SMD:D_SOT-23_ANK" H 2500 3550 50  0001 C CNN
 F 3 "~" H 2500 3550 50  0001 C CNN
@@ -256,8 +256,8 @@ AR Path="/63A11746/63A1D08B" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63A1D08B" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63A1D08B" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63A1D08B" Ref="Q?"  Part="1" 
-AR Path="/63A1D08B" Ref="Q101"  Part="1" 
-F 0 "Q101" H 2991 3996 50  0000 L CNN
+AR Path="/63A1D08B" Ref="Q1"  Part="1" 
+F 0 "Q1" H 2991 3996 50  0000 L CNN
 F 1 "BC547" H 2991 3905 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 3000 3875 50  0001 L CIN
 F 3 "https://www.onsemi.com/pub/Collateral/BC550-D.pdf" H 2800 3950 50  0001 L CNN
@@ -287,8 +287,8 @@ AR Path="/63A11746/63A1D09A" Ref="R?"  Part="1"
 AR Path="/63A12F68/63A1D09A" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63A1D09A" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63A1D09A" Ref="R?"  Part="1" 
-AR Path="/63A1D09A" Ref="R101"  Part="1" 
-F 0 "R101" H 2750 2400 50  0000 L CNN
+AR Path="/63A1D09A" Ref="R1"  Part="1" 
+F 0 "R1" H 2750 2400 50  0000 L CNN
 F 1 "4K7 0.125W" V 2700 2400 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 2630 2400 50  0001 C CNN
 F 3 "~" H 2700 2400 50  0001 C CNN
@@ -356,8 +356,8 @@ AR Path="/63A11746/63B1F536" Ref="U?"  Part="1"
 AR Path="/63A12F68/63B1F536" Ref="U?"  Part="1" 
 AR Path="/63A14AD1/63B1F536" Ref="U?"  Part="1" 
 AR Path="/63A169E8/63B1F536" Ref="U?"  Part="1" 
-AR Path="/63B1F536" Ref="U102"  Part="1" 
-F 0 "U102" H 3700 2850 50  0000 C CNN
+AR Path="/63B1F536" Ref="U2"  Part="1" 
+F 0 "U2" H 3700 2850 50  0000 C CNN
 F 1 "SFH617A-1" H 3700 3250 50  0000 C CNN
 F 2 "Package_DIP:SMDIP-4_W7.62mm" H 3500 2850 50  0001 L CIN
 F 3 "http://www.vishay.com/docs/83740/sfh617a.pdf" H 3700 3050 50  0001 L CNN
@@ -384,8 +384,8 @@ AR Path="/63A11746/63B1F541" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B1F541" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B1F541" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B1F541" Ref="R?"  Part="1" 
-AR Path="/63B1F541" Ref="R105"  Part="1" 
-F 0 "R105" H 3650 3550 50  0000 L CNN
+AR Path="/63B1F541" Ref="R5"  Part="1" 
+F 0 "R5" H 3650 3550 50  0000 L CNN
 F 1 "10K 0.5W" V 3600 3550 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 3530 3550 50  0001 C CNN
 F 3 "~" H 3600 3550 50  0001 C CNN
@@ -419,8 +419,8 @@ AR Path="/63A11746/63B1F54F" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B1F54F" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B1F54F" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B1F54F" Ref="R?"  Part="1" 
-AR Path="/63B1F54F" Ref="R106"  Part="1" 
-F 0 "R106" H 4050 4100 50  0000 L CNN
+AR Path="/63B1F54F" Ref="R6"  Part="1" 
+F 0 "R6" H 4050 4100 50  0000 L CNN
 F 1 "100R 0.25W" V 4000 4100 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 3930 4100 50  0001 C CNN
 F 3 "~" H 4000 4100 50  0001 C CNN
@@ -450,8 +450,8 @@ AR Path="/63A11746/63B1F55A" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B1F55A" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B1F55A" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B1F55A" Ref="Q?"  Part="1" 
-AR Path="/63B1F55A" Ref="Q104"  Part="1" 
-F 0 "Q104" H 4091 3796 50  0000 L CNN
+AR Path="/63B1F55A" Ref="Q4"  Part="1" 
+F 0 "Q4" H 4091 3796 50  0000 L CNN
 F 1 "BC337-40" H 4091 3705 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 4100 3675 50  0001 L CIN
 F 3 "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf" H 3900 3750 50  0001 L CNN
@@ -483,8 +483,8 @@ AR Path="/63A11746/63B1F569" Ref="D?"  Part="1"
 AR Path="/63A12F68/63B1F569" Ref="D?"  Part="1" 
 AR Path="/63A14AD1/63B1F569" Ref="D?"  Part="1" 
 AR Path="/63A169E8/63B1F569" Ref="D?"  Part="1" 
-AR Path="/63B1F569" Ref="D102"  Part="1" 
-F 0 "D102" H 3200 3500 50  0000 L CNN
+AR Path="/63B1F569" Ref="D2"  Part="1" 
+F 0 "D2" H 3200 3500 50  0000 L CNN
 F 1 "IN4007" H 3450 3500 50  0000 L CNN
 F 2 "Diode_SMD:D_SOT-23_ANK" H 3400 3550 50  0001 C CNN
 F 3 "~" H 3400 3550 50  0001 C CNN
@@ -513,8 +513,8 @@ AR Path="/63A11746/63B1F573" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B1F573" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B1F573" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B1F573" Ref="Q?"  Part="1" 
-AR Path="/63B1F573" Ref="Q103"  Part="1" 
-F 0 "Q103" H 3891 3996 50  0000 L CNN
+AR Path="/63B1F573" Ref="Q3"  Part="1" 
+F 0 "Q3" H 3891 3996 50  0000 L CNN
 F 1 "BC547" H 3891 3905 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 3900 3875 50  0001 L CIN
 F 3 "https://www.onsemi.com/pub/Collateral/BC550-D.pdf" H 3700 3950 50  0001 L CNN
@@ -544,8 +544,8 @@ AR Path="/63A11746/63B1F580" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B1F580" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B1F580" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B1F580" Ref="R?"  Part="1" 
-AR Path="/63B1F580" Ref="R104"  Part="1" 
-F 0 "R104" H 3650 2400 50  0000 L CNN
+AR Path="/63B1F580" Ref="R4"  Part="1" 
+F 0 "R4" H 3650 2400 50  0000 L CNN
 F 1 "4K7 0.125W" V 3600 2400 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 3530 2400 50  0001 C CNN
 F 3 "~" H 3600 2400 50  0001 C CNN
@@ -609,8 +609,8 @@ AR Path="/63A11746/63B3A67F" Ref="U?"  Part="1"
 AR Path="/63A12F68/63B3A67F" Ref="U?"  Part="1" 
 AR Path="/63A14AD1/63B3A67F" Ref="U?"  Part="1" 
 AR Path="/63A169E8/63B3A67F" Ref="U?"  Part="1" 
-AR Path="/63B3A67F" Ref="U103"  Part="1" 
-F 0 "U103" H 4600 2850 50  0000 C CNN
+AR Path="/63B3A67F" Ref="U3"  Part="1" 
+F 0 "U3" H 4600 2850 50  0000 C CNN
 F 1 "SFH617A-1" H 4600 3250 50  0000 C CNN
 F 2 "Package_DIP:SMDIP-4_W7.62mm" H 4400 2850 50  0001 L CIN
 F 3 "http://www.vishay.com/docs/83740/sfh617a.pdf" H 4600 3050 50  0001 L CNN
@@ -637,8 +637,8 @@ AR Path="/63A11746/63B3A686" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B3A686" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B3A686" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B3A686" Ref="R?"  Part="1" 
-AR Path="/63B3A686" Ref="R108"  Part="1" 
-F 0 "R108" H 4550 3550 50  0000 L CNN
+AR Path="/63B3A686" Ref="R8"  Part="1" 
+F 0 "R8" H 4550 3550 50  0000 L CNN
 F 1 "10K 0.5W" V 4500 3550 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 4430 3550 50  0001 C CNN
 F 3 "~" H 4500 3550 50  0001 C CNN
@@ -672,8 +672,8 @@ AR Path="/63A11746/63B3A690" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B3A690" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B3A690" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B3A690" Ref="R?"  Part="1" 
-AR Path="/63B3A690" Ref="R109"  Part="1" 
-F 0 "R109" H 4950 4100 50  0000 L CNN
+AR Path="/63B3A690" Ref="R9"  Part="1" 
+F 0 "R9" H 4950 4100 50  0000 L CNN
 F 1 "100R 0.25W" V 4900 4100 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 4830 4100 50  0001 C CNN
 F 3 "~" H 4900 4100 50  0001 C CNN
@@ -703,8 +703,8 @@ AR Path="/63A11746/63B3A697" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B3A697" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B3A697" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B3A697" Ref="Q?"  Part="1" 
-AR Path="/63B3A697" Ref="Q106"  Part="1" 
-F 0 "Q106" H 4991 3796 50  0000 L CNN
+AR Path="/63B3A697" Ref="Q6"  Part="1" 
+F 0 "Q6" H 4991 3796 50  0000 L CNN
 F 1 "BC337-40" H 4991 3705 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 5000 3675 50  0001 L CIN
 F 3 "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf" H 4800 3750 50  0001 L CNN
@@ -736,8 +736,8 @@ AR Path="/63A11746/63B3A6A2" Ref="D?"  Part="1"
 AR Path="/63A12F68/63B3A6A2" Ref="D?"  Part="1" 
 AR Path="/63A14AD1/63B3A6A2" Ref="D?"  Part="1" 
 AR Path="/63A169E8/63B3A6A2" Ref="D?"  Part="1" 
-AR Path="/63B3A6A2" Ref="D103"  Part="1" 
-F 0 "D103" H 4100 3500 50  0000 L CNN
+AR Path="/63B3A6A2" Ref="D3"  Part="1" 
+F 0 "D3" H 4100 3500 50  0000 L CNN
 F 1 "IN4007" H 4350 3500 50  0000 L CNN
 F 2 "Diode_SMD:D_SOT-23_ANK" H 4300 3550 50  0001 C CNN
 F 3 "~" H 4300 3550 50  0001 C CNN
@@ -766,8 +766,8 @@ AR Path="/63A11746/63B3A6A8" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B3A6A8" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B3A6A8" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B3A6A8" Ref="Q?"  Part="1" 
-AR Path="/63B3A6A8" Ref="Q105"  Part="1" 
-F 0 "Q105" H 4791 3996 50  0000 L CNN
+AR Path="/63B3A6A8" Ref="Q5"  Part="1" 
+F 0 "Q5" H 4791 3996 50  0000 L CNN
 F 1 "BC547" H 4791 3905 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 4800 3875 50  0001 L CIN
 F 3 "https://www.onsemi.com/pub/Collateral/BC550-D.pdf" H 4600 3950 50  0001 L CNN
@@ -797,8 +797,8 @@ AR Path="/63A11746/63B3A6B1" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B3A6B1" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B3A6B1" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B3A6B1" Ref="R?"  Part="1" 
-AR Path="/63B3A6B1" Ref="R107"  Part="1" 
-F 0 "R107" H 4550 2400 50  0000 L CNN
+AR Path="/63B3A6B1" Ref="R7"  Part="1" 
+F 0 "R7" H 4550 2400 50  0000 L CNN
 F 1 "4K7 0.125W" V 4500 2400 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 4430 2400 50  0001 C CNN
 F 3 "~" H 4500 2400 50  0001 C CNN
@@ -847,8 +847,8 @@ AR Path="/63A11746/63B439B3" Ref="U?"  Part="1"
 AR Path="/63A12F68/63B439B3" Ref="U?"  Part="1" 
 AR Path="/63A14AD1/63B439B3" Ref="U?"  Part="1" 
 AR Path="/63A169E8/63B439B3" Ref="U?"  Part="1" 
-AR Path="/63B439B3" Ref="U104"  Part="1" 
-F 0 "U104" H 5500 2850 50  0000 C CNN
+AR Path="/63B439B3" Ref="U4"  Part="1" 
+F 0 "U4" H 5500 2850 50  0000 C CNN
 F 1 "SFH617A-1" H 5500 3250 50  0000 C CNN
 F 2 "Package_DIP:SMDIP-4_W7.62mm" H 5300 2850 50  0001 L CIN
 F 3 "http://www.vishay.com/docs/83740/sfh617a.pdf" H 5500 3050 50  0001 L CNN
@@ -875,8 +875,8 @@ AR Path="/63A11746/63B439BA" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B439BA" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B439BA" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B439BA" Ref="R?"  Part="1" 
-AR Path="/63B439BA" Ref="R111"  Part="1" 
-F 0 "R111" H 5450 3550 50  0000 L CNN
+AR Path="/63B439BA" Ref="R11"  Part="1" 
+F 0 "R11" H 5450 3550 50  0000 L CNN
 F 1 "10K 0.5W" V 5400 3550 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 5330 3550 50  0001 C CNN
 F 3 "~" H 5400 3550 50  0001 C CNN
@@ -910,8 +910,8 @@ AR Path="/63A11746/63B439C4" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B439C4" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B439C4" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B439C4" Ref="R?"  Part="1" 
-AR Path="/63B439C4" Ref="R112"  Part="1" 
-F 0 "R112" H 5850 4100 50  0000 L CNN
+AR Path="/63B439C4" Ref="R12"  Part="1" 
+F 0 "R12" H 5850 4100 50  0000 L CNN
 F 1 "100R 0.25W" V 5800 4100 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 5730 4100 50  0001 C CNN
 F 3 "~" H 5800 4100 50  0001 C CNN
@@ -941,8 +941,8 @@ AR Path="/63A11746/63B439CB" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B439CB" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B439CB" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B439CB" Ref="Q?"  Part="1" 
-AR Path="/63B439CB" Ref="Q108"  Part="1" 
-F 0 "Q108" H 5891 3796 50  0000 L CNN
+AR Path="/63B439CB" Ref="Q8"  Part="1" 
+F 0 "Q8" H 5891 3796 50  0000 L CNN
 F 1 "BC337-40" H 5891 3705 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 5900 3675 50  0001 L CIN
 F 3 "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf" H 5700 3750 50  0001 L CNN
@@ -974,8 +974,8 @@ AR Path="/63A11746/63B439D6" Ref="D?"  Part="1"
 AR Path="/63A12F68/63B439D6" Ref="D?"  Part="1" 
 AR Path="/63A14AD1/63B439D6" Ref="D?"  Part="1" 
 AR Path="/63A169E8/63B439D6" Ref="D?"  Part="1" 
-AR Path="/63B439D6" Ref="D104"  Part="1" 
-F 0 "D104" H 5000 3500 50  0000 L CNN
+AR Path="/63B439D6" Ref="D4"  Part="1" 
+F 0 "D4" H 5000 3500 50  0000 L CNN
 F 1 "IN4007" H 5250 3500 50  0000 L CNN
 F 2 "Diode_SMD:D_SOT-23_ANK" H 5200 3550 50  0001 C CNN
 F 3 "~" H 5200 3550 50  0001 C CNN
@@ -1004,8 +1004,8 @@ AR Path="/63A11746/63B439DC" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B439DC" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B439DC" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B439DC" Ref="Q?"  Part="1" 
-AR Path="/63B439DC" Ref="Q107"  Part="1" 
-F 0 "Q107" H 5691 3996 50  0000 L CNN
+AR Path="/63B439DC" Ref="Q7"  Part="1" 
+F 0 "Q7" H 5691 3996 50  0000 L CNN
 F 1 "BC547" H 5691 3905 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 5700 3875 50  0001 L CIN
 F 3 "https://www.onsemi.com/pub/Collateral/BC550-D.pdf" H 5500 3950 50  0001 L CNN
@@ -1035,8 +1035,8 @@ AR Path="/63A11746/63B439E5" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B439E5" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B439E5" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B439E5" Ref="R?"  Part="1" 
-AR Path="/63B439E5" Ref="R110"  Part="1" 
-F 0 "R110" H 5450 2400 50  0000 L CNN
+AR Path="/63B439E5" Ref="R10"  Part="1" 
+F 0 "R10" H 5450 2400 50  0000 L CNN
 F 1 "4K7 0.125W" V 5400 2400 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 5330 2400 50  0001 C CNN
 F 3 "~" H 5400 2400 50  0001 C CNN
@@ -1085,8 +1085,8 @@ AR Path="/63A11746/63B4EC5C" Ref="U?"  Part="1"
 AR Path="/63A12F68/63B4EC5C" Ref="U?"  Part="1" 
 AR Path="/63A14AD1/63B4EC5C" Ref="U?"  Part="1" 
 AR Path="/63A169E8/63B4EC5C" Ref="U?"  Part="1" 
-AR Path="/63B4EC5C" Ref="U105"  Part="1" 
-F 0 "U105" H 6400 2850 50  0000 C CNN
+AR Path="/63B4EC5C" Ref="U5"  Part="1" 
+F 0 "U5" H 6400 2850 50  0000 C CNN
 F 1 "SFH617A-1" H 6400 3250 50  0000 C CNN
 F 2 "Package_DIP:SMDIP-4_W7.62mm" H 6200 2850 50  0001 L CIN
 F 3 "http://www.vishay.com/docs/83740/sfh617a.pdf" H 6400 3050 50  0001 L CNN
@@ -1113,8 +1113,8 @@ AR Path="/63A11746/63B4EC63" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B4EC63" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B4EC63" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B4EC63" Ref="R?"  Part="1" 
-AR Path="/63B4EC63" Ref="R114"  Part="1" 
-F 0 "R114" H 6350 3550 50  0000 L CNN
+AR Path="/63B4EC63" Ref="R14"  Part="1" 
+F 0 "R14" H 6350 3550 50  0000 L CNN
 F 1 "10K 0.5W" V 6300 3550 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 6230 3550 50  0001 C CNN
 F 3 "~" H 6300 3550 50  0001 C CNN
@@ -1148,8 +1148,8 @@ AR Path="/63A11746/63B4EC6D" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B4EC6D" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B4EC6D" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B4EC6D" Ref="R?"  Part="1" 
-AR Path="/63B4EC6D" Ref="R115"  Part="1" 
-F 0 "R115" H 6750 4100 50  0000 L CNN
+AR Path="/63B4EC6D" Ref="R15"  Part="1" 
+F 0 "R15" H 6750 4100 50  0000 L CNN
 F 1 "100R 0.25W" V 6700 4100 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 6630 4100 50  0001 C CNN
 F 3 "~" H 6700 4100 50  0001 C CNN
@@ -1179,8 +1179,8 @@ AR Path="/63A11746/63B4EC74" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B4EC74" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B4EC74" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B4EC74" Ref="Q?"  Part="1" 
-AR Path="/63B4EC74" Ref="Q110"  Part="1" 
-F 0 "Q110" H 6791 3796 50  0000 L CNN
+AR Path="/63B4EC74" Ref="Q10"  Part="1" 
+F 0 "Q10" H 6791 3796 50  0000 L CNN
 F 1 "BC337-40" H 6791 3705 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 6800 3675 50  0001 L CIN
 F 3 "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf" H 6600 3750 50  0001 L CNN
@@ -1212,8 +1212,8 @@ AR Path="/63A11746/63B4EC7F" Ref="D?"  Part="1"
 AR Path="/63A12F68/63B4EC7F" Ref="D?"  Part="1" 
 AR Path="/63A14AD1/63B4EC7F" Ref="D?"  Part="1" 
 AR Path="/63A169E8/63B4EC7F" Ref="D?"  Part="1" 
-AR Path="/63B4EC7F" Ref="D105"  Part="1" 
-F 0 "D105" H 5900 3500 50  0000 L CNN
+AR Path="/63B4EC7F" Ref="D5"  Part="1" 
+F 0 "D5" H 5900 3500 50  0000 L CNN
 F 1 "IN4007" H 6150 3500 50  0000 L CNN
 F 2 "Diode_SMD:D_SOT-23_ANK" H 6100 3550 50  0001 C CNN
 F 3 "~" H 6100 3550 50  0001 C CNN
@@ -1242,8 +1242,8 @@ AR Path="/63A11746/63B4EC85" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B4EC85" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B4EC85" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B4EC85" Ref="Q?"  Part="1" 
-AR Path="/63B4EC85" Ref="Q109"  Part="1" 
-F 0 "Q109" H 6591 3996 50  0000 L CNN
+AR Path="/63B4EC85" Ref="Q9"  Part="1" 
+F 0 "Q9" H 6591 3996 50  0000 L CNN
 F 1 "BC547" H 6591 3905 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 6600 3875 50  0001 L CIN
 F 3 "https://www.onsemi.com/pub/Collateral/BC550-D.pdf" H 6400 3950 50  0001 L CNN
@@ -1273,8 +1273,8 @@ AR Path="/63A11746/63B4EC8E" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B4EC8E" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B4EC8E" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B4EC8E" Ref="R?"  Part="1" 
-AR Path="/63B4EC8E" Ref="R113"  Part="1" 
-F 0 "R113" H 6350 2400 50  0000 L CNN
+AR Path="/63B4EC8E" Ref="R13"  Part="1" 
+F 0 "R13" H 6350 2400 50  0000 L CNN
 F 1 "4K7 0.125W" V 6300 2400 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 6230 2400 50  0001 C CNN
 F 3 "~" H 6300 2400 50  0001 C CNN
@@ -1323,8 +1323,8 @@ AR Path="/63A11746/63B5F1AE" Ref="U?"  Part="1"
 AR Path="/63A12F68/63B5F1AE" Ref="U?"  Part="1" 
 AR Path="/63A14AD1/63B5F1AE" Ref="U?"  Part="1" 
 AR Path="/63A169E8/63B5F1AE" Ref="U?"  Part="1" 
-AR Path="/63B5F1AE" Ref="U106"  Part="1" 
-F 0 "U106" H 7300 2850 50  0000 C CNN
+AR Path="/63B5F1AE" Ref="U6"  Part="1" 
+F 0 "U6" H 7300 2850 50  0000 C CNN
 F 1 "SFH617A-1" H 7300 3250 50  0000 C CNN
 F 2 "Package_DIP:SMDIP-4_W7.62mm" H 7100 2850 50  0001 L CIN
 F 3 "http://www.vishay.com/docs/83740/sfh617a.pdf" H 7300 3050 50  0001 L CNN
@@ -1351,8 +1351,8 @@ AR Path="/63A11746/63B5F1B5" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B5F1B5" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B5F1B5" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B5F1B5" Ref="R?"  Part="1" 
-AR Path="/63B5F1B5" Ref="R117"  Part="1" 
-F 0 "R117" H 7250 3550 50  0000 L CNN
+AR Path="/63B5F1B5" Ref="R17"  Part="1" 
+F 0 "R17" H 7250 3550 50  0000 L CNN
 F 1 "10K 0.5W" V 7200 3550 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 7130 3550 50  0001 C CNN
 F 3 "~" H 7200 3550 50  0001 C CNN
@@ -1386,8 +1386,8 @@ AR Path="/63A11746/63B5F1BF" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B5F1BF" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B5F1BF" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B5F1BF" Ref="R?"  Part="1" 
-AR Path="/63B5F1BF" Ref="R118"  Part="1" 
-F 0 "R118" H 7650 4100 50  0000 L CNN
+AR Path="/63B5F1BF" Ref="R18"  Part="1" 
+F 0 "R18" H 7650 4100 50  0000 L CNN
 F 1 "100R 0.25W" V 7600 4100 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 7530 4100 50  0001 C CNN
 F 3 "~" H 7600 4100 50  0001 C CNN
@@ -1417,8 +1417,8 @@ AR Path="/63A11746/63B5F1C6" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B5F1C6" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B5F1C6" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B5F1C6" Ref="Q?"  Part="1" 
-AR Path="/63B5F1C6" Ref="Q112"  Part="1" 
-F 0 "Q112" H 7691 3796 50  0000 L CNN
+AR Path="/63B5F1C6" Ref="Q12"  Part="1" 
+F 0 "Q12" H 7691 3796 50  0000 L CNN
 F 1 "BC337-40" H 7691 3705 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 7700 3675 50  0001 L CIN
 F 3 "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf" H 7500 3750 50  0001 L CNN
@@ -1450,8 +1450,8 @@ AR Path="/63A11746/63B5F1D1" Ref="D?"  Part="1"
 AR Path="/63A12F68/63B5F1D1" Ref="D?"  Part="1" 
 AR Path="/63A14AD1/63B5F1D1" Ref="D?"  Part="1" 
 AR Path="/63A169E8/63B5F1D1" Ref="D?"  Part="1" 
-AR Path="/63B5F1D1" Ref="D106"  Part="1" 
-F 0 "D106" H 6800 3500 50  0000 L CNN
+AR Path="/63B5F1D1" Ref="D6"  Part="1" 
+F 0 "D6" H 6800 3500 50  0000 L CNN
 F 1 "IN4007" H 7050 3500 50  0000 L CNN
 F 2 "Diode_SMD:D_SOT-23_ANK" H 7000 3550 50  0001 C CNN
 F 3 "~" H 7000 3550 50  0001 C CNN
@@ -1480,8 +1480,8 @@ AR Path="/63A11746/63B5F1D7" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B5F1D7" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B5F1D7" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B5F1D7" Ref="Q?"  Part="1" 
-AR Path="/63B5F1D7" Ref="Q111"  Part="1" 
-F 0 "Q111" H 7491 3996 50  0000 L CNN
+AR Path="/63B5F1D7" Ref="Q11"  Part="1" 
+F 0 "Q11" H 7491 3996 50  0000 L CNN
 F 1 "BC547" H 7491 3905 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 7500 3875 50  0001 L CIN
 F 3 "https://www.onsemi.com/pub/Collateral/BC550-D.pdf" H 7300 3950 50  0001 L CNN
@@ -1511,8 +1511,8 @@ AR Path="/63A11746/63B5F1E0" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B5F1E0" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B5F1E0" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B5F1E0" Ref="R?"  Part="1" 
-AR Path="/63B5F1E0" Ref="R116"  Part="1" 
-F 0 "R116" H 7250 2400 50  0000 L CNN
+AR Path="/63B5F1E0" Ref="R16"  Part="1" 
+F 0 "R16" H 7250 2400 50  0000 L CNN
 F 1 "4K7 0.125W" V 7200 2400 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 7130 2400 50  0001 C CNN
 F 3 "~" H 7200 2400 50  0001 C CNN
@@ -1561,8 +1561,8 @@ AR Path="/63A11746/63B6FF1B" Ref="U?"  Part="1"
 AR Path="/63A12F68/63B6FF1B" Ref="U?"  Part="1" 
 AR Path="/63A14AD1/63B6FF1B" Ref="U?"  Part="1" 
 AR Path="/63A169E8/63B6FF1B" Ref="U?"  Part="1" 
-AR Path="/63B6FF1B" Ref="U107"  Part="1" 
-F 0 "U107" H 8200 2850 50  0000 C CNN
+AR Path="/63B6FF1B" Ref="U7"  Part="1" 
+F 0 "U7" H 8200 2850 50  0000 C CNN
 F 1 "SFH617A-1" H 8200 3250 50  0000 C CNN
 F 2 "Package_DIP:SMDIP-4_W7.62mm" H 8000 2850 50  0001 L CIN
 F 3 "http://www.vishay.com/docs/83740/sfh617a.pdf" H 8200 3050 50  0001 L CNN
@@ -1589,8 +1589,8 @@ AR Path="/63A11746/63B6FF22" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B6FF22" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B6FF22" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B6FF22" Ref="R?"  Part="1" 
-AR Path="/63B6FF22" Ref="R120"  Part="1" 
-F 0 "R120" H 8150 3550 50  0000 L CNN
+AR Path="/63B6FF22" Ref="R20"  Part="1" 
+F 0 "R20" H 8150 3550 50  0000 L CNN
 F 1 "10K 0.5W" V 8100 3550 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 8030 3550 50  0001 C CNN
 F 3 "~" H 8100 3550 50  0001 C CNN
@@ -1624,8 +1624,8 @@ AR Path="/63A11746/63B6FF2C" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B6FF2C" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B6FF2C" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B6FF2C" Ref="R?"  Part="1" 
-AR Path="/63B6FF2C" Ref="R121"  Part="1" 
-F 0 "R121" H 8550 4100 50  0000 L CNN
+AR Path="/63B6FF2C" Ref="R21"  Part="1" 
+F 0 "R21" H 8550 4100 50  0000 L CNN
 F 1 "100R 0.25W" V 8500 4100 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 8430 4100 50  0001 C CNN
 F 3 "~" H 8500 4100 50  0001 C CNN
@@ -1655,8 +1655,8 @@ AR Path="/63A11746/63B6FF33" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B6FF33" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B6FF33" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B6FF33" Ref="Q?"  Part="1" 
-AR Path="/63B6FF33" Ref="Q114"  Part="1" 
-F 0 "Q114" H 8591 3796 50  0000 L CNN
+AR Path="/63B6FF33" Ref="Q14"  Part="1" 
+F 0 "Q14" H 8591 3796 50  0000 L CNN
 F 1 "BC337-40" H 8591 3705 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 8600 3675 50  0001 L CIN
 F 3 "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf" H 8400 3750 50  0001 L CNN
@@ -1688,8 +1688,8 @@ AR Path="/63A11746/63B6FF3E" Ref="D?"  Part="1"
 AR Path="/63A12F68/63B6FF3E" Ref="D?"  Part="1" 
 AR Path="/63A14AD1/63B6FF3E" Ref="D?"  Part="1" 
 AR Path="/63A169E8/63B6FF3E" Ref="D?"  Part="1" 
-AR Path="/63B6FF3E" Ref="D107"  Part="1" 
-F 0 "D107" H 7700 3500 50  0000 L CNN
+AR Path="/63B6FF3E" Ref="D7"  Part="1" 
+F 0 "D7" H 7700 3500 50  0000 L CNN
 F 1 "IN4007" H 7950 3500 50  0000 L CNN
 F 2 "Diode_SMD:D_SOT-23_ANK" H 7900 3550 50  0001 C CNN
 F 3 "~" H 7900 3550 50  0001 C CNN
@@ -1718,8 +1718,8 @@ AR Path="/63A11746/63B6FF44" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B6FF44" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B6FF44" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B6FF44" Ref="Q?"  Part="1" 
-AR Path="/63B6FF44" Ref="Q113"  Part="1" 
-F 0 "Q113" H 8391 3996 50  0000 L CNN
+AR Path="/63B6FF44" Ref="Q13"  Part="1" 
+F 0 "Q13" H 8391 3996 50  0000 L CNN
 F 1 "BC547" H 8391 3905 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 8400 3875 50  0001 L CIN
 F 3 "https://www.onsemi.com/pub/Collateral/BC550-D.pdf" H 8200 3950 50  0001 L CNN
@@ -1749,8 +1749,8 @@ AR Path="/63A11746/63B6FF4D" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B6FF4D" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B6FF4D" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B6FF4D" Ref="R?"  Part="1" 
-AR Path="/63B6FF4D" Ref="R119"  Part="1" 
-F 0 "R119" H 8150 2400 50  0000 L CNN
+AR Path="/63B6FF4D" Ref="R19"  Part="1" 
+F 0 "R19" H 8150 2400 50  0000 L CNN
 F 1 "4K7 0.125W" V 8100 2400 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 8030 2400 50  0001 C CNN
 F 3 "~" H 8100 2400 50  0001 C CNN
@@ -1799,8 +1799,8 @@ AR Path="/63A11746/63B7F18D" Ref="U?"  Part="1"
 AR Path="/63A12F68/63B7F18D" Ref="U?"  Part="1" 
 AR Path="/63A14AD1/63B7F18D" Ref="U?"  Part="1" 
 AR Path="/63A169E8/63B7F18D" Ref="U?"  Part="1" 
-AR Path="/63B7F18D" Ref="U108"  Part="1" 
-F 0 "U108" H 9100 2850 50  0000 C CNN
+AR Path="/63B7F18D" Ref="U8"  Part="1" 
+F 0 "U8" H 9100 2850 50  0000 C CNN
 F 1 "SFH617A-1" H 9100 3250 50  0000 C CNN
 F 2 "Package_DIP:SMDIP-4_W7.62mm" H 8900 2850 50  0001 L CIN
 F 3 "http://www.vishay.com/docs/83740/sfh617a.pdf" H 9100 3050 50  0001 L CNN
@@ -1827,8 +1827,8 @@ AR Path="/63A11746/63B7F194" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B7F194" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B7F194" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B7F194" Ref="R?"  Part="1" 
-AR Path="/63B7F194" Ref="R123"  Part="1" 
-F 0 "R123" H 9050 3550 50  0000 L CNN
+AR Path="/63B7F194" Ref="R23"  Part="1" 
+F 0 "R23" H 9050 3550 50  0000 L CNN
 F 1 "10K 0.5W" V 9000 3550 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 8930 3550 50  0001 C CNN
 F 3 "~" H 9000 3550 50  0001 C CNN
@@ -1862,8 +1862,8 @@ AR Path="/63A11746/63B7F19E" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B7F19E" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B7F19E" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B7F19E" Ref="R?"  Part="1" 
-AR Path="/63B7F19E" Ref="R124"  Part="1" 
-F 0 "R124" H 9450 4100 50  0000 L CNN
+AR Path="/63B7F19E" Ref="R24"  Part="1" 
+F 0 "R24" H 9450 4100 50  0000 L CNN
 F 1 "100R 0.25W" V 9400 4100 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 9330 4100 50  0001 C CNN
 F 3 "~" H 9400 4100 50  0001 C CNN
@@ -1893,8 +1893,8 @@ AR Path="/63A11746/63B7F1A5" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B7F1A5" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B7F1A5" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B7F1A5" Ref="Q?"  Part="1" 
-AR Path="/63B7F1A5" Ref="Q116"  Part="1" 
-F 0 "Q116" H 9491 3796 50  0000 L CNN
+AR Path="/63B7F1A5" Ref="Q16"  Part="1" 
+F 0 "Q16" H 9491 3796 50  0000 L CNN
 F 1 "BC337-40" H 9491 3705 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 9500 3675 50  0001 L CIN
 F 3 "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bc337.pdf" H 9300 3750 50  0001 L CNN
@@ -1926,8 +1926,8 @@ AR Path="/63A11746/63B7F1B0" Ref="D?"  Part="1"
 AR Path="/63A12F68/63B7F1B0" Ref="D?"  Part="1" 
 AR Path="/63A14AD1/63B7F1B0" Ref="D?"  Part="1" 
 AR Path="/63A169E8/63B7F1B0" Ref="D?"  Part="1" 
-AR Path="/63B7F1B0" Ref="D108"  Part="1" 
-F 0 "D108" H 8600 3500 50  0000 L CNN
+AR Path="/63B7F1B0" Ref="D8"  Part="1" 
+F 0 "D8" H 8600 3500 50  0000 L CNN
 F 1 "IN4007" H 8850 3500 50  0000 L CNN
 F 2 "Diode_SMD:D_SOT-23_ANK" H 8800 3550 50  0001 C CNN
 F 3 "~" H 8800 3550 50  0001 C CNN
@@ -1956,8 +1956,8 @@ AR Path="/63A11746/63B7F1B6" Ref="Q?"  Part="1"
 AR Path="/63A12F68/63B7F1B6" Ref="Q?"  Part="1" 
 AR Path="/63A14AD1/63B7F1B6" Ref="Q?"  Part="1" 
 AR Path="/63A169E8/63B7F1B6" Ref="Q?"  Part="1" 
-AR Path="/63B7F1B6" Ref="Q115"  Part="1" 
-F 0 "Q115" H 9291 3996 50  0000 L CNN
+AR Path="/63B7F1B6" Ref="Q15"  Part="1" 
+F 0 "Q15" H 9291 3996 50  0000 L CNN
 F 1 "BC547" H 9291 3905 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23" H 9300 3875 50  0001 L CIN
 F 3 "https://www.onsemi.com/pub/Collateral/BC550-D.pdf" H 9100 3950 50  0001 L CNN
@@ -1987,8 +1987,8 @@ AR Path="/63A11746/63B7F1BF" Ref="R?"  Part="1"
 AR Path="/63A12F68/63B7F1BF" Ref="R?"  Part="1" 
 AR Path="/63A14AD1/63B7F1BF" Ref="R?"  Part="1" 
 AR Path="/63A169E8/63B7F1BF" Ref="R?"  Part="1" 
-AR Path="/63B7F1BF" Ref="R122"  Part="1" 
-F 0 "R122" H 9050 2400 50  0000 L CNN
+AR Path="/63B7F1BF" Ref="R22"  Part="1" 
+F 0 "R22" H 9050 2400 50  0000 L CNN
 F 1 "4K7 0.125W" V 9000 2400 20  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 8930 2400 50  0001 C CNN
 F 3 "~" H 9000 2400 50  0001 C CNN
