@@ -31,7 +31,7 @@
 #define DEVICE_FUNCTION 130             // Binary Event Monitor
 #define DEVICE_INDUSTRY_GROUP 4         // Maritime
 #define DEVICE_MANUFACTURER_CODE 2046   // Currently not allocated.
-#define DEVICE_UNIQUE_NUMBER 849        // Bump me?
+#define DEVICE_UNIQUE_NUMBER 106        // Bump me?
 
 
 /**********************************************************************
@@ -45,9 +45,9 @@
 #define PRODUCT_FIRMWARE_VERSION "1.1.0 (Jun 2022)"
 #define PRODUCT_LEN 1
 #define PRODUCT_N2K_VERSION 2022        // The N2K specification version?
-#define PRODUCT_SERIAL_CODE "002-849"   // PRODUCT_CODE + DEVICE_UNIQUE_NUMBER
+#define PRODUCT_SERIAL_CODE "002-106"   // PRODUCT_CODE + DEVICE_UNIQUE_NUMBER
 #define PRODUCT_TYPE "SIM108"           // The product name?
-#define PRODUCT_VERSION "1.0 (Mar 2022)"
+#define PRODUCT_VERSION "2.0 (Dec 2022)"
 
 /**********************************************************************
  * NMEA2000 LIBRARY DEFINITIONS
