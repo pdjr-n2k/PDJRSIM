@@ -21,6 +21,37 @@ tN2kBinaryStatus SWITCHBANK_STATUS;
 
 unsigned long PGN127501_TRANSMIT_INTERVAL = PGN127501_TRANSMIT_INTERVAL_DEFAULT;
 
+#define CONFIGURATION_INITIALISER
+/*********************************************************************
+ *
+ */
+unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
+  static unsigned char *buffer = new unsigned char[size = CONFIGURATION_SIZE];
+  EEPROM.get(eepromAddress, buffer);
+  if (buffer[CONFIGURATION_CAN_SOURCE_INDEX] == 0xff) {
+    buffer[CONFIGURATION_CAN_SOURCE_INDEX] = CAN_SOURCE_DEFAULT_VALUE;
+    buffer[CONFIGURATION_INSTANCE_INDEX] = INSTANCE_DEFAULT_VALUE;
+    EEPROM.put(eepromAddress, buffer);
+  }
+  return(buffer);
+}
+
+#define CONFIGURATION_VALIDATOR
+/**********************************************************************
+ * 
+ */
+bool configurationValidator(unsigned int index, unsigned char value) {
+  switch (index) {
+    case CONFIGURATION_INSTANCE_INDEX:
+      return((value < 252) || (value == 255));
+      break;
+    default:
+      return(false);
+      break;
+  }
+}
+
+
 /**********************************************************************
  * processSwitchInputsMaybe() should be called directly from loop().
  * The function checks switch states every SWITCH_PROCESS_INTERVAL and
@@ -72,8 +103,8 @@ void transmitSwitchbankStatusMaybe(bool force) {
 void transmitPGN127501() {
   static tN2kMsg N2kMsg;
 
-  if (MODULE_INSTANCE < 253) {
-    SetN2kPGN127501(N2kMsg, MODULE_INSTANCE, SWITCHBANK_STATUS);
+  if (MODULE_CONFIGURATION.getByte(CONFIGURATION_INSTANCE_INDEX) < 253) {
+    SetN2kPGN127501(N2kMsg, MODULE_CONFIGURATION.getByte(CONFIGURATION_INSTANCE_INDEX), SWITCHBANK_STATUS);
     NMEA2000.SendMsg(N2kMsg);
   }
 }  
