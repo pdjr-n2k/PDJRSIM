@@ -19,8 +19,6 @@ Button SWITCH_INPUTS[] = { Button(GPIO_SWITCH_INPUT1), Button(GPIO_SWITCH_INPUT2
  */
 tN2kBinaryStatus SWITCHBANK_STATUS;
 
-unsigned long PGN127501_TRANSMIT_INTERVAL = PGN127501_TRANSMIT_INTERVAL_DEFAULT;
-
 #define CONFIGURATION_INITIALISER
 /*********************************************************************
  * Overrides the default initialiser function in NOP100.
@@ -31,6 +29,7 @@ unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
   if (buffer[CONFIGURATION_CAN_SOURCE_INDEX] == 0xff) {
     buffer[CONFIGURATION_CAN_SOURCE_INDEX] = CAN_SOURCE_DEFAULT_VALUE;
     buffer[CONFIGURATION_INSTANCE_INDEX] = INSTANCE_DEFAULT_VALUE;
+    buffer[CONFIGURATION_TRANSMIT_INTERVAL] = TRANSMIT_INTERVAL_DEFAULT_VALUE;
     EEPROM.put(eepromAddress, buffer);
   }
   return(buffer);
@@ -42,8 +41,13 @@ unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
  */
 bool configurationValidator(unsigned int index, unsigned char value) {
   switch (index) {
+    case CONFIGURATION_CAN_SOURCE_INDEX:
+      return(true);
     case CONFIGURATION_INSTANCE_INDEX:
       return((value < 252) || (value == 255));
+      break;
+    case CONFIGURATION_TRANSMIT_INTERVAL_INDEX:
+      return(value >= 4);
       break;
     default:
       return(false);
@@ -91,7 +95,7 @@ void transmitSwitchbankStatusMaybe(bool force) {
   if ((now > deadline) || force) {
     transmitPGN127501();
     TRANSMIT_LED.setLedState(0, StatusLeds::LedState::once);
-    deadline = (now + PGN127501_TRANSMIT_INTERVAL);
+    deadline = (now + (1000 * MODULE_CONFIGURATION.getByte(CONFIGURATION_TRANSMIT_INTERVAL_INDEX)));
   }
 }
 

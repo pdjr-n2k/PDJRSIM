@@ -32,12 +32,7 @@ The default transmission interval can be configured by the user.
 
 ## Module configuration
 
-**SIM108** understands the following configuration parameters.
-
-| Address | Name                             | Default value | Description |
-| :---:   | :---                             | :---:         | :---        |
-| 0x01    | MODULE INSTANCE NUMBER           | 0xFF          | This parameter must be assigned a value in the range 0 through 252. |
-| 0x02    | PGN 127501 TRANSMISSION INTERVAL | 0x04          | Basic transmission interval in seconds. |
+See [Appendix I - Module configuration parameters](appendix-i---module-configuration-parameters).
 
 The module uses the basic configuration mechanism provided by NOP100
 and must be configured with a module instance number before use.
@@ -81,3 +76,11 @@ power cycled.
    relative to J1[1].
    Each input must be able to source around 10mA necessary to drive the
    opto-isolation input circuitry.
+
+## Appendix I - Module configuration parameters
+
+| Address | Name                             | Default value | Description |
+| :---:   | :---                             | :---:         | :---        |
+| 0x00    | CAN SOURCE ADDRESS               | 0x22          | RESERVED |
+| 0x01    | MODULE INSTANCE NUMBER           | 0xFF          | This parameter must be assigned a value in the range 0 through 252. |
+| 0x02    | PGN 127501 TRANSMISSION INTERVAL | 0x04          | Basic transmission interval in seconds. |
