@@ -23,7 +23,7 @@ unsigned long PGN127501_TRANSMIT_INTERVAL = PGN127501_TRANSMIT_INTERVAL_DEFAULT;
 
 #define CONFIGURATION_INITIALISER
 /*********************************************************************
- *
+ * Overrides the default initialiser function in NOP100.
  */
 unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
   static unsigned char *buffer = new unsigned char[size = CONFIGURATION_SIZE];
@@ -90,8 +90,7 @@ void transmitSwitchbankStatusMaybe(bool force) {
 
   if ((now > deadline) || force) {
     transmitPGN127501();
-    digitalWrite(GPIO_POWER_LED, 1);
-    TRANSMIT_LED_STATE = 1;
+    TRANSMIT_LED.setLedState(0, StatusLeds::LedState::once);
     deadline = (now + PGN127501_TRANSMIT_INTERVAL);
   }
 }
