@@ -23,8 +23,7 @@ per channel from the external source is 8mA at 12VDC, 10mA at 24VDC.
 
 ## Status reporting
 
-**SIM108** uses the NMEA 2000 switchbank protocol PGN 127501 to report
-the module status.
+**SIM108** uses PGN 127501 the to report the module status.
 
 By default a status report is transmitted once every four seconds or
 immediately a state change is detected on an input channel.
@@ -79,8 +78,8 @@ power cycled.
 
 ## Appendix I - Module configuration parameters
 
-| Address | Name                             | Default value | Description |
-| :---:   | :---                             | :---:         | :---        |
-| 0x00    | CAN SOURCE ADDRESS               | 0x22          | RESERVED |
-| 0x01    | MODULE INSTANCE NUMBER           | 0xFF          | This parameter must be assigned a value in the range 0 through 252. |
-| 0x02    | PGN 127501 TRANSMISSION INTERVAL | 0x04          | Basic transmission interval in seconds. |
+| Address | Name                             | Default value | Description                                   |
+| :---:   | :---                             | :---:         | :---                                          |
+| 0x00    | CAN SOURCE ADDRESS               | 0x22          | RESERVED                                      |
+| 0x01    | MODULE INSTANCE NUMBER           | 0xFF          | Module identifier in the range 0 through 252. |
+| 0x02    | PGN 127501 TRANSMISSION INTERVAL | 0x04          | Basic transmission interval in seconds.       |
