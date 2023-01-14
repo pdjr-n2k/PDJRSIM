@@ -19,11 +19,10 @@ Button SWITCH_INPUTS[] = { Button(GPIO_SWITCH_INPUT1), Button(GPIO_SWITCH_INPUT2
  */
 tN2kBinaryStatus SWITCHBANK_STATUS;
 
-
-
 #define CONFIGURATION_INITIALISER
 /*********************************************************************
- * Overrides the default initialiser function in NOP100.
+ * Load configuration from EEPROM or, if this is first use, set
+ * defaults and save to EEPROM.
  */
 unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
   static unsigned char *buffer = new unsigned char[size = CONFIGURATION_SIZE];
@@ -31,7 +30,7 @@ unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
   if (buffer[CONFIGURATION_CAN_SOURCE_INDEX] == 0xff) {
     buffer[CONFIGURATION_CAN_SOURCE_INDEX] = CAN_SOURCE_DEFAULT_VALUE;
     buffer[CONFIGURATION_INSTANCE_INDEX] = INSTANCE_DEFAULT_VALUE;
-    buffer[CONFIGURATION_TRANSMIT_INTERVAL] = TRANSMIT_INTERVAL_DEFAULT_VALUE;
+    buffer[CONFIGURATION_TRANSMIT_INTERVAL_INDEX] = TRANSMIT_INTERVAL_DEFAULT_VALUE;
     EEPROM.put(eepromAddress, buffer);
   }
   return(buffer);
@@ -39,7 +38,7 @@ unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
 
 #define CONFIGURATION_VALIDATOR
 /**********************************************************************
- * 
+ * Validate configuration update data.
  */
 bool configurationValidator(unsigned int index, unsigned char value) {
   switch (index) {
@@ -57,6 +56,19 @@ bool configurationValidator(unsigned int index, unsigned char value) {
   }
 }
 
+#define GET_STATUS_LEDS_STATUS
+/**********************************************************************
+ * getStatusLedsStatus - overrides the default function in the generic
+ * firmware, returning a value that can be used to update the status
+ * LEDs with the input channel states.
+ */
+uint8_t getStatusLedsStatus() {
+  unsigned char retval = 0;
+  for (int i = 0; i < 8; i++) {
+    retval = (retval | (((N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1)) == N2kOnOff_On)?1:0) << i));
+  }
+  return(retval);
+}
 
 /**********************************************************************
  * processSwitchInputsMaybe() should be called directly from loop().
@@ -113,18 +125,3 @@ void transmitPGN127501() {
     NMEA2000.SendMsg(N2kMsg);
   }
 }  
-
-/**********************************************************************
- * getStatusLedsStatus - overrides the default function in the generic
- * firmware, returning a value that can be used to update the status
- * LEDs with the input channel states.
- */
-#define GET_STATUS_LEDS_STATUS
-uint8_t getStatusLedsStatus() {
-  unsigned char retval = 0;
-  for (int i = 0; i < 8; i++) {
-    retval = (retval | (((N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1)) == N2kOnOff_On)?1:0) << i));
-  }
-  return(retval);
-}
-
