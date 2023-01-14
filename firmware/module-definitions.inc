@@ -19,6 +19,8 @@ Button SWITCH_INPUTS[] = { Button(GPIO_SWITCH_INPUT1), Button(GPIO_SWITCH_INPUT2
  */
 tN2kBinaryStatus SWITCHBANK_STATUS;
 
+
+
 #define CONFIGURATION_INITIALISER
 /*********************************************************************
  * Overrides the default initialiser function in NOP100.
@@ -111,10 +113,6 @@ void transmitPGN127501() {
     NMEA2000.SendMsg(N2kMsg);
   }
 }  
-
-/**********************************************************************
- * OVERRIDE OF FUNCTIONS IN NOP100
- */
 
 /**********************************************************************
  * getStatusLedsStatus - overrides the default function in the generic
