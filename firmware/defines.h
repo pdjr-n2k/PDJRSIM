@@ -79,14 +79,14 @@
 
 #define PGN127501_TRANSMIT_INTERVAL_EEPROM_ADDRESS 2
 
-#define CONFIGURATION_SIZE 3
+#define CM_SIZE 3
 
-#define CONFIGURATION_CAN_SOURCE_INDEX 0
-#define CONFIGURATION_INSTANCE_INDEX 1
-#define CONFIGURATION_TRANSMIT_INTERVAL_INDEX 2
+#define CM_CAN_SOURCE_INDEX 0
+#define CM_INSTANCE_INDEX 1
+#define CM_TRANSMIT_INTERVAL_INDEX 2
 
-#define INSTANCE_DEFAULT_VALUE 0xff
-#define TRANSMIT_INTERVAL_DEFAULT_VALUE 0x04
+#define CM_INSTANCE_DEFAULT 0xff
+#define CM_TRANSMIT_INTERVAL_DEFAULT 0x04
 
 /**********************************************************************
  * Number of milliseconds between checks on switch input channel state.
