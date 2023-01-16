@@ -1,16 +1,26 @@
+
 /**********************************************************************
- * module-declarations.inc
- *
- * Contains declarations of types, variables, etc. that are required
- * for implementation of our application. Note that application
- * functions must be declared at the end of module-definitions.inc.
+ * Ok, these are declarations, not definitions, but we need to get them
+ * in the world quite early...
  */
+void processSwitchInputsMaybe();
+void transmitSwitchbankStatusMaybe(bool force = false);
+void transmitPGN127501();
 
 /**********************************************************************
  * SWITCH_INPUTS - array of debounced GPIO inputs which connect the
  * module's external switch inputs.
  */
-Button SWITCH_INPUTS[] = { Button(GPIO_SWITCH_INPUT1), Button(GPIO_SWITCH_INPUT2), Button(GPIO_SWITCH_INPUT3), Button(GPIO_SWITCH_INPUT4), Button(GPIO_SWITCH_INPUT5), Button(GPIO_SWITCH_INPUT6), Button(GPIO_SWITCH_INPUT7), Button(GPIO_SWITCH_INPUT8) };
+Button SWITCH_INPUTS[] = {
+  Button(GPIO_SWITCH_INPUT1),
+  Button(GPIO_SWITCH_INPUT2),
+  Button(GPIO_SWITCH_INPUT3),
+  Button(GPIO_SWITCH_INPUT4),
+  Button(GPIO_SWITCH_INPUT5),
+  Button(GPIO_SWITCH_INPUT6),
+  Button(GPIO_SWITCH_INPUT7),
+  Button(GPIO_SWITCH_INPUT8)
+};
 
 /**********************************************************************
  * SWITCHBANK_STATUS - working storage for holding the most recently
