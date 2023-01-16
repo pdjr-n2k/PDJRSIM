@@ -1,15 +1,21 @@
-
-/**********************************************************************
- * Ok, these are declarations, not definitions, but we need to get them
- * in the world quite early...
+/**
+ * @file definitions.h
+ * @author Paul Reeve (preeve@pdjr.eu)
+ * @brief Everything required to implement SIM108.
+ * @version 0.1
+ * @date 2023-01-16
+ * @copyright Copyright (c) 2023
  */
-void processSwitchInputsMaybe();
+
+/**
+ * @brief Some forward declarations.
+ */
 void transmitSwitchbankStatusMaybe(bool force = false);
 void transmitPGN127501();
 
-/**********************************************************************
- * SWITCH_INPUTS - array of debounced GPIO inputs which connect the
- * module's external switch inputs.
+/**
+ * @brief Array of debounced GPIO inputs which connect the module's
+ *        external switch inputs.
  */
 Button SWITCH_INPUTS[] = {
   Button(GPIO_SWITCH_INPUT1),
@@ -22,17 +28,14 @@ Button SWITCH_INPUTS[] = {
   Button(GPIO_SWITCH_INPUT8)
 };
 
-/**********************************************************************
- * SWITCHBANK_STATUS - working storage for holding the most recently
- * read state of the Teensy switch inputs in the format used by the
- * NMEA2000 library.
+/**
+ * @brief Save the device's switch channel states in an NMEA2000 format
+ *        because it makes things easy.
  */
 tN2kBinaryStatus SWITCHBANK_STATUS;
 
-#define CONFIGURATION_INITIALISER
-/*********************************************************************
- * Load configuration from EEPROM or, if this is first use, set
- * defaults and save to EEPROM.
+/**
+ * @brief Specialised override of callback defined in NOP100.cpp.
  */
 unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
   static unsigned char *buffer = new unsigned char[size = CM_SIZE];
@@ -46,9 +49,8 @@ unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
   return(buffer);
 }
 
-#define CONFIGURATION_VALIDATOR
-/**********************************************************************
- * Validate configuration update data.
+/**
+ * @brief Specialised override of callback defined in NOP100.cpp.
  */
 bool configurationValidator(unsigned int index, unsigned char value) {
   switch (index) {
@@ -66,11 +68,8 @@ bool configurationValidator(unsigned int index, unsigned char value) {
   }
 }
 
-#define GET_STATUS_LEDS_STATUS
-/**********************************************************************
- * getStatusLedsStatus - overrides the default function in the generic
- * firmware, returning a value that can be used to update the status
- * LEDs with the input channel states.
+/**
+ * @brief Specialised override of callback defined in NOP100.cpp.
  */
 uint8_t getStatusLedsStatus() {
   unsigned char retval = 0;
@@ -80,11 +79,15 @@ uint8_t getStatusLedsStatus() {
   return(retval);
 }
 
-/**********************************************************************
- * processSwitchInputsMaybe() should be called directly from loop().
- * The function checks switch states every SWITCH_PROCESS_INTERVAL and
- * updates SWITCHBANK_STATUS with any changes. If a change is made,
- * then a call is made to transmit the update over NMEA.
+/**
+ * @brief Check switch channel inputs and respond to any state changes.
+ * 
+ * This function must be called from loop(). It will check switch
+ * inputs once every SWITCH_PROCESS_INTERVAL milliseconds.
+ * 
+ * If a channel has changed state then the value of SWITCHBANK_STATUS
+ * is updated and a call is made to immediately transmit the update
+ * over NMEA. 
  */
 void processSwitchInputsMaybe() {
   static unsigned long deadline = 0UL;
@@ -107,10 +110,14 @@ void processSwitchInputsMaybe() {
   }
 }
   
-/**********************************************************************
- * transmitSwitchbankStatusMaybe() should be called directly from
- * loop(). The function proceeds to transmit a switchbank binary status
- * message if PGN127501_TRANSMIT_INTERVAL has elapsed or <force> is true.
+/**
+ * @brief Transmit the switchbank status.
+ * 
+ * This function must be called from loop(). It will transmit a status
+ * PGN once every interval defined in the module configuration or
+ * immediately if force is true.
+ * 
+ * @param force - transmit immediately if true.
  */
 void transmitSwitchbankStatusMaybe(bool force) {
   static unsigned long deadline = 0UL;
@@ -123,9 +130,11 @@ void transmitSwitchbankStatusMaybe(bool force) {
   }
 }
 
-/**********************************************************************
- * Assemble and transmit a PGN 127501 Binary Status Update message
- * reflecting the current switchbank state.
+/**
+ * @brief Transmit PGN 127501.
+ * 
+ * The switch bank status is maintained in real time, so all we need to do is
+ * assembled an N2K message abd transmit it.
  */
 void transmitPGN127501() {
   static tN2kMsg N2kMsg;
