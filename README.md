@@ -1,15 +1,16 @@
 # SIM108 - NMEA 2000 switch input module
 
-**SIM108** is a specialisation of
-[NOP100](https://github.com/preeve9534/NOP100)
-which implements an eight channel NMEA 2000 switch input module.
+**SIM108** is an eight channel NMEA 2000 switch input module.
 
-The module presents on the NMEA bus as a switchbank device with
+The module presents on the NMEA bus as a switch bank device with
 Class Code 30 (Electrical Distribution) and Function Code 130 (Binary
 Event Monitor) and reports its status through transmission of
 PGN 127501 Binary Status Report messages.
 
 The module is powered from the host NMEA bus and has an LEN of 0.5.
+
+**SIM108** is a specialisation of
+[NOP100](https://github.com/preeve9534/NOP100).
 
 ## Switch inputs
 
@@ -18,12 +19,13 @@ optically isolated and reverse polarity protected with reference to
 a common ground.
 
 A voltage of between 5VDC and 50VDC on an input channel is interpreted
-as an ON condition for that channel and when ON the nominal current draw
-per channel from the external source is 8mA at 12VDC, 10mA at 24VDC.
+as an ON condition for that channel.
+When ON the nominal current draw per channel from the external source
+is 8mA at 12VDC, 10mA at 24VDC.
 
 ## Status reporting
 
-**SIM108** uses PGN 127501 the to report the module status.
+**SIM108** uses PGN 127501 to report the module status.
 
 By default a status report is transmitted once every four seconds or
 immediately a state change is detected on an input channel.
