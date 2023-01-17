@@ -27,9 +27,10 @@ is 8mA at 12VDC, 10mA at 24VDC.
 
 **SIM108** uses PGN 127501 to report the switch bank status.
 
-By default a status report is transmitted once every two seconds or
-immediately a state change is detected on an input channel.
-The transmission interval can be configured by the user.
+By default a status report is transmitted once every two seconds when
+the module inputs are quiescent, or immediately a state change is
+detected on an input channel.
+The quiescent transmission interval can be configured by the user.
 
 ## Module configuration
 
@@ -56,15 +57,15 @@ range 0 through 252.
 
 You can disable the module by setting its instance number to 0xff.
 
-### Setting the module's default transmission interval
+### Setting the module's quiescent transmission interval
 
-In most cases the default transmission interval of two seconds will
-not need to be altered.
+In most cases the default quiescent transmission interval of two seconds
+will not need to be altered.
 The NMEA 2000 specification proposes two seconds as an appropriate
 minimum transmission interval for PGN 127501 and it is sensible to
 respect this constraint.
 
-If you do wish to change the transmission rate, then:
+If you do wish to change the quiescent transmission rate, then:
 
 1. Enter the value 0x02 on the ADDR/VALUE DIL switch.
 2. Press and hold the PRG button for 1s and then release.
@@ -93,4 +94,4 @@ at the new transmission rate.
 | :---:   | :---                             | :---:         | :---                                               |
 | 0x00    | CAN SOURCE ADDRESS               | 0x22          | RESERVED                                           |
 | 0x01    | MODULE INSTANCE NUMBER           | 0xFF          | Module instance number in the range 0 through 252. |
-| 0x02    | PGN 127501 TRANSMISSION INTERVAL | 0x04          | Basic transmission interval in seconds.            |
+| 0x02    | QUIESCENT TRANSMISSION INTERVAL  | 0x02          | Quiescent transmission interval in seconds.            |
