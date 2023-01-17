@@ -33,7 +33,7 @@ The default transmission interval can be configured by the user.
 
 ## Module configuration
 
-See [Appendix I - Module configuration parameters](appendix-i---module-configuration-parameters).
+See [Appendix I - Module configuration parameters](#appendix-i---module-configuration-parameters).
 
 The module must be configured with a module instance number before use.
 
