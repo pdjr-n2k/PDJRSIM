@@ -25,9 +25,9 @@ is 8mA at 12VDC, 10mA at 24VDC.
 
 ## Status reporting
 
-**SIM108** uses PGN 127501 to report the module status.
+**SIM108** uses PGN 127501 to report the switch bank status.
 
-By default a status report is transmitted once every four seconds or
+By default a status report is transmitted once every two seconds or
 immediately a state change is detected on an input channel.
 The default transmission interval can be configured by the user.
 
@@ -35,8 +35,7 @@ The default transmission interval can be configured by the user.
 
 See [Appendix I - Module configuration parameters](appendix-i---module-configuration-parameters).
 
-The module uses the basic configuration mechanism provided by NOP100
-and must be configured with a module instance number before use.
+The module must be configured with a module instance number before use.
 
 ### Setting the module's instance number
 
@@ -46,7 +45,7 @@ and must be configured with a module instance number before use.
 3. Enter the module instance number you wish to use on the ADDR/VALUE
    DIL switch.
 4. Press and release the PRG button.
-   The transmit LED wull stop flashing.
+   The transmit LED will stop flashing.
 
 The module will immediately begin transmitting status report messages
 on the new instance number.
@@ -59,20 +58,24 @@ You can disable the module by setting its instance number to 0xff.
 
 ### Setting the module's default transmission interval
 
-In most cases the default transmission interval of four seconds will
+In most cases the default transmission interval of fouywor seconds will
 not need to be altered.
-The NMEA 2000 specification dictates an appropriate transmission
-frequency range for PGN 127501 and it is sensible to respect this
-constraint.
+The NMEA 2000 specification specifies two seconds as an appropriate
+minimum transmission interval for PGN 127501 and it is sensible to
+respect this constraint.
 
-If you do wish to change the rate, then enter the value 0x02 on the
-ADDR/VALUE DIL switch and press and hold the PRG button for two seconds
-and then release.
-The module's transmit LED will begin to flash rapidly.
-Enter your required transmission interval in seconds on the ADDR/VALUE
-DIL switch and press and release PRG.
-The new transmission rate will be applied the next time the module is
-power cycled.
+If you do wish to change the transmission rate, then:
+
+1. Enter the value 0x02 on the ADDR/VALUE DIL switch.
+2. Press and hold the PRG button for 1s and then release.
+   The transmit LED will commence flashisng.
+3. Enter your required transmission interval in seconds on the
+   ADDR/VALUE DIL switch.
+4. Press and release the PRG button.
+   The transmit LED will stop flashing.
+
+The module will immediately begin transmitting status report messages
+at the new transmission rate.
 
 ## Connecting switch inputs
 
@@ -86,8 +89,8 @@ power cycled.
 
 ## Appendix I - Module configuration parameters
 
-| Address | Name                             | Default value | Description                                   |
-| :---:   | :---                             | :---:         | :---                                          |
-| 0x00    | CAN SOURCE ADDRESS               | 0x22          | RESERVED                                      |
-| 0x01    | MODULE INSTANCE NUMBER           | 0xFF          | Module identifier in the range 0 through 252. |
-| 0x02    | PGN 127501 TRANSMISSION INTERVAL | 0x04          | Basic transmission interval in seconds.       |
+| Address | Name                             | Default value | Description                                        |
+| :---:   | :---                             | :---:         | :---                                               |
+| 0x00    | CAN SOURCE ADDRESS               | 0x22          | RESERVED                                           |
+| 0x01    | MODULE INSTANCE NUMBER           | 0xFF          | Module instance number in the range 0 through 252. |
+| 0x02    | PGN 127501 TRANSMISSION INTERVAL | 0x04          | Basic transmission interval in seconds.            |
