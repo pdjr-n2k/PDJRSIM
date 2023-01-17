@@ -29,7 +29,7 @@ is 8mA at 12VDC, 10mA at 24VDC.
 
 By default a status report is transmitted once every two seconds or
 immediately a state change is detected on an input channel.
-The default transmission interval can be configured by the user.
+The transmission interval can be configured by the user.
 
 ## Module configuration
 
@@ -58,9 +58,9 @@ You can disable the module by setting its instance number to 0xff.
 
 ### Setting the module's default transmission interval
 
-In most cases the default transmission interval of fouywor seconds will
+In most cases the default transmission interval of two seconds will
 not need to be altered.
-The NMEA 2000 specification specifies two seconds as an appropriate
+The NMEA 2000 specification proposes two seconds as an appropriate
 minimum transmission interval for PGN 127501 and it is sensible to
 respect this constraint.
 
