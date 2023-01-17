@@ -40,13 +40,19 @@ and must be configured with a module instance number before use.
 
 ### Setting the module's instance number
 
-Enter the module instance number you wish to use on the ADDR/VALUE DIL
-switch a press and release the PRG button.
+1. Enter the value 0x01 on the ADDR/VALUE DIL switch.
+2. Press and hold the PRG button for 1s and then release.
+   The transmit LED will commence flashing.
+3. Enter the module instance number you wish to use on the ADDR/VALUE
+   DIL switch.
+4. Press and release the PRG button.
+   The transmit LED wull stop flashing.
+
 The module will immediately begin transmitting status report messages
 on the new instance number.
 
 Select your instance number with care: the number used must not be in
-use by any other switchbank on the host NMEA bus and must be in the
+use by any other switch bank on the host NMEA bus and must be in the
 range 0 through 252.
 
 You can disable the module by setting its instance number to 0xff.
