@@ -68,7 +68,7 @@ If you do wish to change the transmission rate, then:
 
 1. Enter the value 0x02 on the ADDR/VALUE DIL switch.
 2. Press and hold the PRG button for 1s and then release.
-   The transmit LED will commence flashisng.
+   The transmit LED will commence flashing.
 3. Enter your required transmission interval in seconds on the
    ADDR/VALUE DIL switch.
 4. Press and release the PRG button.
