@@ -94,4 +94,5 @@ at the new transmission rate.
 | :---:   | :---                             | :---:         | :---                                               |
 | 0x00    | CAN SOURCE ADDRESS               | 0x22          | RESERVED                                           |
 | 0x01    | MODULE INSTANCE NUMBER           | 0xFF          | Module instance number in the range 0 through 252. |
-| 0x02    | QUIESCENT TRANSMISSION INTERVAL  | 0x02          | Quiescent transmission interval in seconds.            |
+| 0x02    | PGN 127501 TRANSMISSION PERIOD   | 0x02          | Quiescent transmission interval in seconds.        |
+| 0x03    | PGN 127501 TRANSMISSION OFFSET   | 0x00          | Quiescent transmission offset in s/100.            |
