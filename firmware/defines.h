@@ -41,22 +41,18 @@
 #define CM_SIZE 3
 
 #define CM_INSTANCE_INDEX 1
-#define CM_TRANSMIT_INTERVAL_INDEX 2
+#define CM_TRANSMIT_PERIOD_INDEX 2
+#define CM_TRANSMIT_OFFSET_INDEX 3
 
-#define CM_INSTANCE_DEFAULT 0xff
-#define CM_TRANSMIT_INTERVAL_DEFAULT 0x04
+#define CM_INSTANCE_DEFAULT 0xff           // Disabled
+#define CM_TRANSMIT_PERIOD_DEFAULT 0x02  // In seconds.
+#define CM_TRANSMIT_OFFSET_DEFAULT 0x00    // In 10ms chunks.
 
 /**
  * @brief Number of milliseconds between checks on switch input channel
  *        state.
  */
 #define SWITCH_PROCESS_INTERVAL 100
-
-/**
- * @brief Number of milliseconds between regular transmission of PGN
- *        127501.
- */
-#define PGN127501_TRANSMIT_INTERVAL_DEFAULT 4000UL
 
 /**
  * @brief These are the NOP100 functins we will override.

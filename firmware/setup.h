@@ -10,3 +10,5 @@
 for (unsigned int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) SWITCH_INPUTS[i].begin();
 
 N2kResetBinaryStatus(SWITCHBANK_STATUS);
+
+NMEA2000.SetOnOpen(onN2kOpen);

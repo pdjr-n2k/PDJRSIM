@@ -8,10 +8,9 @@
  */
 
 /**
- * @brief Some forward declarations.
+ * @brief Create a scheduler instance for transmission of PGN 127501.
  */
-void transmitSwitchbankStatusMaybe(bool force = false);
-void transmitPGN127501();
+tN2kSyncScheduler PGN127501Scheduler(false, 1000,  500);
 
 /**
  * @brief Array of debounced GPIO inputs which connect the module's
@@ -34,6 +33,13 @@ Button SWITCH_INPUTS[] = {
  */
 tN2kBinaryStatus SWITCHBANK_STATUS;
 
+void onN2kOpen() {
+  PGN127501Scheduler.SetPeriodAndOffset(
+    (uint32_t) (MODULE_CONFIGURATION.getByte(CM_TRANSMIT_PERIOD_INDEX) * 1000),
+    (uint32_t) (MODULE_CONFIGURATION.getByte(CM_TRANSMIT_OFFSET_INDEX) * 10)
+  );
+}
+
 /**
  * @brief Specialised override of callback defined in NOP100.cpp.
  */
@@ -43,7 +49,7 @@ unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
   if (buffer[CM_CAN_SOURCE_INDEX] == 0xff) {
     buffer[CM_CAN_SOURCE_INDEX] = CM_CAN_SOURCE_DEFAULT;
     buffer[CM_INSTANCE_INDEX] = CM_INSTANCE_DEFAULT;
-    buffer[CM_TRANSMIT_INTERVAL_INDEX] = CM_TRANSMIT_INTERVAL_DEFAULT;
+    buffer[CM_TRANSMIT_PERIOD_INDEX] = CM_TRANSMIT_PERIOD_DEFAULT;
     EEPROM.put(eepromAddress, buffer);
   }
   return(buffer);
@@ -59,7 +65,7 @@ bool configurationValidator(unsigned int index, unsigned char value) {
     case CM_INSTANCE_INDEX:
       return((value < 252) || (value == 255));
       break;
-    case CM_TRANSMIT_INTERVAL_INDEX:
+    case CM_TRANSMIT_PERIOD_INDEX:
       return(value >= 4);
       break;
     default:
@@ -78,6 +84,22 @@ uint8_t getStatusLedsStatus() {
   }
   return(retval);
 }
+
+/**
+ * @brief Transmit PGN 127501.
+ * 
+ * The switch bank status is maintained in real time, so all we need to do is
+ * assembled an N2K message abd transmit it.
+ */
+void transmitPGN127501() {
+  static tN2kMsg N2kMsg;
+
+  if (MODULE_CONFIGURATION.getByte(CM_INSTANCE_INDEX) < 253) {
+    SetN2kPGN127501(N2kMsg, MODULE_CONFIGURATION.getByte(CM_INSTANCE_INDEX), SWITCHBANK_STATUS);
+    NMEA2000.SendMsg(N2kMsg);
+    TRANSMIT_LED.setLedState(0, StatusLeds::LedState::once);
+  }
+}  
 
 /**
  * @brief Check switch channel inputs and respond to any state changes.
@@ -105,42 +127,9 @@ void processSwitchInputsMaybe() {
         }
       }
     }
-    if (updated) transmitSwitchbankStatusMaybe(true);
+    if (updated) transmitPGN127501();
     deadline = (now + SWITCH_PROCESS_INTERVAL);
   }
 }
-  
-/**
- * @brief Transmit the switchbank status.
- * 
- * This function must be called from loop(). It will transmit a status
- * PGN once every interval defined in the module configuration or
- * immediately if force is true.
- * 
- * @param force - transmit immediately if true.
- */
-void transmitSwitchbankStatusMaybe(bool force) {
-  static unsigned long deadline = 0UL;
-  unsigned long now = millis();
 
-  if ((now > deadline) || force) {
-    transmitPGN127501();
-    TRANSMIT_LED.setLedState(0, StatusLeds::LedState::once);
-    deadline = (now + (1000 * MODULE_CONFIGURATION.getByte(CM_TRANSMIT_INTERVAL_INDEX)));
-  }
-}
 
-/**
- * @brief Transmit PGN 127501.
- * 
- * The switch bank status is maintained in real time, so all we need to do is
- * assembled an N2K message abd transmit it.
- */
-void transmitPGN127501() {
-  static tN2kMsg N2kMsg;
-
-  if (MODULE_CONFIGURATION.getByte(CM_INSTANCE_INDEX) < 253) {
-    SetN2kPGN127501(N2kMsg, MODULE_CONFIGURATION.getByte(CM_INSTANCE_INDEX), SWITCHBANK_STATUS);
-    NMEA2000.SendMsg(N2kMsg);
-  }
-}  
