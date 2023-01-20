@@ -45,7 +45,7 @@
 #define CM_TRANSMIT_OFFSET_INDEX 3
 
 #define CM_INSTANCE_DEFAULT 0xff           // Disabled
-#define CM_TRANSMIT_PERIOD_DEFAULT 0x02  // In seconds.
+#define CM_TRANSMIT_PERIOD_DEFAULT 0x02    // In seconds.
 #define CM_TRANSMIT_OFFSET_DEFAULT 0x00    // In 10ms chunks.
 
 /**

@@ -10,7 +10,7 @@
 /**
  * @brief Create a scheduler instance for transmission of PGN 127501.
  */
-tN2kSyncScheduler PGN127501Scheduler(false, 1000,  500);
+tN2kSyncScheduler PGN127501Scheduler;
 
 /**
  * @brief Array of debounced GPIO inputs which connect the module's
@@ -33,6 +33,9 @@ Button SWITCH_INPUTS[] = {
  */
 tN2kBinaryStatus SWITCHBANK_STATUS;
 
+/**
+ * @brief Callback with actions to perform on CAN address claim.
+ */
 void onN2kOpen() {
   PGN127501Scheduler.SetPeriodAndOffset(
     (uint32_t) (MODULE_CONFIGURATION.getByte(CM_TRANSMIT_PERIOD_INDEX) * 1000),
@@ -50,6 +53,7 @@ unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
     buffer[CM_CAN_SOURCE_INDEX] = CM_CAN_SOURCE_DEFAULT;
     buffer[CM_INSTANCE_INDEX] = CM_INSTANCE_DEFAULT;
     buffer[CM_TRANSMIT_PERIOD_INDEX] = CM_TRANSMIT_PERIOD_DEFAULT;
+    buffer[CM_TRANSMIT_OFFSET_INDEX] = CM_TRANSMIT_OFFSET_DEFAULT;
     EEPROM.put(eepromAddress, buffer);
   }
   return(buffer);
@@ -66,7 +70,10 @@ bool configurationValidator(unsigned int index, unsigned char value) {
       return((value < 252) || (value == 255));
       break;
     case CM_TRANSMIT_PERIOD_INDEX:
-      return(value >= 4);
+      return(true);
+      break;
+    case CM_TRANSMIT_OFFSET_INDEX:
+      return(true);
       break;
     default:
       return(false);
