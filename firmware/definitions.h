@@ -35,11 +35,15 @@ tN2kBinaryStatus SWITCHBANK_STATUS;
 
 /**
  * @brief Callback with actions to perform on CAN address claim.
+ * 
+ * Set the period and offset for transmission of PGN 127501 from module
+ * configuration data. The SetPeriodAndOffset() function alos starts the
+ * scheduler.
  */
 void onN2kOpen() {
   PGN127501Scheduler.SetPeriodAndOffset(
-    (uint32_t) (MODULE_CONFIGURATION.getByte(CM_TRANSMIT_PERIOD_INDEX) * 1000),
-    (uint32_t) (MODULE_CONFIGURATION.getByte(CM_TRANSMIT_OFFSET_INDEX) * 10)
+    (uint32_t) (MODULE_CONFIGURATION.getByte(CM_PGN127501_TRANSMIT_PERIOD_INDEX) * 1000),
+    (uint32_t) (MODULE_CONFIGURATION.getByte(CM_PGN127501_TRANSMIT_OFFSET_INDEX) * 10)
   );
 }
 
@@ -52,8 +56,8 @@ unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
   if (buffer[CM_CAN_SOURCE_INDEX] == 0xff) {
     buffer[CM_CAN_SOURCE_INDEX] = CM_CAN_SOURCE_DEFAULT;
     buffer[CM_INSTANCE_INDEX] = CM_INSTANCE_DEFAULT;
-    buffer[CM_TRANSMIT_PERIOD_INDEX] = CM_TRANSMIT_PERIOD_DEFAULT;
-    buffer[CM_TRANSMIT_OFFSET_INDEX] = CM_TRANSMIT_OFFSET_DEFAULT;
+    buffer[CM_PGN127501_TRANSMIT_PERIOD_INDEX] = CM_TRANSMIT_PERIOD_DEFAULT;
+    buffer[CM_PGN127501_TRANSMIT_OFFSET_INDEX] = CM_TRANSMIT_OFFSET_DEFAULT;
     EEPROM.put(eepromAddress, buffer);
   }
   return(buffer);
@@ -69,10 +73,10 @@ bool configurationValidator(unsigned int index, unsigned char value) {
     case CM_INSTANCE_INDEX:
       return((value < 252) || (value == 255));
       break;
-    case CM_TRANSMIT_PERIOD_INDEX:
+    case CM_PGN127501_TRANSMIT_PERIOD_INDEX:
       return(true);
       break;
-    case CM_TRANSMIT_OFFSET_INDEX:
+    case CM_PGN127501_TRANSMIT_OFFSET_INDEX:
       return(true);
       break;
     default:

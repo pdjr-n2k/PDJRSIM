@@ -24,7 +24,8 @@
 #define NMEA_TRANSMIT_MESSAGE_PGNS { 127501L, 0 }
 
 /**
- * @brief Aliases for GPIO pins connected to switch inputs.
+ * @brief Meaningful name aliases for GPIO pins connected to switch
+ *        inputs.
  */
 #define GPIO_SWITCH_INPUT1 GPIO_D23
 #define GPIO_SWITCH_INPUT2 GPIO_D22
@@ -36,23 +37,36 @@
 #define GPIO_SWITCH_INPUT8 GPIO_D5
 
 /**
- * @brief Configuration details.
+ * @brief Names to help manipulating the persistent module
+ *        configuration.
+ * 
+ * NOP100 uses configuration address 0 for the CAN source address and
+ * we have to make sure we reserve space for this when we declare
+ * CM_SIZE.
+ * 
+ * Names ending in _INDEX are addresses of data in the configuration.
+ * 
+ * Names ending in _DEFAULT are the values that will be assigned when
+ * a new configuration is created or the module is hard reset.
  */
-#define CM_SIZE 3
+#define CM_SIZE 4                               // Total configuration size in bytes
 
-#define CM_INSTANCE_INDEX 1
-#define CM_TRANSMIT_PERIOD_INDEX 2
-#define CM_TRANSMIT_OFFSET_INDEX 3
+#define CM_INSTANCE_INDEX 1                     // Index of module instance number
+#define CM_PGN127501_TRANSMIT_PERIOD_INDEX 2    // Index of PGN 127501 transmit period in seconds
+#define CM_PGN127501_TRANSMIT_OFFSET_INDEX 3    // Index of PGN 127501 transmit offset in 10s of milli-seconds
 
-#define CM_INSTANCE_DEFAULT 0xff           // Disabled
-#define CM_TRANSMIT_PERIOD_DEFAULT 0x02    // In seconds.
-#define CM_TRANSMIT_OFFSET_DEFAULT 0x00    // In 10ms chunks.
+#define CM_INSTANCE_DEFAULT 0xff                // Disabled
+#define CM_TRANSMIT_PERIOD_DEFAULT 0x02         // Every two seconds
+#define CM_TRANSMIT_OFFSET_DEFAULT 0x00         // Zero times 10 milliseconds
 
 /**
  * @brief Number of milliseconds between checks on switch input channel
  *        state.
  */
 #define SWITCH_PROCESS_INTERVAL 100
+
+#define NMEA_TRANSMIT_MESSAGE_PGNS { 127501L, 0L }
+
 
 /**
  * @brief These are the NOP100 functins we will override.
