@@ -42,25 +42,9 @@ tN2kBinaryStatus SWITCHBANK_STATUS;
  */
 void onN2kOpen() {
   PGN127501Scheduler.SetPeriodAndOffset(
-    (uint32_t) (MODULE_CONFIGURATION.getByte(CM_PGN127501_TRANSMIT_PERIOD_INDEX) * 1000),
-    (uint32_t) (MODULE_CONFIGURATION.getByte(CM_PGN127501_TRANSMIT_OFFSET_INDEX) * 10)
+    (uint32_t) (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_PERIOD_INDEX) * 1000),
+    (uint32_t) (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_OFFSET_INDEX) * 10)
   );
-}
-
-/**
- * @brief Specialised override of callback defined in NOP100.cpp.
- */
-unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
-  static unsigned char *buffer = new unsigned char[size = CM_SIZE];
-  EEPROM.get(eepromAddress, buffer);
-  if (buffer[CM_CAN_SOURCE_INDEX] == 0xff) {
-    buffer[CM_CAN_SOURCE_INDEX] = CM_CAN_SOURCE_DEFAULT;
-    buffer[CM_INSTANCE_INDEX] = CM_INSTANCE_DEFAULT;
-    buffer[CM_PGN127501_TRANSMIT_PERIOD_INDEX] = CM_TRANSMIT_PERIOD_DEFAULT;
-    buffer[CM_PGN127501_TRANSMIT_OFFSET_INDEX] = CM_TRANSMIT_OFFSET_DEFAULT;
-    EEPROM.put(eepromAddress, buffer);
-  }
-  return(buffer);
 }
 
 /**
@@ -68,15 +52,15 @@ unsigned char* configurationInitialiser(int& size, unsigned int eepromAddress) {
  */
 bool configurationValidator(unsigned int index, unsigned char value) {
   switch (index) {
-    case CM_CAN_SOURCE_INDEX:
+    case MODULE_CONFIGURATION_CAN_SOURCE_INDEX:
       return(true);
-    case CM_INSTANCE_INDEX:
+    case MODULE_CONFIGURATION_INSTANCE_INDEX:
       return((value < 252) || (value == 255));
       break;
-    case CM_PGN127501_TRANSMIT_PERIOD_INDEX:
+    case MODULE_CONFIGURATION_PGN127501_TRANSMIT_PERIOD_INDEX:
       return(true);
       break;
-    case CM_PGN127501_TRANSMIT_OFFSET_INDEX:
+    case MODULE_CONFIGURATION_PGN127501_TRANSMIT_OFFSET_INDEX:
       return(true);
       break;
     default:
@@ -105,10 +89,10 @@ uint8_t getStatusLedsStatus() {
 void transmitPGN127501() {
   static tN2kMsg N2kMsg;
 
-  if (MODULE_CONFIGURATION.getByte(CM_INSTANCE_INDEX) < 253) {
-    SetN2kPGN127501(N2kMsg, MODULE_CONFIGURATION.getByte(CM_INSTANCE_INDEX), SWITCHBANK_STATUS);
+  if (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX) < 253) {
+    SetN2kPGN127501(N2kMsg, MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX), SWITCHBANK_STATUS);
     NMEA2000.SendMsg(N2kMsg);
-    TRANSMIT_LED.setLedState(0, StatusLeds::LedState::once);
+    TRANSMIT_LED.setLedState(0, LedManager::LedState::once);
   }
 }  
 
