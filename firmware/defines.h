@@ -8,8 +8,7 @@
  */
 
 /**
- * @brief Meaningful name aliases for GPIO pins connected to switch
- *        inputs.
+ * @brief GPIO pin aliases.
  */
 #define GPIO_SWITCH_INPUT1 GPIO_D23
 #define GPIO_SWITCH_INPUT2 GPIO_D22
@@ -21,12 +20,15 @@
 #define GPIO_SWITCH_INPUT8 GPIO_D5
 
 /**
- * @brief Overrides of NOP100 definitions.
+ * @brief NMEA2000 library device information overrides.
  */
 #define DEVICE_CLASS 30                 // Electrical Distribution
 #define DEVICE_FUNCTION 130             // Binary Event Monitor
 #define DEVICE_UNIQUE_NUMBER 108        // Bump me?
 
+/**
+ * @brief NMEA2000 library product information overrides.
+ */
 #define PRODUCT_CODE 002
 #define PRODUCT_FIRMWARE_VERSION "1.1.0 (Jun 2022)"
 #define PRODUCT_LEN 1
@@ -34,21 +36,14 @@
 #define PRODUCT_TYPE "SIM108"           // The product name?
 #define PRODUCT_VERSION "2.0 (Dec 2022)"
 
-#define NMEA_TRANSMIT_MESSAGE_PGNS { 127501L, 0 }
+/**
+ * @brief NMEA2000 library transmitted PGNs override.
+ */
+#define NMEA_TRANSMITTED_PGNS { 127501L, 0 }
 
 
 /**
- * @brief Names to help manipulating the persistent module
- *        configuration.
- * 
- * NOP100 uses configuration address 0 for the CAN source address and
- * we have to make sure we reserve space for this when we declare
- * MODULE_CONFIGURATION_SIZE.
- * 
- * Names ending in _INDEX are addresses of data in the configuration.
- * 
- * Names ending in _DEFAULT are the values that will be assigned when
- * a new configuration is created or the module is hard reset.
+ * @brief ModuleConfiguration library stuff.
  */
 #define MODULE_CONFIGURATION_SIZE 4                               // Total configuration size in bytes
 
@@ -73,12 +68,9 @@
  */
 #define SWITCH_PROCESS_INTERVAL 100
 
-#define NMEA_TRANSMIT_MESSAGE_PGNS { 127501L, 0L }
-
-
 /**
  * @brief These are the NOP100 functins we will override.
  */
-#define CONFIGURATION_INITIALISER
 #define CONFIGURATION_VALIDATOR
 #define GET_STATUS_LEDS_STATUS
+#define ON_N2K_OPEN
