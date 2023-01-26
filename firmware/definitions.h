@@ -8,6 +8,11 @@
  */
 
 /**
+ * @brief Forward declarations.
+ */
+void transmitPGN127501();
+
+/**
  * @brief Create a scheduler instance for transmission of PGN 127501.
  */
 tN2kSyncScheduler PGN127501Scheduler;
@@ -28,73 +33,12 @@ Button SWITCH_INPUTS[] = {
 };
 
 /**
- * @brief Save the device's switch channel states in an NMEA2000 format
- *        because it makes things easy.
+ * @brief Buffer for registering the device's switch channel states.
+ * 
+ * We use the tN2kBinaryStatus type because this can then be used
+ * without further processing in a PGN 127501 message.
  */
 tN2kBinaryStatus SWITCHBANK_STATUS;
-
-/**
- * @brief Callback with actions to perform on CAN address claim.
- * 
- * Set the period and offset for transmission of PGN 127501 from module
- * configuration data. The SetPeriodAndOffset() function alos starts the
- * scheduler.
- */
-void onN2kOpen() {
-  PGN127501Scheduler.SetPeriodAndOffset(
-    (uint32_t) (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_PERIOD_INDEX) * 1000),
-    (uint32_t) (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_OFFSET_INDEX) * 10)
-  );
-}
-
-/**
- * @brief Specialised override of callback defined in NOP100.cpp.
- */
-bool configurationValidator(unsigned int index, unsigned char value) {
-  switch (index) {
-    case MODULE_CONFIGURATION_CAN_SOURCE_INDEX:
-      return(true);
-    case MODULE_CONFIGURATION_INSTANCE_INDEX:
-      return((value < 252) || (value == 255));
-      break;
-    case MODULE_CONFIGURATION_PGN127501_TRANSMIT_PERIOD_INDEX:
-      return(true);
-      break;
-    case MODULE_CONFIGURATION_PGN127501_TRANSMIT_OFFSET_INDEX:
-      return(true);
-      break;
-    default:
-      return(false);
-      break;
-  }
-}
-
-/**
- * @brief Specialised override of callback defined in NOP100.cpp.
- */
-uint8_t getStatusLedsStatus() {
-  unsigned char retval = 0;
-  for (int i = 0; i < 8; i++) {
-    retval = (retval | (((N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1)) == N2kOnOff_On)?1:0) << i));
-  }
-  return(retval);
-}
-
-/**
- * @brief Transmit PGN 127501.
- * 
- * The switch bank status is maintained in real time, so all we need to do is
- * assembled an N2K message abd transmit it.
- */
-void transmitPGN127501() {
-  static tN2kMsg N2kMsg;
-
-  if (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX) < 253) {
-    SetN2kPGN127501(N2kMsg, MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX), SWITCHBANK_STATUS);
-    NMEA2000.SendMsg(N2kMsg);
-    TRANSMIT_LED.setLedState(0, LedManager::LedState::once);
-  }
-}  
 
 /**
  * @brief Check switch channel inputs and respond to any state changes.
@@ -127,4 +71,64 @@ void processSwitchInputsMaybe() {
   }
 }
 
+/**
+ * @brief Transmit PGN 127501 and flash transmit LED.
+ * 
+ * The switch bank status is maintained in real time, so all we need to do is
+ * chack that the module instance number is valid then assemble an N2K message
+ * and transmit it. 
+ */
+void transmitPGN127501() {
+  static tN2kMsg N2kMsg;
 
+  if (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX) != 255) {
+    SetN2kPGN127501(N2kMsg, MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX), SWITCHBANK_STATUS);
+    NMEA2000.SendMsg(N2kMsg);
+    TRANSMIT_LED.setLedState(0, LedManager::LedState::once);
+  }
+}  
+
+///////////////////////////////////////////////////////////////////////
+// The following functions override the defaults provided in NOP100. //
+///////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief Callback invoked when N2K bus connection becomes active.
+ * 
+ * Set the period and offset of the scheduler used for transmission of
+ * PGN 127501 from module configuration data and (as a side effect)
+ * start the scheduler.
+ * 
+ * @note Overrides the eponymous function in NOP100.
+ */
+void onN2kOpen() {
+  PGN127501Scheduler.SetPeriodAndOffset(
+    (uint32_t) (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_PERIOD_INDEX) * 1000),
+    (uint32_t) (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_OFFSET_INDEX) * 10)
+  );
+}
+
+/**
+ * @brief Callback invoked to validate proposed changes to the module
+ * configuration.
+ * 
+ * @note Overrides the eponymous function in NOP100.
+ */
+bool configurationValidator(unsigned int index, unsigned char value) {
+  switch (index) {
+    case MODULE_CONFIGURATION_CAN_SOURCE_INDEX:
+      return(true);
+    case MODULE_CONFIGURATION_INSTANCE_INDEX:
+      return((value < 253) || (value == 255));
+      break;
+    case MODULE_CONFIGURATION_PGN127501_TRANSMIT_PERIOD_INDEX:
+      return(true);
+      break;
+    case MODULE_CONFIGURATION_PGN127501_TRANSMIT_OFFSET_INDEX:
+      return(true);
+      break;
+    default:
+      return(false);
+      break;
+  }
+}

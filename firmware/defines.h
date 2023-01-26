@@ -41,7 +41,6 @@
  */
 #define NMEA_TRANSMITTED_PGNS { 127501L, 0 }
 
-
 /**
  * @brief ModuleConfiguration library stuff.
  */
@@ -72,5 +71,4 @@
  * @brief These are the NOP100 functins we will override.
  */
 #define CONFIGURATION_VALIDATOR
-#define GET_STATUS_LEDS_STATUS
 #define ON_N2K_OPEN
