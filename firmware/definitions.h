@@ -8,13 +8,13 @@
  */
 
 /**
- * @brief Create a scheduler instance for transmission of PGN 127501.
+ * @brief Scheduler instance to manage transmission of PGN 127501.
  */
 tN2kSyncScheduler PGN127501Scheduler;
 
 /**
- * @brief Array of debounced GPIO inputs which connect the module's
- *        external switch inputs.
+ * @brief Array of Button debouncer objects connected to the module's
+ * external switch inputs.
  */
 Button SWITCH_INPUTS[] = {
   Button(GPIO_SWITCH_INPUT1),
@@ -104,8 +104,8 @@ void onN2kOpen() {
 }
 
 /**
- * @brief Callback invoked to validate proposed changes to the module
- * configuration.
+ * @brief ModuleConfiguration callback invoked to validate proposed
+ * changes to the module configuration.
  * 
  * @note Overrides the eponymous function in NOP100.
  */
