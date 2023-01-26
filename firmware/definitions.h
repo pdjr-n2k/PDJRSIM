@@ -8,11 +8,6 @@
  */
 
 /**
- * @brief Forward declarations.
- */
-void transmitPGN127501();
-
-/**
  * @brief Create a scheduler instance for transmission of PGN 127501.
  */
 tN2kSyncScheduler PGN127501Scheduler;
@@ -39,6 +34,23 @@ Button SWITCH_INPUTS[] = {
  * without further processing in a PGN 127501 message.
  */
 tN2kBinaryStatus SWITCHBANK_STATUS;
+
+/**
+ * @brief Transmit PGN 127501 and flash transmit LED.
+ * 
+ * The switch bank status is maintained in real time, so all we need to do is
+ * chack that the module instance number is valid then assemble an N2K message
+ * and transmit it. 
+ */
+void transmitPGN127501() {
+  static tN2kMsg N2kMsg;
+
+  if (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX) != 255) {
+    SetN2kPGN127501(N2kMsg, MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX), SWITCHBANK_STATUS);
+    NMEA2000.SendMsg(N2kMsg);
+    TRANSMIT_LED.setLedState(0, LedManager::LedState::once);
+  }
+}  
 
 /**
  * @brief Check switch channel inputs and respond to any state changes.
@@ -70,23 +82,6 @@ void processSwitchInputsMaybe() {
     deadline = (now + SWITCH_PROCESS_INTERVAL);
   }
 }
-
-/**
- * @brief Transmit PGN 127501 and flash transmit LED.
- * 
- * The switch bank status is maintained in real time, so all we need to do is
- * chack that the module instance number is valid then assemble an N2K message
- * and transmit it. 
- */
-void transmitPGN127501() {
-  static tN2kMsg N2kMsg;
-
-  if (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX) != 255) {
-    SetN2kPGN127501(N2kMsg, MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX), SWITCHBANK_STATUS);
-    NMEA2000.SendMsg(N2kMsg);
-    TRANSMIT_LED.setLedState(0, LedManager::LedState::once);
-  }
-}  
 
 ///////////////////////////////////////////////////////////////////////
 // The following functions override the defaults provided in NOP100. //

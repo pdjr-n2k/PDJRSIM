@@ -7,8 +7,8 @@
  * @copyright Copyright (c) 2023
  */
 
-/**
- * @brief GPIO pin aliases.
+/**********************************************************************
+ * @brief GPIO pin definition aliases.
  */
 #define GPIO_SWITCH_INPUT1 GPIO_D23
 #define GPIO_SWITCH_INPUT2 GPIO_D22
@@ -19,15 +19,15 @@
 #define GPIO_SWITCH_INPUT7 GPIO_D6
 #define GPIO_SWITCH_INPUT8 GPIO_D5
 
-/**
- * @brief NMEA2000 library device information overrides.
+/**********************************************************************
+ * @brief NMEA2000 device information overrides.
  */
 #define DEVICE_CLASS 30                 // Electrical Distribution
 #define DEVICE_FUNCTION 130             // Binary Event Monitor
 #define DEVICE_UNIQUE_NUMBER 108        // Bump me?
 
-/**
- * @brief NMEA2000 library product information overrides.
+/**********************************************************************
+ * @brief NMEA2000 product information overrides.
  */
 #define PRODUCT_CODE 002
 #define PRODUCT_FIRMWARE_VERSION "1.1.0 (Jun 2022)"
@@ -36,12 +36,12 @@
 #define PRODUCT_TYPE "SIM108"           // The product name?
 #define PRODUCT_VERSION "2.0 (Dec 2022)"
 
-/**
- * @brief NMEA2000 library transmitted PGNs override.
+/**********************************************************************
+ * @brief NMEA2000 transmit and receive PGN overrides.
  */
 #define NMEA_TRANSMITTED_PGNS { 127501L, 0 }
 
-/**
+/**********************************************************************
  * @brief ModuleConfiguration library stuff.
  */
 #define MODULE_CONFIGURATION_SIZE 4                               // Total configuration size in bytes
@@ -61,14 +61,14 @@
   MODULE_CONFIGURATION_TRANSMIT_OFFSET_DEFAULT \
 }
 
-/**
- * @brief Number of milliseconds between checks on switch input channel
- *        state.
- */
-#define SWITCH_PROCESS_INTERVAL 100
-
-/**
- * @brief These are the NOP100 functins we will override.
+/**********************************************************************
+ * @brief NOP100 function overrides.
  */
 #define CONFIGURATION_VALIDATOR
 #define ON_N2K_OPEN
+
+/**********************************************************************
+ * @brief SIM108 - number of milliseconds between checks on switch
+ * input channel states.
+ */
+#define SWITCH_PROCESS_INTERVAL 100
