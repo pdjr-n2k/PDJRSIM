@@ -16,7 +16,7 @@ tN2kSyncScheduler PGN127501Scheduler;
  * @brief Array of Button debouncer objects connected to the module's
  * external switch inputs.
  */
-Button SWITCH_INPUTS[] = {
+Button SwitchInputs[] = {
   Button(GPIO_SWITCH_INPUT1),
   Button(GPIO_SWITCH_INPUT2),
   Button(GPIO_SWITCH_INPUT3),
@@ -33,7 +33,7 @@ Button SWITCH_INPUTS[] = {
  * We use the tN2kBinaryStatus type because this can then be used
  * without further processing in a PGN 127501 message.
  */
-tN2kBinaryStatus SWITCHBANK_STATUS;
+tN2kBinaryStatus SwitchbankStatus;
 
 /**
  * @brief Transmit PGN 127501 and flash transmit LED.
@@ -46,7 +46,7 @@ void transmitPGN127501() {
   static tN2kMsg N2kMsg;
 
   if (ModuleConfiguration.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX) != 255) {
-    SetN2kPGN127501(N2kMsg, ModuleConfiguration.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX), SWITCHBANK_STATUS);
+    SetN2kPGN127501(N2kMsg, ModuleConfiguration.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX), SwitchbankStatus);
     NMEA2000.SendMsg(N2kMsg);
     TransmitLed.setLedState(0, tLedManager::LedState::once);
   }
@@ -58,7 +58,7 @@ void transmitPGN127501() {
  * This function must be called from loop(). It will check switch
  * inputs once every SWITCH_PROCESS_INTERVAL milliseconds.
  * 
- * If a channel has changed state then the value of SWITCHBANK_STATUS
+ * If a channel has changed state then the value of SwitchbankStatus
  * is updated and a call is made to immediately transmit the update
  * over NMEA. 
  */
@@ -69,11 +69,11 @@ void processSwitchInputsMaybe() {
   tN2kOnOff switchStatus = N2kOnOff_Unavailable;
 
   if (now > deadline) {
-    for (unsigned int i = 0; i < ELEMENTCOUNT(SWITCH_INPUTS); i++) {
-      if (SWITCH_INPUTS[i].toggled()) {
-        switchStatus = (SWITCH_INPUTS[i].read() == Button::PRESSED)?N2kOnOff_On:N2kOnOff_Off;
-        if (switchStatus != N2kGetStatusOnBinaryStatus(SWITCHBANK_STATUS, (i + 1))) {
-          N2kSetStatusBinaryOnStatus(SWITCHBANK_STATUS, switchStatus, (i + 1));
+    for (unsigned int i = 0; i < ELEMENTCOUNT(SwitchInputs); i++) {
+      if (SwitchInputs[i].toggled()) {
+        switchStatus = (SwitchInputs[i].read() == Button::PRESSED)?N2kOnOff_On:N2kOnOff_Off;
+        if (switchStatus != N2kGetStatusOnBinaryStatus(SwitchbankStatus, (i + 1))) {
+          N2kSetStatusBinaryOnStatus(SwitchbankStatus, switchStatus, (i + 1));
           updated = true;
         }
       }
