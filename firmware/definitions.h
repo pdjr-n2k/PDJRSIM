@@ -45,10 +45,10 @@ tN2kBinaryStatus SWITCHBANK_STATUS;
 void transmitPGN127501() {
   static tN2kMsg N2kMsg;
 
-  if (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX) != 255) {
-    SetN2kPGN127501(N2kMsg, MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX), SWITCHBANK_STATUS);
+  if (ModuleConfiguration.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX) != 255) {
+    SetN2kPGN127501(N2kMsg, ModuleConfiguration.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX), SWITCHBANK_STATUS);
     NMEA2000.SendMsg(N2kMsg);
-    TRANSMIT_LED.setLedState(0, LedManager::LedState::once);
+    TransmitLed.setLedState(0, tLedManager::LedState::once);
   }
 }  
 
@@ -98,8 +98,8 @@ void processSwitchInputsMaybe() {
  */
 void onN2kOpen() {
   PGN127501Scheduler.SetPeriodAndOffset(
-    (uint32_t) (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_PERIOD_INDEX) * 1000),
-    (uint32_t) (MODULE_CONFIGURATION.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_OFFSET_INDEX) * 10)
+    (uint32_t) (ModuleConfiguration.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_PERIOD_INDEX) * 1000),
+    (uint32_t) (ModuleConfiguration.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_OFFSET_INDEX) * 10)
   );
 }
 
