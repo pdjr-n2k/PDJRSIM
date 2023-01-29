@@ -30,17 +30,18 @@ Button SwitchInputs[] = {
 /**
  * @brief Buffer for registering the device's switch channel states.
  * 
- * We use the tN2kBinaryStatus type because this can then be used
- * without further processing in a PGN 127501 message.
+ * We use the tN2kBinaryStatus type rather than a simple bool array
+ * because this can then be used without further processing in a PGN
+ * 127501 message.
  */
 tN2kBinaryStatus SwitchbankStatus;
 
 /**
  * @brief Transmit PGN 127501 and flash transmit LED.
  * 
- * The switch bank status is maintained in real time, so all we need to do is
- * chack that the module instance number is valid then assemble an N2K message
- * and transmit it. 
+ * SwitchBankStatus is kept up to date by processSwitchInputs(), so all
+ * the we need to do is create the PGN and, if the module has a valid
+ * instance number, transmit it. 
  */
 void transmitPGN127501() {
   static tN2kMsg N2kMsg;
@@ -53,7 +54,8 @@ void transmitPGN127501() {
 }  
 
 /**
- * @brief Check switch channel inputs and respond to any state changes.
+ * @brief Record switch channel input states and respond to any state
+ * changes.
  * 
  * This function must be called from loop(). It will check switch
  * inputs once every SWITCH_PROCESS_INTERVAL milliseconds.
