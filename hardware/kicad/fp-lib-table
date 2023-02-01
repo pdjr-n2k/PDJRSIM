@@ -1,7 +1,7 @@
 (fp_lib_table
-  (lib (name PDJR_Connectors)(type KiCad)(uri ${KICAD_USER_LIBRARY}/connectors.pretty)(options "")(descr ""))
-  (lib (name PDJR_DC-DC_Converters)(type KiCad)(uri ${KICAD_USER_LIBRARY}/dc-dc-converters.pretty)(options "")(descr ""))
-  (lib (name PDJR_Relays)(type KiCad)(uri ${KICAD_USER_LIBRARY}/relays.pretty)(options "")(descr ""))
-  (lib (name PDJR_Teensy)(type KiCad)(uri ${KICAD_USER_LIBRARY}/teensy.pretty)(options "")(descr ""))
-  (lib (name PDJR_Switches)(type KiCad)(uri ${KICAD_USER_LIBRARY}/switches.pretty)(options "")(descr ""))
+  (lib (name PDJR_Connectors)(type KiCad)(uri ${USER_MODULE_DIR}/connectors.pretty)(options "")(descr ""))
+  (lib (name PDJR_DC-DC_Converters)(type KiCad)(uri ${USER_MODULE_DIR}/dc-dc-converters.pretty)(options "")(descr ""))
+  (lib (name PDJR_Relays)(type KiCad)(uri ${USER_MODULE_DIR}/relays.pretty)(options "")(descr ""))
+  (lib (name PDJR_Teensy)(type KiCad)(uri ${USER_MODULE_DIR}/teensy.pretty)(options "")(descr ""))
+  (lib (name PDJR_Switches)(type KiCad)(uri ${USER_MODULE_DIR}/switches.pretty)(options "")(descr ""))
 )
