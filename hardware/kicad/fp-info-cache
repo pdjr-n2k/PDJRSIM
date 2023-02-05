@@ -1,4 +1,4 @@
-20043361940185618
+20046712647203618
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -60088,6 +60088,13 @@ PDJR_Connectors
 6
 6
 PDJR_Connectors
+897-1357-9-PIN-3-5-CONN
+
+
+0
+9
+9
+PDJR_Connectors
 8971187_3_PIN_5MM_PLUGGABLE_HEADER
 
 
@@ -60101,6 +60108,13 @@ APAN-3105
 0
 4
 4
+PDJR_Connectors
+BCR401
+
+
+0
+6
+6
 PDJR_Connectors
 CAMDEN_BOSS_CSTBV2-9_TERMINAL
 
