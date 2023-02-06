@@ -12,20 +12,12 @@
  */
 tN2kSyncScheduler PGN127501Scheduler;
 
+
 /**
- * @brief Array of Button debouncer objects connected to the module's
- * external switch inputs.
+ * @brief Interface to the IC74HC165 PISO IC that connects the switch
+ *        inputs.
  */
-Button SwitchInputs[] = {
-  Button(GPIO_SWITCH_INPUT1),
-  Button(GPIO_SWITCH_INPUT2),
-  Button(GPIO_SWITCH_INPUT3),
-  Button(GPIO_SWITCH_INPUT4),
-  Button(GPIO_SWITCH_INPUT5),
-  Button(GPIO_SWITCH_INPUT6),
-  Button(GPIO_SWITCH_INPUT7),
-  Button(GPIO_SWITCH_INPUT8)
-};
+IC74HC165 SwitchInputPISO (GPIO_PISO_SWITCH_CLOCK, GPIO_PISO_SWITCH_DATA, GPIO_PISO_SWITCH_LATCH);
 
 /**
  * @brief Buffer for registering the device's switch channel states.
@@ -68,16 +60,14 @@ void processSwitchInputsMaybe() {
   static unsigned long deadline = 0UL;
   unsigned long now = millis();
   bool updated = false;
-  tN2kOnOff switchStatus = N2kOnOff_Unavailable;
+  unsigned int pisoStatus;
 
   if (now > deadline) {
-    for (unsigned int i = 0; i < ELEMENTCOUNT(SwitchInputs); i++) {
-      if (SwitchInputs[i].toggled()) {
-        switchStatus = (SwitchInputs[i].read() == Button::PRESSED)?N2kOnOff_On:N2kOnOff_Off;
-        if (switchStatus != N2kGetStatusOnBinaryStatus(SwitchbankStatus, (i + 1))) {
-          N2kSetStatusBinaryOnStatus(SwitchbankStatus, switchStatus, (i + 1));
-          updated = true;
-        }
+    pisoStatus = SwitchInputPISO.read();
+    for (unsigned int i = 0; i < NUMBER_OF_SWITCH_INPUTS; i++) {
+      if ((pisoStatus & (1 << i)) != ((N2kGetStatusOnBinaryStatus(SwitchbankStatus, (i + 1)) == N2kOnOff_On)?1:0)) {
+        N2kSetStatusBinaryOnStatus(SwitchbankStatus, (pisoStatus & (1 << i))?N2kOnOff_On:N2kOnOff_Off, (i + 1));
+        updated = true;
       }
     }
     if (updated) transmitPGN127501();

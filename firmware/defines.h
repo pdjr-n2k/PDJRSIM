@@ -10,14 +10,9 @@
 /**********************************************************************
  * @brief GPIO pin definition aliases.
  */
-#define GPIO_SWITCH_INPUT1 GPIO_D23
-#define GPIO_SWITCH_INPUT2 GPIO_D22
-#define GPIO_SWITCH_INPUT3 GPIO_D21
-#define GPIO_SWITCH_INPUT4 GPIO_D20
-#define GPIO_SWITCH_INPUT5 GPIO_D19
-#define GPIO_SWITCH_INPUT6 GPIO_D7
-#define GPIO_SWITCH_INPUT7 GPIO_D6
-#define GPIO_SWITCH_INPUT8 GPIO_D5
+#define GPIO_PISO_SWITCH_DATA GPIO_D23
+#define GPIO_PISO_SWITCH_LATCH GPIO_D16
+#define GPIO_PISO_SWITCH_CLOCK GPIO_D17
 
 /**********************************************************************
  * @brief NMEA2000 device information overrides.
@@ -66,6 +61,8 @@
  */
 #define CONFIGURATION_VALIDATOR
 #define ON_N2K_OPEN
+
+#define NUMBER_OF_SWITCH_INPUTS 16
 
 /**********************************************************************
  * @brief SIM108 - number of milliseconds between checks on switch

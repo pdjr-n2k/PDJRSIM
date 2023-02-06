@@ -7,6 +7,6 @@
  * @copyright Copyright (c) 2023
  */
 
-for (unsigned int i = 0; i < ELEMENTCOUNT(SwitchInputs); i++) SwitchInputs[i].begin();
+SwitchInputPISO.begin();
 
 N2kResetBinaryStatus(SwitchbankStatus);
