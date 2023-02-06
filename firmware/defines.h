@@ -62,6 +62,9 @@
 #define CONFIGURATION_VALIDATOR
 #define ON_N2K_OPEN
 
+/**********************************************************************
+ * @brief Number of supported switch inputs.
+ */
 #define NUMBER_OF_SWITCH_INPUTS 16
 
 /**********************************************************************
