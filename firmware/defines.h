@@ -25,11 +25,11 @@
  * @brief NMEA2000 product information overrides.
  */
 #define PRODUCT_CODE 002
-#define PRODUCT_FIRMWARE_VERSION "1.1.0 (Jun 2022)"
+#define PRODUCT_FIRMWARE_VERSION "230203"
 #define PRODUCT_LEN 1
 #define PRODUCT_SERIAL_CODE "002-108"   // PRODUCT_CODE + DEVICE_UNIQUE_NUMBER
-#define PRODUCT_TYPE "SIM108"           // The product name?
-#define PRODUCT_VERSION "2.0 (Dec 2022)"
+#define PRODUCT_TYPE "PDJRSIM"           // The product name?
+#define PRODUCT_VERSION "230203 (Feb 2022)"
 
 /**********************************************************************
  * @brief NMEA2000 transmit and receive PGN overrides.
