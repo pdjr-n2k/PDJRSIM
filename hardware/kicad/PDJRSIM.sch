@@ -4,7 +4,7 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title "SIM108 Switch Input Module"
+TiPDJRSIM Switch Input Module"
 Date "2022-06-11"
 Rev "2.0.0"
 Comp "PDJR <preeve@pdjr.eu>"
@@ -876,7 +876,7 @@ Wire Wire Line
 Wire Wire Line
 	1000 5100 1100 5100
 $Comp
-L SIM108-rescue:BCR401-pdjr U2
+L PDJRSIM-rescue:BCR401-pdjr U2
 U 1 1 644E29F9
 P 1550 4350
 F 0 "U2" V 1800 4200 50  0000 R CNN
@@ -886,8 +886,7 @@ F 3 "" H 1050 3850 50  0001 C CNN
 	1    1550 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U4
+$CoPDJRSIM-rescue:BCR401-pdjr U4
 U 1 1 644E484A
 P 1750 4350
 F 0 "U4" V 2000 4200 50  0000 R CNN
@@ -897,8 +896,7 @@ F 3 "" H 1250 3850 50  0001 C CNN
 	1    1750 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U1
+$CoPDJRSIM-rescue:BCR401-pdjr U1
 U 1 1 644E5BAF
 P 1350 4350
 F 0 "U1" V 1600 4200 50  0000 R CNN
@@ -908,8 +906,7 @@ F 3 "" H 850 3850 50  0001 C CNN
 	1    1350 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U5
+$CoPDJRSIM-rescue:BCR401-pdjr U5
 U 1 1 644E608B
 P 1950 4350
 F 0 "U5" V 2200 4200 50  0000 R CNN
@@ -957,8 +954,7 @@ Wire Wire Line
 Connection ~ 2150 4800
 Wire Wire Line
 	2150 4800 3500 4800
-$Comp
-L SIM108-rescue:BCR401-pdjr U8
+$CoPDJRSIM-rescue:BCR401-pdjr U8
 U 1 1 647CB8BF
 P 4750 4350
 F 0 "U8" V 5000 4200 50  0000 R CNN
@@ -968,8 +964,7 @@ F 3 "" H 4250 3850 50  0001 C CNN
 	1    4750 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U7
+$CoPDJRSIM-rescue:BCR401-pdjr U7
 U 1 1 647CD502
 P 4550 4350
 F 0 "U7" V 4800 4200 50  0000 R CNN
@@ -979,8 +974,7 @@ F 3 "" H 4050 3850 50  0001 C CNN
 	1    4550 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U10
+$CoPDJRSIM-rescue:BCR401-pdjr U10
 U 1 1 64838AC9
 P 4950 4350
 F 0 "U10" V 5200 4200 50  0000 R CNN
@@ -990,8 +984,7 @@ F 3 "" H 4450 3850 50  0001 C CNN
 	1    4950 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U11
+$CoPDJRSIM-rescue:BCR401-pdjr U11
 U 1 1 648391A6
 P 5150 4350
 F 0 "U11" V 5400 4200 50  0000 R CNN
@@ -1001,8 +994,7 @@ F 3 "" H 4650 3850 50  0001 C CNN
 	1    5150 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U12
+$CoPDJRSIM-rescue:BCR401-pdjr U12
 U 1 1 6483971E
 P 6300 4350
 F 0 "U12" V 6550 4200 50  0000 R CNN
@@ -1012,8 +1004,7 @@ F 3 "" H 5800 3850 50  0001 C CNN
 	1    6300 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U13
+$CoPDJRSIM-rescue:BCR401-pdjr U13
 U 1 1 6483A429
 P 6500 4350
 F 0 "U13" V 6750 4200 50  0000 R CNN
@@ -1023,8 +1014,7 @@ F 3 "" H 6000 3850 50  0001 C CNN
 	1    6500 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U15
+$CoPDJRSIM-rescue:BCR401-pdjr U15
 U 1 1 6483AAD4
 P 6700 4350
 F 0 "U15" V 6950 4200 50  0000 R CNN
@@ -1034,8 +1024,7 @@ F 3 "" H 6200 3850 50  0001 C CNN
 	1    6700 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U16
+$CoPDJRSIM-rescue:BCR401-pdjr U16
 U 1 1 6483AF5A
 P 6900 4350
 F 0 "U16" V 7150 4200 50  0000 R CNN
@@ -1045,8 +1034,7 @@ F 3 "" H 6400 3850 50  0001 C CNN
 	1    6900 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U18
+$CoPDJRSIM-rescue:BCR401-pdjr U18
 U 1 1 6483B5AA
 P 9500 4350
 F 0 "U18" V 9750 4200 50  0000 R CNN
@@ -1056,8 +1044,7 @@ F 3 "" H 9000 3850 50  0001 C CNN
 	1    9500 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U19
+$CoPDJRSIM-rescue:BCR401-pdjr U19
 U 1 1 6483C163
 P 9700 4350
 F 0 "U19" V 9950 4200 50  0000 R CNN
@@ -1067,8 +1054,7 @@ F 3 "" H 9200 3850 50  0001 C CNN
 	1    9700 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U21
+$CoPDJRSIM-rescue:BCR401-pdjr U21
 U 1 1 6483C5F7
 P 9900 4350
 F 0 "U21" V 10150 4200 50  0000 R CNN
@@ -1078,8 +1064,7 @@ F 3 "" H 9400 3850 50  0001 C CNN
 	1    9900 4350
 	0    -1   -1   0   
 $EndComp
-$Comp
-L SIM108-rescue:BCR401-pdjr U22
+$CoPDJRSIM-rescue:BCR401-pdjr U22
 U 1 1 6483CA64
 P 10100 4350
 F 0 "U22" V 10350 4200 50  0000 R CNN
@@ -1413,4 +1398,6 @@ F 3 "~" V 1200 6400 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1300 6400 10200 6400
+Text Label 10450 850  0    50   ~ 0
+D22
 $EndSCHEMATC

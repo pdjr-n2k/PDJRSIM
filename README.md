@@ -1,4 +1,4 @@
-# SIM108 - NMEA 2000 switch input module
+# PDJRSIM - NMEA 2000 switch input module
 
 This project provides a
 [hardware design](./hardware/)
@@ -10,5 +10,5 @@ There is also a
 [User Manual](./user)
 for a device constructed from these components.
 
-**SIM108** is a specialisation of
+**PDJRSIM** is a specialisation of
 [NOP100](https://github.com/preeve9534/NOP100).

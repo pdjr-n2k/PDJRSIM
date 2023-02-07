@@ -1,6 +1,6 @@
 (export (version D)
   (design
-    (source /home/preeve/Projects/git/SIM108/hardware/kicad/SIM108.sch)
+    (source /home/preeve/Projects/git/PDJRSIM/hardware/kicad/PDJRSIM.sch)
     (date "Mon 18 Jul 2022 13:03:02 BST")
     (tool "Eeschema 5.1.10-88a1d61d58~90~ubuntu20.04.1")
     (sheet (number 1) (name /) (tstamps /)
@@ -9,7 +9,7 @@
         (company "PDJR <preeve@pdjr.eu>")
         (rev 2.0.0)
         (date 2022-06-11)
-        (source SIM108.sch)
+        (source PDJRSIM.sch)
         (comment (number 1) (value ""))
         (comment (number 2) (value ""))
         (comment (number 3) (value ""))

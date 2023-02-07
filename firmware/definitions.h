@@ -1,7 +1,7 @@
 /**
  * @file definitions.h
  * @author Paul Reeve (preeve@pdjr.eu)
- * @brief Everything required to implement SIM108.
+ * @brief Everything required to implement PDJRSIM.
  * @version 0.1
  * @date 2023-01-16
  * @copyright Copyright (c) 2023
@@ -32,10 +32,13 @@ tN2kBinaryStatus SwitchbankStatus;
  * @brief Transmit PGN 127501 and flash transmit LED.
  * 
  * SwitchBankStatus is kept up to date by processSwitchInputs(), so all
- * the we need to do is create the PGN and, if the module has a valid
+ * that we need to do is create the PGN and, if the module has a valid
  * instance number, transmit it. 
  */
 void transmitPGN127501() {
+  #ifdef DEBUG
+  Serial.println("transmitPGN127501: transmitting N2K message");
+  #endif
   static tN2kMsg N2kMsg;
 
   if (ModuleConfiguration.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX) != 255) {

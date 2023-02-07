@@ -1,6 +1,6 @@
 G04 #@! TF.GenerationSoftware,KiCad,Pcbnew,(5.1.9-0-10_14)*
 G04 #@! TF.CreationDate,2023-02-04T12:05:34+01:00*
-G04 #@! TF.ProjectId,SIM108,53494d31-3038-42e6-9b69-6361645f7063,221101*
+G04 #@! TF.ProjectId,PDJRSIM,53494d31-3038-42e6-9b69-6361645f7063,221101*
 G04 #@! TF.SameCoordinates,Original*
 G04 #@! TF.FileFunction,Soldermask,Top*
 G04 #@! TF.FilePolarity,Negative*

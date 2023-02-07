@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <export version="D">
   <design>
-    <source>/home/preeve/Projects/git/SIM108/hardware/kicad/SIM108.sch</source>
+    <source>/home/preeve/Projects/git/PDJRSIM/hardware/kicad/PDJRSIM.sch</source>
     <date>Fri 14 Oct 2022 11:51:31 BST</date>
     <tool>Eeschema 5.1.10-88a1d61d58~90~ubuntu20.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
-        <title>SIM108 Switch Input Module</title>
+        <title>PDJRSIM Switch Input Module</title>
         <company>PDJR &lt;preeve@pdjr.eu&gt;</company>
         <rev>2.0.0</rev>
         <date>2022-06-11</date>
-        <source>SIM108.sch</source>
+        <source>PDJRSIM.sch</source>
         <comment number="1" value=""/>
         <comment number="2" value=""/>
         <comment number="3" value=""/>
@@ -19,7 +19,7 @@
     </sheet>
     <sheet number="2" name="/OII_00/" tstamps="/62FB7846/">
       <title_block>
-        <title>SIM108 Switch Input Module</title>
+        <title>PDJRSIM Switch Input Module</title>
         <company>PDJR &lt;preeve@pdjr.eu&gt;</company>
         <rev>2.0.0</rev>
         <date>2022-06-11</date>
@@ -32,7 +32,7 @@
     </sheet>
     <sheet number="3" name="/OII_02/" tstamps="/63103CAF/">
       <title_block>
-        <title>SIM108 Switch Input Module</title>
+        <title>PDJRSIM Switch Input Module</title>
         <company>PDJR &lt;preeve@pdjr.eu&gt;</company>
         <rev>2.0.0</rev>
         <date>2022-06-11</date>
@@ -45,7 +45,7 @@
     </sheet>
     <sheet number="4" name="/OOI_03/" tstamps="/62F64647/">
       <title_block>
-        <title>SIM108 Switch Input Module</title>
+        <title>PDJRSIM Switch Input Module</title>
         <company>PDJR &lt;preeve@pdjr.eu&gt;</company>
         <rev>2.0.0</rev>
         <date>2022-06-11</date>
@@ -58,7 +58,7 @@
     </sheet>
     <sheet number="5" name="/OOI_04/" tstamps="/62FD589D/">
       <title_block>
-        <title>SIM108 Switch Input Module</title>
+        <title>PDJRSIM Switch Input Module</title>
         <company>PDJR &lt;preeve@pdjr.eu&gt;</company>
         <rev>2.0.0</rev>
         <date>2022-06-11</date>
@@ -71,7 +71,7 @@
     </sheet>
     <sheet number="6" name="/OOI_05/" tstamps="/63041ECA/">
       <title_block>
-        <title>SIM108 Switch Input Module</title>
+        <title>PDJRSIM Switch Input Module</title>
         <company>PDJR &lt;preeve@pdjr.eu&gt;</company>
         <rev>2.0.0</rev>
         <date>2022-06-11</date>
@@ -84,7 +84,7 @@
     </sheet>
     <sheet number="7" name="/OOI_06/" tstamps="/62F45EE0/">
       <title_block>
-        <title>SIM108 Switch Input Module</title>
+        <title>PDJRSIM Switch Input Module</title>
         <company>PDJR &lt;preeve@pdjr.eu&gt;</company>
         <rev>2.0.0</rev>
         <date>2022-06-11</date>
@@ -97,7 +97,7 @@
     </sheet>
     <sheet number="8" name="/OII_07/" tstamps="/62FB890E/">
       <title_block>
-        <title>SIM108 Switch Input Module</title>
+        <title>PDJRSIM Switch Input Module</title>
         <company>PDJR &lt;preeve@pdjr.eu&gt;</company>
         <rev>2.0.0</rev>
         <date>2022-06-11</date>
@@ -110,7 +110,7 @@
     </sheet>
     <sheet number="9" name="/OII_01/" tstamps="/63089671/">
       <title_block>
-        <title>SIM108 Switch Input Module</title>
+        <title>PDJRSIM Switch Input Module</title>
         <company>PDJR &lt;preeve@pdjr.eu&gt;</company>
         <rev>2.0.0</rev>
         <date>2022-06-11</date>
@@ -126,7 +126,7 @@
     <comp ref="U5">
       <value>Teensy_3.2</value>
       <footprint>Package_DIP:DIP-28_W15.24mm_LongPads</footprint>
-      <libsource lib="SIM108-rescue" part="Teensy_3.2-pdjr" description=""/>
+      <libsource lib="PDJRSIM-rescue" part="Teensy_3.2-pdjr" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>60F2AB82</tstamp>
     </comp>
@@ -213,7 +213,7 @@
     <comp ref="U2">
       <value>TMR_2411</value>
       <footprint>PDJR-connectors:TMR_2411</footprint>
-      <libsource lib="SIM108-rescue" part="TMR_2411-pdjr" description=""/>
+      <libsource lib="PDJRSIM-rescue" part="TMR_2411-pdjr" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>6327DB22</tstamp>
     </comp>
@@ -1260,7 +1260,7 @@
         <pin num="4" name="~" type="passive"/>
       </pins>
     </libpart>
-    <libpart lib="SIM108-rescue" part="TMR_2411-pdjr">
+    <libpart lib="PDJRSIM-rescue" part="TMR_2411-pdjr">
       <footprints>
         <fp>Converter*DCDC*TRACO*TMR*xxxx*</fp>
       </footprints>
@@ -1276,7 +1276,7 @@
         <pin num="7" name="-VOUT" type="power_out"/>
       </pins>
     </libpart>
-    <libpart lib="SIM108-rescue" part="Teensy_3.2-pdjr">
+    <libpart lib="PDJRSIM-rescue" part="Teensy_3.2-pdjr">
       <fields>
         <field name="Reference">U</field>
         <field name="Value">Teensy_3.2-pdjr</field>
@@ -1432,8 +1432,8 @@
     <library logical="Isolator">
       <uri>/usr/share/kicad/library/Isolator.lib</uri>
     </library>
-    <library logical="SIM108-rescue">
-      <uri>/home/preeve/Projects/git/SIM108/hardware/kicad/SIM108-rescue.lib</uri>
+    <library logical="PDJRSIM-rescue">
+      <uri>/home/preeve/Projects/git/PDJRSIM/hardware/kicad/PDJRSIM-rescue.lib</uri>
     </library>
     <library logical="Simulation_SPICE">
       <uri>/usr/share/kicad/library/Simulation_SPICE.lib</uri>

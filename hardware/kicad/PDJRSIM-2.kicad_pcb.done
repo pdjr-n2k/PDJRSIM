@@ -11,7 +11,7 @@
 
   (page A4)
   (title_block
-    (title "SIM108 - NMEA 2000 Switch Input Module")
+    (title "PDJRSIM - NMEA 2000 Switch Input Module")
     (date 2020-09-16)
     (rev 221101)
     (company "PDJR <preeve@pdjr.eu>")

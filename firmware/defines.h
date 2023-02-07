@@ -1,7 +1,7 @@
 /**
  * @file defines.h
  * @author Paul Reeve (preeve@pdjr.eu)
- * @brief Defines for SIM108.
+ * @brief Defines for PDJRSIM.
  * @version 0.1
  * @date 2023-01-16
  * @copyright Copyright (c) 2023
@@ -68,7 +68,7 @@
 #define NUMBER_OF_SWITCH_INPUTS 16
 
 /**********************************************************************
- * @brief SIM108 - number of milliseconds between checks on switch
- * input channel states.
+ * @brief number of milliseconds between checks on switch input channel
+ * states.
  */
 #define SWITCH_PROCESS_INTERVAL 100

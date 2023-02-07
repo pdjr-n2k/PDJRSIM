@@ -1,4 +1,4 @@
 (sym_lib_table
   (lib (name pdjr)(type Legacy)(uri ${USER_SYMBOL_DIR}/pdjr.lib)(options "")(descr ""))
-  (lib (name SIM108-rescue)(type Legacy)(uri ${KIPRJMOD}/SIM108-rescue.lib)(options "")(descr ""))
+  (lib (name PDJRSIM-rescue)(type Legacy)(uri ${KIPRJMOD}/PDJRSIM-rescue.lib)(options "")(descr ""))
 )

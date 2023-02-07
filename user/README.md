@@ -1,6 +1,6 @@
-# SIM108 - NMEA 2000 switch input module
+# PDJRSIM - NMEA 2000 switch input module
 
-**SIM108** is an eight channel NMEA 2000 switch input module.
+**PDJRSIM** is an eight channel NMEA 2000 switch input module.
 
 The module presents on the NMEA bus as a switch bank device with
 Class Code 30 (Electrical Distribution) and Function Code 130 (Binary
@@ -9,12 +9,12 @@ PGN 127501 Binary Status Report messages.
 
 The module is powered from the host NMEA bus and has an LEN of 0.5.
 
-**SIM108** is a specialisation of
+**PDJRSIM** is a specialisation of
 [NOP100](https://github.com/preeve9534/NOP100).
 
 ## Switch inputs
 
-**SIM108** supports eight debounced input channels each of which is
+**PDJRSIM** supports eight debounced input channels each of which is
 optically isolated and reverse polarity protected with reference to
 a common ground.
 
@@ -25,7 +25,7 @@ is 8mA at 12VDC, 10mA at 24VDC.
 
 ## Status reporting
 
-**SIM108** uses PGN 127501 to report the switch bank status.
+**PDJRSIM** uses PGN 127501 to report the switch bank status.
 
 By default a status report is transmitted once every two seconds when
 the module inputs are quiescent, or immediately a state change is
