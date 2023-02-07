@@ -36,8 +36,8 @@ tN2kBinaryStatus SwitchbankStatus;
  * instance number, transmit it. 
  */
 void transmitPGN127501() {
-  #ifdef DEBUG
-  Serial.println("transmitPGN127501: transmitting N2K message");
+  #ifdef DEBUG_SERIAL
+  Serial.println("Transmitting N2K message");
   #endif
   static tN2kMsg N2kMsg;
 
@@ -66,6 +66,9 @@ void processSwitchInputsMaybe() {
   unsigned int pisoStatus;
 
   if (now > deadline) {
+    #ifdef DEBUG_SERIAL
+    Serial.println("Processing switch inputs");
+    #endif
     pisoStatus = SwitchInputPISO.read();
     for (unsigned int i = 0; i < NUMBER_OF_SWITCH_INPUTS; i++) {
       if ((pisoStatus & (1 << i)) != ((N2kGetStatusOnBinaryStatus(SwitchbankStatus, (i + 1)) == N2kOnOff_On)?1:0)) {
@@ -92,6 +95,10 @@ void processSwitchInputsMaybe() {
  * @note Overrides the eponymous function in NOP100.
  */
 void onN2kOpen() {
+  #ifdef DEBUG_SERIAL
+  Serial.println("N2K bus opened successfully");
+  #endif
+
   PGN127501Scheduler.SetPeriodAndOffset(
     (uint32_t) (ModuleConfiguration.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_PERIOD_INDEX) * 1000),
     (uint32_t) (ModuleConfiguration.getByte(MODULE_CONFIGURATION_PGN127501_TRANSMIT_OFFSET_INDEX) * 10)
@@ -105,6 +112,12 @@ void onN2kOpen() {
  * @note Overrides the eponymous function in NOP100.
  */
 bool configurationValidator(unsigned int index, unsigned char value) {
+  #ifdef DEBUG_SERIAL
+  Serial.print("Validating configuration update: ");
+  Serial.print("address = "); Serial.print(index); Serial.print(", ");
+  Serial.print("value = "); Serial.println(value);
+  #endif
+  
   switch (index) {
     case MODULE_CONFIGURATION_CAN_SOURCE_INDEX:
       return(true);
