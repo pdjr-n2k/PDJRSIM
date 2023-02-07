@@ -12,7 +12,6 @@
  */
 tN2kSyncScheduler PGN127501Scheduler;
 
-
 /**
  * @brief Interface to the IC74HC165 PISO IC that connects the switch
  *        inputs.

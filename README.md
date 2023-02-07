@@ -7,7 +7,7 @@ and associated
 for a 16-channel NMEA 2000 switch input module.
 
 There is also a
-[User Manual](./user)
+[User Manual](./docs)
 for a device constructed from these components.
 
 **PDJRSIM** is a specialisation of
