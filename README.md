@@ -4,7 +4,7 @@ This project provides a
 [hardware design](./hardware/)
 and associated
 [firmware](./firmware)
-for an eight channel NMEA 2000 switch input module.
+for a 16-channel NMEA 2000 switch input module.
 
 There is also a
 [User Manual](./user)
