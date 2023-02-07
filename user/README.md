@@ -1,6 +1,6 @@
 # PDJRSIM - NMEA 2000 switch input module
 
-**PDJRSIM** is an eight channel NMEA 2000 switch input module.
+**PDJRSIM** is a 16-channel NMEA 2000 switch input module.
 
 The module presents on the NMEA bus as a switch bank device with
 Class Code 30 (Electrical Distribution) and Function Code 130 (Binary
@@ -14,7 +14,7 @@ The module is powered from the host NMEA bus and has an LEN of 0.5.
 
 ## Switch inputs
 
-**PDJRSIM** supports eight debounced input channels each of which is
+**PDJRSIM** supports sixteen input channels each of which is
 optically isolated and reverse polarity protected with reference to
 a common ground.
 
