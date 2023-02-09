@@ -51,33 +51,25 @@ void transmitPGN127501() {
  * @brief Record switch channel input states and respond to any state
  * changes.
  * 
- * This function must be called from loop(). It will check switch
- * inputs once every SWITCH_PROCESS_INTERVAL milliseconds.
- * 
  * If a channel has changed state then the value of SwitchbankStatus
  * is updated and a call is made to immediately transmit the update
  * over NMEA. 
  */
-void processSwitchInputsMaybe() {
-  static unsigned long deadline = 0UL;
-  unsigned long now = millis();
+void processSwitchInputs(unsigned int status) {
   bool updated = false;
   unsigned int pisoStatus;
 
-  if (now > deadline) {
-    #ifdef DEBUG_SERIAL
-    Serial.println("Processing switch inputs");
-    #endif
-    pisoStatus = SwitchInputPISO.read();
-    for (unsigned int i = 0; i < NUMBER_OF_SWITCH_INPUTS; i++) {
-      if ((pisoStatus & (1 << i)) != ((N2kGetStatusOnBinaryStatus(SwitchbankStatus, (i + 1)) == N2kOnOff_On)?1:0)) {
-        N2kSetStatusBinaryOnStatus(SwitchbankStatus, (pisoStatus & (1 << i))?N2kOnOff_On:N2kOnOff_Off, (i + 1));
-        updated = true;
-      }
+  #ifdef DEBUG_SERIAL
+  Serial.print("processSwitchInputs("); Serial.print(status); Serial.println(")...");
+  #endif
+
+  for (unsigned int i = 0; i < NUMBER_OF_SWITCH_INPUTS; i++) {
+    if ((status & (1 << i)) != ((N2kGetStatusOnBinaryStatus(SwitchbankStatus, (i + 1)) == N2kOnOff_On)?1:0)) {
+      N2kSetStatusBinaryOnStatus(SwitchbankStatus, (status & (1 << i))?N2kOnOff_On:N2kOnOff_Off, (i + 1));
+      updated = true;
     }
-    if (updated) transmitPGN127501();
-    deadline = (now + SWITCH_PROCESS_INTERVAL);
   }
+  if (updated) transmitPGN127501();
 }
 
 ///////////////////////////////////////////////////////////////////////
