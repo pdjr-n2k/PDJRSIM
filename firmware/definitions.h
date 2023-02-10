@@ -57,7 +57,6 @@ void transmitPGN127501() {
  */
 void processSwitchInputs(unsigned int status) {
   bool updated = false;
-  unsigned int pisoStatus;
 
   #ifdef DEBUG_SERIAL
   Serial.print("processSwitchInputs("); Serial.print(status); Serial.println(")...");
