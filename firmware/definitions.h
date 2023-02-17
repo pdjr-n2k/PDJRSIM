@@ -60,16 +60,18 @@ void transmitPGN127501() {
  * 
  * @param status - the status of the switch input channel PISO buffer.
  */
-void processSwitchInputs(unsigned int status) {
+void processSwitchInputs(uint8_t *status) {
   bool updated = false;
+  int state;
 
   #ifdef DEBUG_SERIAL
-  Serial.print("processSwitchInputs("); Serial.print(status); Serial.println(")...");
+  Serial.print("processSwitchInputs("); Serial.println(")...");
   #endif
 
   for (unsigned int i = 0; i < NUMBER_OF_SWITCH_INPUTS; i++) {
-    if ((status & (1 << i)) != ((N2kGetStatusOnBinaryStatus(SwitchbankStatus, (i + 1)) == N2kOnOff_On)?1:0)) {
-      N2kSetStatusBinaryOnStatus(SwitchbankStatus, (status & (1 << i))?N2kOnOff_On:N2kOnOff_Off, (i + 1));
+    state = (status[i / 8]) & (1 << (i % 8));
+    if (state != ((N2kGetStatusOnBinaryStatus(SwitchbankStatus, (i + 1)) == N2kOnOff_On)?1:0)) {
+      N2kSetStatusBinaryOnStatus(SwitchbankStatus, (state)?N2kOnOff_On:N2kOnOff_Off, (i + 1));
       updated = true;
     }
   }
