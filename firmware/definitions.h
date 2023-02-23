@@ -16,7 +16,7 @@ tN2kSyncScheduler PGN127501Scheduler;
  * @brief Interface to the IC74HC165 PISO IC that connects the switch
  * inputs.
  */
-IC74HC165 SwitchInputPISO (GPIO_PISO_SWITCH_CLOCK, GPIO_PISO_SWITCH_DATA, GPIO_PISO_SWITCH_LATCH);
+IC74HC165 SwitchInputPISO (GPIO_PISO_SWITCH_CLOCK, GPIO_PISO_SWITCH_DATA, GPIO_PISO_SWITCH_LATCH, (NUMBER_OF_SWITCH_INPUTS / 8));
 
 /**
  * @brief Buffer for registering switch input channel states.
