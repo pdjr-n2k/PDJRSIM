@@ -7,6 +7,7 @@
  * @copyright Copyright (c) 2023
  */
 
+SwitchInputPISO.configureCallback(processSwitchInputs, SWITCH_PROCESS_INTERVAL);
 SwitchInputPISO.begin();
 
 N2kResetBinaryStatus(SwitchbankStatus);

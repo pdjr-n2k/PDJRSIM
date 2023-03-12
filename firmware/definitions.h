@@ -14,16 +14,16 @@ tN2kSyncScheduler PGN127501Scheduler;
 
 /**
  * @brief Interface to the IC74HC165 PISO IC that connects the switch
- *        inputs.
+ * inputs.
  */
-IC74HC165 SwitchInputPISO (GPIO_PISO_SWITCH_CLOCK, GPIO_PISO_SWITCH_DATA, GPIO_PISO_SWITCH_LATCH);
+IC74HC165 SwitchInputPISO (GPIO_PISO_SWITCH_CLOCK, GPIO_PISO_SWITCH_DATA, GPIO_PISO_SWITCH_LATCH, (NUMBER_OF_SWITCH_INPUTS / 8));
 
 /**
- * @brief Buffer for registering the device's switch channel states.
+ * @brief Buffer for registering switch input channel states.
  * 
- * We use the tN2kBinaryStatus type rather than a simple bool array
- * because this can then be used without further processing in a PGN
- * 127501 message.
+ * We choose the tN2kBinaryStatus type rather than any alternate
+ * representation because this can then be used without further
+ * processing in a PGN 127501 message.
  */
 tN2kBinaryStatus SwitchbankStatus;
 
@@ -31,12 +31,12 @@ tN2kBinaryStatus SwitchbankStatus;
  * @brief Transmit PGN 127501 and flash transmit LED.
  * 
  * SwitchBankStatus is kept up to date by processSwitchInputs(), so all
- * that we need to do is create the PGN and, if the module has a valid
- * instance number, transmit it. 
+ * that we need to do is create an NMEA 2000 message and, if the module
+ * has a valid instance number, transmit it. 
  */
 void transmitPGN127501() {
   #ifdef DEBUG_SERIAL
-  Serial.println("Transmitting N2K message");
+  Serial.println("transmitPGN127501()...");
   #endif
   static tN2kMsg N2kMsg;
 
@@ -47,37 +47,35 @@ void transmitPGN127501() {
   }
 }  
 
-/**
+/**********************************************************************
  * @brief Record switch channel input states and respond to any state
  * changes.
  * 
- * This function must be called from loop(). It will check switch
- * inputs once every SWITCH_PROCESS_INTERVAL milliseconds.
- * 
  * If a channel has changed state then the value of SwitchbankStatus
  * is updated and a call is made to immediately transmit the update
- * over NMEA. 
+ * over NMEA.
+ * 
+ * This function is intended to operate as a callback method for
+ * IC74HC165.
+ * 
+ * @param status - the status of the switch input channel PISO buffer.
  */
-void processSwitchInputsMaybe() {
-  static unsigned long deadline = 0UL;
-  unsigned long now = millis();
+void processSwitchInputs(uint8_t *status) {
   bool updated = false;
-  unsigned int pisoStatus;
+  int state;
 
-  if (now > deadline) {
-    #ifdef DEBUG_SERIAL
-    Serial.println("Processing switch inputs");
-    #endif
-    pisoStatus = SwitchInputPISO.read();
-    for (unsigned int i = 0; i < NUMBER_OF_SWITCH_INPUTS; i++) {
-      if ((pisoStatus & (1 << i)) != ((N2kGetStatusOnBinaryStatus(SwitchbankStatus, (i + 1)) == N2kOnOff_On)?1:0)) {
-        N2kSetStatusBinaryOnStatus(SwitchbankStatus, (pisoStatus & (1 << i))?N2kOnOff_On:N2kOnOff_Off, (i + 1));
-        updated = true;
-      }
+  #ifdef DEBUG_SERIAL
+  Serial.print("processSwitchInputs("); Serial.println(")...");
+  #endif
+
+  for (unsigned int i = 0; i < NUMBER_OF_SWITCH_INPUTS; i++) {
+    state = (status[i / 8]) & (1 << (i % 8));
+    if (state != ((N2kGetStatusOnBinaryStatus(SwitchbankStatus, (i + 1)) == N2kOnOff_On)?1:0)) {
+      N2kSetStatusBinaryOnStatus(SwitchbankStatus, (state)?N2kOnOff_On:N2kOnOff_Off, (i + 1));
+      updated = true;
     }
-    if (updated) transmitPGN127501();
-    deadline = (now + SWITCH_PROCESS_INTERVAL);
   }
+  if (updated) transmitPGN127501();
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -95,7 +93,7 @@ void processSwitchInputsMaybe() {
  */
 void onN2kOpen() {
   #ifdef DEBUG_SERIAL
-  Serial.println("N2K bus opened successfully");
+  Serial.println("OnN2kOpen()...");
   #endif
 
   PGN127501Scheduler.SetPeriodAndOffset(
@@ -112,9 +110,7 @@ void onN2kOpen() {
  */
 bool configurationValidator(unsigned int index, unsigned char value) {
   #ifdef DEBUG_SERIAL
-  Serial.print("Validating configuration update: ");
-  Serial.print("address = "); Serial.print(index); Serial.print(", ");
-  Serial.print("value = "); Serial.println(value);
+  Serial.print("configurationValidator("); Serial.print(index); Serial.print(", "); Serial.print(value); Serial.println(")...");
   #endif
   
   switch (index) {
