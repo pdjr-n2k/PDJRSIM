@@ -43,7 +43,7 @@ void transmitPGN127501() {
   if (ModuleConfiguration.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX) != 255) {
     SetN2kPGN127501(N2kMsg, ModuleConfiguration.getByte(MODULE_CONFIGURATION_INSTANCE_INDEX), SwitchbankStatus);
     NMEA2000.SendMsg(N2kMsg);
-    TransmitLed.setLedState(0, tLedManager::LedState::once);
+    TransmitLed.setLedState(0, tLedManager::ONCE);
   }
 }  
 
